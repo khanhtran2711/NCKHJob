@@ -1,0 +1,48 @@
+<!-- wp:template-part {"slug":"header","area":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"margin":{"top":"0"}}}} -->
+<main class="wp-block-group" style="margin-top:0">
+	<!-- wp:post-content {"lock":{"move":false,"remove":true},"layout":{"type":"constrained"}} /-->
+	<div class="container-fluid ">
+        <form class="form form-vertical" method="POST" action="#"
+        enctype="multipart/form-data"
+        >
+            <div class="form-body">
+                <div class="row">
+                <div class="col-12">
+                        <div class="form-group">
+                            <label for="workoutdate">Work out Date</label>
+                            <input type="date" id="workoutdate" class="form-control"
+                                name="workoutdate">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="activity">Activity</label>
+                            <input type="text" id="activity" class="form-control"
+                                name="activity"
+                                value ="">
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="time_mins">Times in Min</label>
+                            <input type="text" id="time_mins" class="form-control"
+                                name="time_mins"
+                                value ="">
+                        </div>
+                    </div>
+                   
+                    <div class="col-12 d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn btn-warning me-1 mb-1 rounded-pill" name="Add">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+                
+        </div> <!--container-->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","area":"footer","tagName":"footer"} /-->

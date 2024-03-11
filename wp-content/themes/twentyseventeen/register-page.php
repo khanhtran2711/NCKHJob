@@ -119,14 +119,17 @@ include("./mydbfile.php");
                         $last_name = $wpdb->escape(trim($_POST['last_name']));
                         $email = $wpdb->escape(trim($_POST['email']));
                         $username = $wpdb->escape(trim($_POST['username']));
-
+                        $pattern = "/^[a-zA-Z]\w*(\@blu\.edu\.vn)$/i";
                         if ($email == "" || $pwd1 == "" || $pwd2 == "" || $username == "" || $first_name == "" || $last_name == "") {
                             $err = 'Vui lòng không bỏ trống các thông tin!';
                         } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                             $err = 'Địa chỉ email không hợp lệ!';
                         } else if (email_exists($email)) {
                             $err = 'Email đã tồn tại!';
-                        } else {
+                        } else if(preg_match($pattern, $email)!=1){
+                            $err = 'Phải sử dụng email @blu.edu.vn!';
+                        } 
+                        else {
 
                             $user_id = wp_insert_user(array(
                                 'first_name' => apply_filters('pre_user_first_name', $first_name),
@@ -159,16 +162,17 @@ include("./mydbfile.php");
 
                     <!-- <div class="modal-dialog modal-lg">...</div> -->
                     <!--display error/success message-->
-                    <div id="message">
+                    
+                    <div id="message" class="" role="alert">
                         <?php
                         if (!empty($err)) :
-                            echo '<p class="error">' . $err . '';
+                            echo '<p class="error alert alert-danger">' . $err . '';
                         endif;
                         ?>
 
                         <?php
                         if (!empty($success)) :
-                            echo '<p class="error">' . $success . '';
+                            echo '<p class="error alert alert-success">' . $success . '';
                         endif;
                         ?>
                     </div>
@@ -178,21 +182,14 @@ include("./mydbfile.php");
                         <p><input type="text" value="" name="last_name" id="last_name" /></p>
                         <p><label>Tên đệm và Tên của bạn</label></p>
                         <p><input type="text" value="" name="first_name" id="first_name" /></p>
-                        <p><label>Email của bạn</label></p>
-                        <p><input type="text" value="" name="email" id="email" /></p>
+                        <p><label>Email của bạn (sử dụng email @blu.edu.vn)</label></p>
+                        <p><input type="text" value="" name="email" id="email" placeholder="xxx@blu.edu.vn" /></p>
                         <p><label>Tài khoản</label></p>
                         <p><input type="text" value="" name="username" id="username" /></p>
                         <p><label>Mật khẩu</label></p>
                         <p><input type="password" value="" name="pwd1" id="pwd1" /></p>
                         <p><label>Nhập lại mật khẩu</label></p>
                         <p><input type="password" value="" name="pwd2" id="pwd2" /></p>
-                        <div class="message">
-                            <p><?php if ($success != "") {
-                                    echo $success;
-                                } ?> <?php if ($err != "") {
-                                            echo $err;
-                                        } ?></p>
-                        </div>
                         <button type="submit" name="btnregister" id="nut-dk" class="button">Đăng ký</button>
                         <input type="hidden" name="task" value="register" />
                     </form>

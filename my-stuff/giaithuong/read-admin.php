@@ -9,6 +9,17 @@ include 'config.php';
 
 $sql = "SELECT * FROM `$tablename`";
 
+if (isset($_GET['ten'])) {
+	$ten = strtolower(trim($_GET['ten']));
+	$sql .= " where ten_gt like '%".$ten."%'";
+	$re = $conn->query($sql);
+
+	error_log('sql = ' . $sql);
+	if($re->num_rows>0)
+		echo "Giải thưởng có thể đã được nhập thông tin rồi. Quý thầy/cô nên kiểm tra lại với các thành viên trong nhóm";
+	else echo "nothing";
+} else {
+
 $re = $conn->query($sql);
 
 error_log('sql = ' . $sql);
@@ -30,3 +41,4 @@ while ($row = $re->fetch_assoc()) {
 	
 }
 $conn->close();
+}

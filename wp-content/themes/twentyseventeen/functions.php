@@ -801,3 +801,40 @@ function myplugin_settings() {
 	}
 	 // Add to the admin_init hook of your theme functions.php file 
 	add_action( 'init', 'myplugin_settings' );
+
+
+	add_action('admin_init', 'user_profile_fields_disable');
+
+function user_profile_fields_disable() {
+
+    global $pagenow;
+
+    // apply only to user profile or user edit pages
+    if ($pagenow!=='profile.php' && $pagenow!=='user-edit.php') {
+        return;
+    }
+
+    // do not change anything for the administrator
+    if (current_user_can('administrator')) {
+        return;
+    }
+
+    add_action( 'admin_footer', 'user_profile_fields_disable_js' );
+
+}
+
+function user_profile_fields_disable_js() {
+?>
+    <script>
+        jQuery(document).ready( function($) {
+            var fields_to_disable = ['email'];
+            for(i=0; i<fields_to_disable.length; i++) {
+                if ( $('#'+ fields_to_disable[i]).length ) {
+                    $('#'+ fields_to_disable[i]).attr('disabled', 'disabled');
+                    $('#'+ fields_to_disable[i]).after("<span class=\"description\"> Bạn không thể đổi " + fields_to_disable[i] + "</span>");
+                }
+            }
+        });
+    </script>
+<?php
+}

@@ -18,7 +18,7 @@ echo "<th>Năm học</th><th>Update</th>";
 echo "</thead>";
 while ($row = $re->fetch_assoc()) {
 	if (isset($_GET['id'])) {
-		if ($row['ma_cdt'] == $_GET['id']) {
+		if ($row['ma_nh'] == $_GET['id']) {
 			echo '<tr><td colspan="5"><form action="'.$mystufflink.$foldername.'/update.php" method="POST">';
 			echo '<table>';
 			echo '<tr><td><input class="form-control" id="namhoc" name="namhoc" type="text" value="' . $row['namhoc'] . '"></td>';

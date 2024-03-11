@@ -104,7 +104,7 @@ get_header(); ?>
                     </div>
                     <input type="hidden" id="user_id" class="form-control" name="time_mins" value="<?= $macb ?>">
                     <div class="col-12 d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn">Submit</button>
+                                <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn" id="btnSubmit">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -155,6 +155,23 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             console.log(urlr);
             return urlr;
         }
+    $("#sluong_thamgia").on("click",function(event){
+        event.preventDefault();
+        $("#btnSubmit").removeAttr('Disabled');
+        document.getElementById("mess").innerHTML = "";
+        let tendt = $("#ten_ctr").val();
+        callCheck(tendt);
+    });
+    function callCheck(ten) {
+        const url = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-admin.php/?ten="+ten;
+        $.get(url, function(data) {
+            if(data!="nothing"){ 
+                const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: '+data+'</div>';
+            document.getElementById("mess").innerHTML =alertmess
+            $("#btnSubmit").attr('disabled', 'disabled');
+        }
+        });
+    }
 
     // $(document).ready(function() {
 

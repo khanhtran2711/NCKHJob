@@ -6,7 +6,7 @@ include '../wp-load.php';
 
 
 $loaict = $_GET['id'];
-$sql = "SELECT * FROM `LoaiSL_TC` WHERE `ma_loaict` = ".$loaict;
+$sql = "SELECT * FROM `LoaiSL_TC` WHERE `ma_loaict` = ".$loaict." and (YEAR(`thoigian_apdung`) = YEAR(NOW()) or thoigian_apdung >= DATE(str_to_date( concat( year( curdate( ) )-1 , '-', 9 , '-', 1 ) , '%Y-%m-%d' )));";
 
 $re = $conn->query($sql);
 

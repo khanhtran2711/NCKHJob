@@ -188,8 +188,8 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
         }
         $.post(urlc, dataf,
             function(data, status) {
-
-                console.log(data);
+                // console.log(data);
+                window.location.href = data
 
             });
     }

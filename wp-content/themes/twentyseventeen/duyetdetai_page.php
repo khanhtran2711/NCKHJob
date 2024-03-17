@@ -26,19 +26,40 @@ get_header(); ?>
         <main id="main" class="site-main">
 
             <div class="container">
-                
+
                 <div class="container mt-3">
                     <h2>Thông tin về các đề tài NCKH</h2>
                     <p><?= get_the_content() ?></p>
-                    <table class="table table-striped" id="records">
+                    <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="filter">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="trangthai" aria-label="Trạng thái">
+                                        <option value="none">Chọn tất cả</option>
+                                        <option value="0">Chưa duyệt</option>
+                                        <option value="1">Đã duyệt</option>
 
-                    </table>
-                    <a href="<?=home_url()?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>
-                </div>
-            </div> <!--container-->
+                                    </select>
+                                    <label for="trangthai">Trạng thái</label>
 
-        </main><!-- #main -->
-    </div><!-- #primary -->
+                                </div>
+                                <div class="col-12 d-flex justify-content-end mt-3">
+                                    <button type="submit" class="btn btn-success  me-1 mb-1" name="..." id="filter">Lọc</button>
+                                </div>
+                            </div>
+                        </div>
+            
+
+                    </form>
+            <table class="table table-striped" id="records">
+
+            </table>
+            <a href="<?= home_url() ?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>
+    </div>
+</div> <!--container-->
+
+</main><!-- #main -->
+</div><!-- #primary -->
 </div><!-- .wrap -->
 
 <?php
@@ -60,20 +81,27 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 
     });
 
+    $("#filter").on("click", function(event) {
+        event.preventDefault();
+        $param = $("#trangthai").val();
+        if ($param == 'none')
+            read();
+        else
+            getReadUrl($param);
+    })
 
-    function getReadUrl() {
-        const params = new URLSearchParams(window.location.search);
+
+    function getReadUrl($param) {
         let urlr = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-admin.php";
 
-        if (params.has('id')) {
-            urlr += "?id=" + params.get('id');
-        }
-
-        return urlr;
+        urlr += "?trangthai=" + $param;
+        $.get(urlr, function(data) {
+            document.getElementById("records").innerHTML = data;
+        });
     }
 
     function read() {
-        const url = getReadUrl();
+        const url = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-admin.php"
         $.get(url, function(data) {
             document.getElementById("records").innerHTML = data;
         });

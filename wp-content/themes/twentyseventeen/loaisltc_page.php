@@ -31,9 +31,9 @@ get_header(); ?>
                     <div class="form-body">
                         <div class="row">
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="ten_loaisl" name="ten_loaisl" type="text" placeholder="Tên loại điểm/ngôn ngữ" data-sb-validations="required" />
-                                <label for="ten_loaisl">Tên loại điểm/ngôn ngữ</label>
-                                <div class="invalid-feedback" data-sb-feedback="ten_loaigt:required">Tên loại điểm/ngôn ngữ is required.</div>
+                                <input class="form-control" id="ten_loaisl" name="ten_loaisl" type="text" placeholder="Tên đơn vị tính/ mức điểm/giờ chuẩn" data-sb-validations="required" />
+                                <label for="ten_loaisl">Tên đơn vị tính/ mức điểm/giờ chuẩn</label>
+                                <div class="invalid-feedback" data-sb-feedback="ten_loaigt:required">Tên đơn vị tính/ mức điểm/giờ chuẩn is required.</div>
                             </div>
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="giatri_sl" name="giatri_sl" type="text" placeholder="Giá trị" data-sb-validations="required" />

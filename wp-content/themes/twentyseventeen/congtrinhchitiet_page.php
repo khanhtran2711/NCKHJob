@@ -181,7 +181,7 @@ get_header(); ?>
                         endif;
                         if( current_user_can('subscriber')):
                     ?>
-                    <a href="<?=home_url("/qldetaicanhan/")?>" class="text-decoration-none btn btn-info">Trở về trang quản lý đề tài cá nhân</a>
+                    <a href="<?=home_url("/qlctrcanhan/")?>" class="text-decoration-none btn btn-info">Trở về trang công trình cá nhân</a>
 
                     <?php endif;?>
                     <a href="<?=home_url()?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>

@@ -84,7 +84,7 @@ get_header(); ?>
                         <select class="form-select" id="ma_loaisltc" aria-label="ma_loaisltc">
                             
                         </select>
-                        <label for="ma_loaisltc">Loại Công Trình</label>
+                        <label for="ma_loaisltc">Loại tên đơn vị tính/ mức điểm/giờ chuẩn</label>
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_nh" aria-label="Năm học">

@@ -72,50 +72,51 @@ get_header(); ?>
         <div class="container mt-3">
                     <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                    <h3 class="box-title mt-5">Thông tin chung đề tài
-                    <?php
-                               if($data[0]['trangthai']==0 || current_user_can('administrator')): 
-                                $urlsua = '/suadetainckh/?id='.$ma_detai;
-                            ?>
-                    <a href="<?=home_url($urlsua)?>" class="text-decoration-none btn btn-info">Sửa</a>
-                            <?php endif;?>
-                    </h3>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-product">
-                            <tbody>
-                                <tr>
-                                    <td>Tên</td>
-                                <td><?=$data[0]['ten_dtnckh']?></td>
-                                </tr>
-                                <tr>
-                                    <td>Năm bắt đầu</td>
-                                    <td><?=$data[0]['nam_batdau']?></td>
-                                </tr>
-                                <tr>
-                                    <td>Năm kết thúc</td>
-                                   <td><?=$data[0]['nam_kethuc']?></td>
-                                </tr>
-                                <tr>
-                                    <td>Số lượng tham gia</td>
-                                    <td><?=$data[0]['sluong_thamgia']?></td>
-                                </tr>
-                                <tr>
-                                    <td>Cấp đề tài</td>
-                                    <td><?=$data[0]['ten_cdt']?></td>
-                                </tr>
-                                <tr>
-                                    <td>Năm học</td>
-                                    <td><?=$data[0]['namhoc']?></td>
-                                </tr>
-                                <tr>
-                                    <td>Minh Chứng</td>
-                                    <td><a href="<?=$data[0]['minhchung']?>" target="_new">Xem tại đây</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <h3 class="box-title mt-5">Thông tin chung đề tài
+                        <?php
+                                if(current_user_can('administrator')): 
+                                    $urlsua = '/suadetainckh/?id='.$ma_detai;
+                                ?>
+                        <a href="<?=home_url($urlsua)?>" class="text-decoration-none btn btn-info">Sửa</a>
+                                <?php endif;?>
+                        </h3>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-product">
+                                <tbody>
+                                    <tr>
+                                        <td>Tên</td>
+                                    <td><?=$data[0]['ten_dtnckh']?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Năm bắt đầu</td>
+                                        <td><?=$data[0]['nam_batdau']?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Năm kết thúc</td>
+                                    <td><?=$data[0]['nam_kethuc']?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Số lượng tham gia</td>
+                                        <td><?=$data[0]['sluong_thamgia']?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cấp đề tài</td>
+                                        <td><?=$data[0]['ten_cdt']?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Năm học</td>
+                                        <td><?=$data[0]['namhoc']?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Minh Chứng</td>
+                                        <td><a href="<?=$data[0]['minhchung']?>" target="_new">Xem tại đây</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                
+                    </div>
+        </div> 
                 <div class="container mt-3">
                    
                     <table class="table table-striped" id="records">
@@ -131,7 +132,6 @@ get_header(); ?>
                             <th>Xóa</th>
                             <?php endif;?>
                         </thead>
-                        <tbody>
                             <?php
                             while ($row = $re2->fetch_assoc()) {
                                 $user = new WP_User($row['ID']);
@@ -146,7 +146,7 @@ get_header(); ?>
                                     ?>
             <td> <form method="POST">
              <input type="hidden" name="cbdt_id" class="form-control" name="time_mins" value="<?=$row['detaicbid']?>"/>
-             <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" name="delBtn" class="btn btn-danger">
+             <input type="submit" value="Xóa" onclick="return confirm('Are you sure you want to delete?')" name="delBtn" class="btn btn-danger">
              </form>     </td>                  
                                     <?php
                                 // echo '<td><button class="btn btn-danger" id="del'.$row['detaicbid'].'" >Delete</button>';
@@ -155,7 +155,6 @@ get_header(); ?>
                                 echo "</tr>";
                             }
                             ?>
-                        </tbody>
                     </tbody>
                     </table>
                 <?php
@@ -185,7 +184,7 @@ get_header(); ?>
                     
 
                 </div> <!--container-->
-
+           
         </main><!-- #main -->
     </div><!-- #primary -->
 </div><!-- .wrap -->

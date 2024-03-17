@@ -178,9 +178,9 @@ include("./mydbfile.php");
                     </div>
                     <form method="post">
 
-                        <p><label>Họ của bạn</label></p>
+                        <p><label>Họ và tên đệm của bạn</label></p>
                         <p><input type="text" value="" name="last_name" id="last_name" /></p>
-                        <p><label>Tên đệm và Tên của bạn</label></p>
+                        <p><label>Tên của bạn</label></p>
                         <p><input type="text" value="" name="first_name" id="first_name" /></p>
                         <p><label>Email của bạn (sử dụng email @blu.edu.vn)</label></p>
                         <p><input type="text" value="" name="email" id="email" placeholder="xxx@blu.edu.vn" /></p>

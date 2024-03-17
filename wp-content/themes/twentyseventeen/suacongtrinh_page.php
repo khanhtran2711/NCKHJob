@@ -114,7 +114,7 @@ get_header(); ?>
                                 endwhile;
                             ?>
                         </select>
-                        <label for="ma_loaisltc">Loại Công Trình</label>
+                        <label for="ma_loaisltc">Loại tên đơn vị tính/ mức điểm/giờ chuẩn</label>
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_nh" name="ma_nh" aria-label="Năm học">
@@ -166,6 +166,10 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     $('#ma_loaict').on('change', function() {
             readLoaiSL( this.value );
         });
+    $(document).ready(function() {
+        const mact = $("#ma_loaict").val();
+        readLoaiSL(mact);
+    });
 
         function readLoaiSL(param){
               const url = getReadUrlSL(param);

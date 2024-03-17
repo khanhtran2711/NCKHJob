@@ -539,35 +539,8 @@ switch ( $action ) {
 					<tr class="user-email-wrap">
 						<th><label for="email"><?php _e( 'Email' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
 						<td>
-							<input type="email" name="email" id="email" aria-describedby="email-description" value="<?php echo esc_attr( $profile_user->user_email ); ?>" class="regular-text ltr" />
-							<?php if ( $profile_user->ID === $current_user->ID ) : ?>
-								<p class="description" id="email-description">
-									<?php _e( 'If you change this, an email will be sent at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?>
-								</p>
-							<?php endif; ?>
-
-							<?php
-							$new_email = get_user_meta( $current_user->ID, '_new_email', true );
-							if ( $new_email && $new_email['newemail'] !== $current_user->user_email && $profile_user->ID === $current_user->ID ) :
-
-								$pending_change_message = sprintf(
-									/* translators: %s: New email. */
-									__( 'There is a pending change of your email to %s.' ),
-									'<code>' . esc_html( $new_email['newemail'] ) . '</code>'
-								);
-								$pending_change_message .= sprintf(
-									' <a href="%1$s">%2$s</a>',
-									esc_url( wp_nonce_url( self_admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ), 'dismiss-' . $current_user->ID . '_new_email' ) ),
-									__( 'Cancel' )
-								);
-								wp_admin_notice(
-									$pending_change_message,
-									array(
-										'additional_classes' => array( 'updated', 'inline' ),
-									)
-								);
-							endif;
-							?>
+							<input type="email" name="email" id="email" aria-describedby="email-description" value="<?php echo esc_attr( $profile_user->user_email ); ?>" class="regular-text ltr" readonly/><?php _e( 'Email cannot be changed.' ); ?>
+							
 						</td>
 					</tr>
 

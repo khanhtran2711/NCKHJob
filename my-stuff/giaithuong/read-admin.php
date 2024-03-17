@@ -19,7 +19,10 @@ if (isset($_GET['ten'])) {
 		echo "Giải thưởng có thể đã được nhập thông tin rồi. Quý thầy/cô nên kiểm tra lại với các thành viên trong nhóm";
 	else echo "nothing";
 } else {
-
+	if (isset($_GET['trangthai'])) {
+		$a = $_GET['trangthai'];
+		$sql .= " where trangthai = $a";
+	}
 $re = $conn->query($sql);
 
 error_log('sql = ' . $sql);

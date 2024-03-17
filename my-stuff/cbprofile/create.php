@@ -1,6 +1,7 @@
 <?php
 include('../../mydbfile.php');
-
+global $wpdb;
+include '../../wp-load.php';
 $a = $_POST['ma_cd'];
 
 $ma_cb = $_POST['ma_cb'];
@@ -19,6 +20,6 @@ if(isset($_POST['ma_khoa'])){
 
 $conn->close();
 
-echo "add successful";
+echo home_url('/cbprofile/');
 
 ?>

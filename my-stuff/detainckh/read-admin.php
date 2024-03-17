@@ -6,9 +6,9 @@ include '../../wp-load.php';
 
 include 'config.php';
 
+
 $sql = "SELECT * FROM `DeTai_NCKH`";
 
-	
 
 if (isset($_GET['ten'])) {
 	$ten = strtolower(trim($_GET['ten']));
@@ -22,7 +22,11 @@ if (isset($_GET['ten'])) {
 		echo "nothing";
 	}
 } else {
-
+	if (isset($_GET['trangthai'])) {
+		$a = $_GET['trangthai'];
+		$sql .= " where trangthai = $a";
+	}
+		
 
 	$re = $conn->query($sql);
 

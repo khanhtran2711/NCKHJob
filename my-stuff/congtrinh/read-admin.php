@@ -23,7 +23,11 @@ if (isset($_GET['ten'])) {
 			echo "nothing";
 		}
 } else {
-
+	if (isset($_GET['trangthai'])) {
+		$a = $_GET['trangthai'];
+		$sql .= " where trangthai = $a";
+	}
+		
 $re = $conn->query($sql);
 
 error_log('sql = ' . $sql);

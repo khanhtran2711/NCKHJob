@@ -14,7 +14,7 @@ error_log('sql = ' . $sql);
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
-echo "<th>Tên loại điểm/ngôn ngữ</th><th>Hệ số</th><th>Thời gian áp dụng</th><th>Update</
+echo "<th>Tên đơn vị tính/ mức điểm/giờ chuẩn</th><th>Hệ số</th><th>Thời gian áp dụng</th><th>Update</
 th>";
 echo "</thead>";
 while ($row = $re->fetch_assoc()) {

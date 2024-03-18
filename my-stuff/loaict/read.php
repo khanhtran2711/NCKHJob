@@ -14,7 +14,7 @@ error_log('sql = ' . $sql);
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
-echo "<th>Tên loại công trình</th><th>Update</th>";
+echo "<th>Tên loại công trình</th><th></th>";
 echo "</thead>";
 while ($row = $re->fetch_assoc()) {
 	if (isset($_GET['id'])) {
@@ -32,7 +32,7 @@ while ($row = $re->fetch_assoc()) {
 	} else {
 		echo "<tr>";
 		echo "<td>" . $row['ten_loai'] . "</td>";
-		echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_loai"] . '">Update</a></td>';
+		echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_loai"] . '">Sửa</a></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
 		echo "</tr>";
 		echo "</tbody>";

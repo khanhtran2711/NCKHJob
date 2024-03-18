@@ -17,7 +17,7 @@ error_log('sql = ' . $sql);
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
-echo "<th>Date</th><th>Workout</th><th>Time Spent (Mins)</th><th>Update</
+echo "<th>Date</th><th>Workout</th><th>Time Spent (Mins)</th><th></
 td> <th>Delete</td>";
 echo "</thead>";
 while ($row = $re->fetch_assoc()) {
@@ -38,7 +38,7 @@ while ($row = $re->fetch_assoc()) {
 		echo "<td>" . $row['workout_date'] . "</td>";
 		echo "<td>" . $row['activity'] . "</td>";
 		echo "<td>" . $row['time_mins'] . "</td>";
-		echo '<td><a class="btn btn-info" href="/NCKH/workout/?id=' . $row["id"] . '">Update</a></td>';
+		echo '<td><a class="btn btn-info" href="/NCKH/workout/?id=' . $row["id"] . '">Sửa</a></td>';
 		echo '<td> <a class="btn btn-danger" href="/NCKH/my-stuff/delete_workout.php?id=' . $row['id'] . '">Delete</a></td>';
 		echo "</tr>";
 		echo "</tbody>";

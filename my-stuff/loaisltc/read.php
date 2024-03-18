@@ -14,7 +14,7 @@ error_log('sql = ' . $sql);
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
-echo "<th>Tên đơn vị tính/ mức điểm/giờ chuẩn</th><th>Hệ số</th><th>Thời gian áp dụng</th><th>Update</
+echo "<th>Tên đơn vị tính/ mức điểm/giờ chuẩn</th><th>Giờ chuẩn</th><th>Thời gian áp dụng</th><th></
 th>";
 echo "</thead>";
 while ($row = $re->fetch_assoc()) {
@@ -36,7 +36,7 @@ while ($row = $re->fetch_assoc()) {
 		echo "<td>" . $row['ten_loaisl'] . "</td>";
 		echo "<td>" . $row['giatri_sl'] . "</td>";
 		echo "<td>" . $row['thoigian_apdung'] . "</td>";
-		echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_loaisl"] . '">Update</a></td>';
+		echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_loaisl"] . '">Sửa</a></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
 		echo "</tr>";
 		echo "</tbody>";

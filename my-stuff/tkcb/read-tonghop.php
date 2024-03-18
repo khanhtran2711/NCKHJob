@@ -50,12 +50,12 @@ include '../../nhiemvu.php';
 		}else{
 			// $flag = false;
 			foreach ($listtonghop as $item) {
-			// 	if($row['ma_cb']==$item->getMacb()){
+				if($row['ma_cb']==$item->getMacb()){
 					$temp = $item->getDetai();
 					$item->setDetai(number_format($temp+$sogioquydoi,2));
 					// $flag=true;
-			// 		break;
-			// 	}
+					break;
+				}
 			}
 			// if(!$flag){
 			// 	$c = new Nhiemvu();
@@ -81,8 +81,17 @@ include '../../nhiemvu.php';
 	//;
 	while ($row = $re2->fetch_assoc()) {
 		$flag = false;
+		if(count($listtonghop)==0){
+			$c = new Nhiemvu();
+			$c->setMacb($row['ma_cb']);
+			$c->setUserid($user_id);
+			$c->setKhoa($row['ten_khoa']);
+			$c->setNamhoc($namhoc);
+			$c->setDetai(number_format($sogioquydoi,2));
+			array_push($listtonghop,$c);
+		}else{
 		foreach ($listtonghop as $item) {
-		// 	if($row['ma_cb']==$item->getMacb()){
+			if($row['ma_cb']==$item->getMacb()){
 				if (str_contains($row['ten_loaigt'], 'cấp khoa')) {
 					$temp = $item->getHuongsv();
 					$item->setHuongsv(number_format($temp+$row['heso_loaigt']));
@@ -97,10 +106,11 @@ include '../../nhiemvu.php';
 				
 				}
 		// 		$flag=true;
-		// 		break;
+				break;
 
-		// 	}
+			}
 		}
+	}
 		// if(!$flag){
 		// 	$c = new Nhiemvu();
 		// 	$c->setMacb($row['ma_cb']);
@@ -134,9 +144,18 @@ include '../../nhiemvu.php';
 		else{
 			$sogioquydoi = ($giotong*(2/3))/($row['sluong_thamgia']);
 		}
+		if(count($listtonghop)==0){
+			$c = new Nhiemvu();
+			$c->setMacb($row['ma_cb']);
+			$c->setUserid($user_id);
+			$c->setKhoa($row['ten_khoa']);
+			$c->setNamhoc($namhoc);
+			$c->setDetai(number_format($sogioquydoi,2));
+			array_push($listtonghop,$c);
+		}else{
 		// $flag = false;
 		foreach ($listtonghop as $item) {
-		// 	if($row['ma_cb']==$item->getMacb()){
+			if($row['ma_cb']==$item->getMacb()){
 				if (str_contains($row['ten_loai'], 'Giáo trình')) {
 					$temp = $item->getGiaotrinh();
 					$item->setGiaotrinh(number_format($temp+$sogioquydoi,2));
@@ -154,9 +173,10 @@ include '../../nhiemvu.php';
 					$item->setSach(number_format($temp+$sogioquydoi,2));
 				}
 		// 		$flag=true;
-		// 			break;
-		// 	}
+					break;
+			}
 		}
+	}
 		// if(!$flag){
 		// 	$c = new Nhiemvu();
 		// 	$c->setMacb($row['ma_cb']);

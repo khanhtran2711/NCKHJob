@@ -101,13 +101,13 @@ include '../../nhiemvu.php';
 			$c->setKhoa($row['ten_khoa']);
 			$c->setNamhoc($namhoc);
 			if (str_contains($row['ten_loaigt'], 'cấp khoa')) {
-				$item->setHuongsv(number_format($row['heso_loaigt']));
+				$c->setHuongsv(number_format($row['heso_loaigt']));
 			}
 			else if(str_contains($row['ten_loaigt'], 'đề tài NCKH, sáng tạo kỹ thuật')) {
-				$item->setSvnckh(number_format($row['heso_loaigt']));
+				$c->setSvnckh(number_format($row['heso_loaigt']));
 			}
 			else{
-				$item->setOlympic(number_format($row['heso_loaigt']));
+				$c->setOlympic(number_format($row['heso_loaigt']));
 			
 			}
 		}
@@ -158,19 +158,19 @@ include '../../nhiemvu.php';
 			$c->setNamhoc($namhoc);
 			if (str_contains($row['ten_loai'], 'Giáo trình')) {
 			
-				$item->setGiaotrinh(number_format($sogioquydoi,2));
+				$c->setGiaotrinh(number_format($sogioquydoi,2));
 			}
 			else if (str_contains($row['ten_loai'], 'Tạp chí')) {
 				
-				$item->setBaitapchi(number_format($sogioquydoi,2));
+				$c->setBaitapchi(number_format($sogioquydoi,2));
 			}
 			else if (str_contains($row['ten_loai'], 'kỷ yếu')) {
 				
-				$item->setBaikyyeu(number_format($sogioquydoi,2));
+				$c->setBaikyyeu(number_format($sogioquydoi,2));
 			}
 			else if (str_contains($row['ten_loai'], 'Sách')) {
 		
-				$item->setSach(number_format($sogioquydoi,2));
+				$c->setSach(number_format($sogioquydoi,2));
 			}
 			array_push($listtonghop,$c);
 		}
@@ -229,70 +229,6 @@ include '../../nhiemvu.php';
 		echo "</tr>";
 	}
 	
-	// while ($row = $re->fetch_assoc()) {
-    //     $user = new WP_User($row['user_id']);
-	// 	echo "<tr>";
-    //     echo "<td>" . $user->last_name." ".$user->first_name . "</td>";
-    //     echo "<td>" . $row['ten_khoa'] . "</td>";
-	// 	echo "<td>" . $row['ten_dtnckh'] . "</td>";
-	// 	echo "<td> Đề Tài NCKH </td>";
-    //     echo "<td>" . $row['ten_cdt'] . "</td>";
-	// 	echo "<td>" . $row['nam_kethuc'] . "</td>";
-	// 	echo "<td>" . $row['sluong_thamgia'] . "</td>";
-	// 	echo "<td>" . $row['ten_loaivt'] . "</td>";
-    //     $giotong = $row['giochuan'];
-    //     $sogioquydoi = 0;
-    //     if($row['ten_loaivt']=='TV chính')
-    //         $sogioquydoi = $giotong/3 + ($giotong*(2/3))/($row['sluong_thamgia']);
-    //     else{
-    //         $sogioquydoi = ($giotong*(2/3))/($row['sluong_thamgia']);
-    //     }
-    //     echo "<td>".$sogioquydoi."</td>";
-	// 	// echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
-	// 	// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
-	// 	echo "</tr>";
-	// }
-    // while ($row = $re1->fetch_assoc()) {
-    //     $user = new WP_User($row['user_id']);
-	// 	echo "<tr>";
-    //     echo "<td>" . $user->last_name." ".$user->first_name . "</td>";
-    //     echo "<td>" . $row['ten_khoa'] . "</td>";
-	// 	echo "<td>" . $row['ten_gt'] . "</td>";
-	// 	echo "<td> Giải thưởng </td>";
-    //     echo "<td>" . $row['ten_loaigt'] . "</td>";
-	// 	echo "<td>" . $row['thoigiannhan'] . "</td>";
-	// 	echo "<td></td>";
-	// 	echo "<td></td>";
-    //     echo "<td>".$row['heso_loaigt']."</td>";
-	// 	// echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
-	// 	// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
-	// 	echo "</tr>";
-		
-	// }
-    // while ($row = $re3->fetch_assoc()) {
-    //     $user = new WP_User($row['user_id']);
-	// 	echo "<tr>";
-    //     echo "<td>" . $user->last_name." ".$user->first_name . "</td>";
-    //     echo "<td>" . $row['ten_khoa'] . "</td>";
-	// 	echo "<td>" . $row['ten_ctr'] . "</td>";
-	// 	echo "<td>" . $row['ten_loai'] . "</td>";
-    //     echo "<td>" . $row['ten_tc_ky_nxb'] . "</td>";
-	// 	echo "<td>" . $row['thoigian_hoanthanh'] . "</td>";
-    //     echo "<td>" . $row['sluong_thamgia'] . "</td>";
-	// 	echo "<td>" . $row['ten_loaivt'] . "</td>";
-	// 	$giotong = $row['giatri_sl'];
-    //     $sogioquydoi = 0;
-    //     if($row['ten_loaivt']=='TV chính')
-    //         $sogioquydoi = $giotong/3 + ($giotong*(2/3))/($row['sluong_thamgia']);
-    //     else{
-    //         $sogioquydoi = ($giotong*(2/3))/($row['sluong_thamgia']);
-    //     }
-    //     echo "<td>".$sogioquydoi."</td>";
-	// 	// echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
-	// 	// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
-	// 	echo "</tr>";
-		
-	// }
     echo "</tbody>";
 	
 	

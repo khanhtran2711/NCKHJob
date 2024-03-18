@@ -1475,7 +1475,7 @@ a:hover .nav-title,
 /* Dropdown Toggle */
 
 .dropdown-toggle {
-	background-color: transparent;
+	/* background-color: transparent;
 	border: 0;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -1488,22 +1488,33 @@ a:hover .nav-title,
 	padding: 0.5em;
 	position: absolute;
 	text-shadow: none;
-	top: 0;
+	top: 0; */
 }
+
+.dropdown:hover>.dropdown-menu {
+    display: block;
+  }
+  
+  .dropdown>.dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+      pointer-events: none;
+  }
 
 .dropdown-toggle:hover,
 .dropdown-toggle:focus {
-	background: transparent;
+	/* background: transparent; */
 }
 
 .dropdown-toggle:focus {
-	outline: thin dotted;
+	/* outline: thin dotted; */
 }
 
 .dropdown-toggle.toggled-on .icon {
-	-ms-transform: rotate(-180deg); /* IE 9 */
-	-webkit-transform: rotate(-180deg); /* Chrome, Safari, Opera */
-	transform: rotate(-180deg);
+	/* -ms-transform: rotate(-180deg);  */
+	/* IE 9 */
+	/* -webkit-transform: rotate(-180deg);  */
+	/* Chrome, Safari, Opera */
+	/* transform: rotate(-180deg); */
 }
 
 /* Scroll down arrow */
@@ -3544,7 +3555,7 @@ p > object:only-child {
 
 	.js .menu-toggle,
 	.js .dropdown-toggle {
-		display: none;
+		/* display: none; */
 	}
 
 	.main-navigation {

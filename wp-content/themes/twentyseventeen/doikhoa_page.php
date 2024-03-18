@@ -68,7 +68,7 @@ get_header();
                             <label for="ma_khoa">Khoa/phòng ban hiện tại</label>
                         </div>
                         <div class="col-12 d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn btn-success  me-1 mb-1" name="doikhoabtn">Submit</button>
+                                <button type="submit" class="btn btn-success  me-1 mb-1" name="doikhoabtn">Lưu</button>
                         
                     </div>
                     </div>

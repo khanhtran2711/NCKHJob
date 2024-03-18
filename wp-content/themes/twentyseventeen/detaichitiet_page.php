@@ -88,11 +88,11 @@ get_header(); ?>
                                     <td><?=$data[0]['ten_dtnckh']?></td>
                                     </tr>
                                     <tr>
-                                        <td>Năm bắt đầu</td>
+                                        <td>Ngày bắt đầu</td>
                                         <td><?=$data[0]['nam_batdau']?></td>
                                     </tr>
                                     <tr>
-                                        <td>Năm kết thúc</td>
+                                        <td>Ngày kết thúc</td>
                                     <td><?=$data[0]['nam_kethuc']?></td>
                                     </tr>
                                     <tr>

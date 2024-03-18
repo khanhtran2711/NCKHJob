@@ -35,7 +35,7 @@ $pagename = '/congtrinhchitiet/';
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
-echo "<th>Tên công trình NCKH</th><th>Hoàn thành</th><th>Tên kỷ yếu</th><th>Trạng thái</th><th>Xem chi tiết</th>";
+echo "<th>Tên công trình NCKH</th><th>Thời gian hoàn thành</th><th>Tên Tạp chí/kỷ yếu/NXB</th><th>Trạng thái</th><th>Xem chi tiết</th>";
 echo "</thead>";
 while ($row = $re->fetch_assoc()) {
 		echo "<tr>";

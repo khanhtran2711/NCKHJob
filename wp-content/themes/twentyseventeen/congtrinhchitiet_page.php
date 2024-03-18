@@ -96,7 +96,7 @@ get_header(); ?>
                                     <td><?=$data[0]['thoigian_hoanthanh']?></td>
                                 </tr>
                                 <tr>
-                                    <td>Tên tạp chí/kỹ yếu/NXB</td>
+                                    <td>Tên tạp chí/kỷ yếu/NXB</td>
                                    <td><?=$data[0]['ten_tc_ky_nxb']?></td>
                                 </tr>
                                 <tr>

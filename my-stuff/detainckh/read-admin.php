@@ -35,7 +35,7 @@ if (isset($_GET['ten'])) {
 	// webpage form starts here
 	echo "<tbody>";
 	echo "<thead>";
-	echo "<th>Tên đề tài NCKH</th><th>Bắt đầu</th><th>Kết thúc</th><th>Trạng thái</th><th>Xem chi tiết</th>";
+	echo "<th>Tên đề tài NCKH</th><th>Ngày bắt đầu</th><th>Ngày kết thúc</th><th>Trạng thái</th><th>Xem chi tiết</th>";
 	echo "</thead>";
 	while ($row = $re->fetch_assoc()) {
 		echo "<tr>";

@@ -1409,7 +1409,7 @@ switch ( $action ) {
 				wp_redirect( $redirect_to );
 				exit;
 			}
-
+			
 			wp_safe_redirect( $redirect_to );
 			exit;
 		}

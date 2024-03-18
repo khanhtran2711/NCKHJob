@@ -15,10 +15,9 @@
 		the_privacy_policy_link( '', '<span role="separator" aria-hidden="true"></span>' );
 	}
 	?>
-	<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentyseventeen' ) ); ?>" class="imprint">
+	
 		<?php
 			/* translators: %s: WordPress */
-		printf( __( 'Proudly powered by %s', 'twentyseventeen' ), 'WordPress' );
+		printf( __( '&copy; 2024 Trường Đại học Bạc Liêu, Hỗ trợ: 0291.6500.999 - Email: qlkh@blu.edu.vn', 'twentyseventeen' ), 'WordPress' );
 		?>
-	</a>
 </div><!-- .site-info -->

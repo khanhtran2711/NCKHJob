@@ -35,7 +35,7 @@ if(isset($_GET['submit'])) {
                 <label><input type="checkbox" name = "option1" 
                         value="Option 1">Option 1</label> 
                 <label><button name="submit" value='true' 
-                    class="btn btn-default">SUBMIT</button> 
+                    class="btn btn-default">Lưu</button> 
             </div> 
         </form> 
     </div> 

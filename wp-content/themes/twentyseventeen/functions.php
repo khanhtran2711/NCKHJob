@@ -730,12 +730,12 @@ function my_login_redirect( $redirect_to, $request, $user ) {
 	global $user;
 	if ( isset( $user->roles ) && is_array( $user->roles ) ) {
 		//check for admins
-		if ( in_array( 'administrator', $user->roles ) ) {
-			// redirect them to the default place
-			return admin_url();
-		} else {
+		// if ( in_array( 'administrator', $user->roles ) ) {
+		// 	// redirect them to the default place
+		// 	return admin_url();
+		// } else {
 			return home_url();
-		}
+		// }
 	} else {
 		return $redirect_to;
 	}

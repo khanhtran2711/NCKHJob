@@ -30,13 +30,16 @@ $pagename = '/giaithuongchitiet/';
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
-echo "<th>Tên giải thưởng</th><th>Trạng thái</th><th>Xem chi tiết</th>";
+echo "<th>Tên giải thưởng</th><th>Trạng thái</th><th>Xem chi tiết</th><th>Xóa</th>";
 echo "</thead>";
 while ($row = $re->fetch_assoc()) {
 		echo "<tr>";
 		echo "<td>" . $row['ten_gt'] . "</td>";
 		echo "<td>" . (($row['trangthai']==0)?'Chưa duyệt':'Đã duyệt') . "</td>";
 		echo '<td><a class="btn btn-info" href="'.home_url($pagename).'?id=' . $row["ma_gt"] . '">Xem</a></td>';
+		echo '<td><form method="POST" action="'.$mystufflink.'giaithuong/delete.php?id=' . $row['ma_gt'] . '" onsubmit="return confirmDesactiv()">
+				<input type="submit" class="btn btn-danger" value="Xóa">
+		</form></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
 		echo "</tr>";
 		echo "</tbody>";

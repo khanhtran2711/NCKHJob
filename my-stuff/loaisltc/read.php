@@ -6,7 +6,7 @@ include '../../wp-load.php';
 
 include 'config.php';
 
-$sql = "SELECT * FROM `$tablename`";
+$sql = "SELECT * FROM `LoaiSL_TC` lsl INNER JOIN `LoaiCongTrinh_Khac` lct on lct.ma_loai = lsl.ma_loaict;";
 
 $re = $conn->query($sql);
 
@@ -14,8 +14,7 @@ error_log('sql = ' . $sql);
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
-echo "<th>Tên đơn vị tính/ mức điểm/giờ chuẩn</th><th>Giờ chuẩn</th><th>Thời gian áp dụng</th><th></
-th>";
+echo "<th>Tên đơn vị tính/ mức điểm/giờ chuẩn</th><th>Giờ chuẩn</th><th>Thời gian áp dụng</th><th>Tên loại công trình</th><th></th>";
 echo "</thead>";
 while ($row = $re->fetch_assoc()) {
 	if (isset($_GET['id'])) {
@@ -25,8 +24,9 @@ while ($row = $re->fetch_assoc()) {
 			echo '<tr><td><input class="form-control" id="ten_loaisl" name="ten_loaisl" type="text" value="' . $row['ten_loaisl'] . '"></td>';
 			echo '<td><input class="form-control" id="giatri_sl" name="giatri_sl" type="text"  value="' . $row['giatri_sl'] . '"></td>';
 			echo '<td><input class="form-control" id="thoigian_apdung" name="thoigian_apdung" type="date" value="' . $row['thoigian_apdung'] . '"></td>';
+			
 
-			echo '<td><input type="hidden" name="ma_loaisl" value="' . $row['ma_loaisl'] . '"><input type="submit" value="Save"></td>';
+			echo '<td><input type="hidden" name="ma_loaisl" value="' . $row['ma_loaisl'] . '"><input type="submit" value="Lưu" class="btn btn-primary"></td>';
 			echo '</tr>';
 			echo '</form>';
 			echo '</td></td>';
@@ -36,6 +36,7 @@ while ($row = $re->fetch_assoc()) {
 		echo "<td>" . $row['ten_loaisl'] . "</td>";
 		echo "<td>" . $row['giatri_sl'] . "</td>";
 		echo "<td>" . $row['thoigian_apdung'] . "</td>";
+		echo "<td>" . $row['ten_loai'] . "</td>";
 		echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_loaisl"] . '">Sửa</a></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
 		echo "</tr>";

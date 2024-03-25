@@ -29,6 +29,7 @@ if(isset($_POST['doivitri'])){
     $sql3 = "SELECT `ma_ctr` FROM `CongTrinh_Khac` WHERE `ten_ctr` like '%".$a."%'";
     error_log('sql = '.$sql3);
     $result = $conn->query($sql3);
+    if ($result->num_rows == 1) {
     $d = $result->fetch_all(MYSQLI_ASSOC);
     $ma_ctr = $d[0]['ma_ctr'];
     $vitri = "INSERT INTO `CanBo_Ctr`(`ten_loaivt`, `ma_cb`, `ma_ctr`) VALUES ('$b','$macb','$ma_ctr')";
@@ -36,6 +37,12 @@ if(isset($_POST['doivitri'])){
     $result = $conn->query($vitri);
     $conn->close();
     echo "<script>window.location.href = '".home_url('/qlctrcanhan/')."';</script>";
+    }else{
+        echo '<script type="text/javascript">
+       window.onload = function () { alert("Thêm thất bại, thầy/cô nên xem lại tên công trình NCKH"); } 
+            </script>'; 
+
+    }
 }
 //giang vien nay chua cap nhat chuc danh và khoa-pb truc thuoc cua minh
 get_header();
@@ -74,7 +81,7 @@ get_header();
                             <label for="ten_loaivt">Vị trí tham gia trong đề tài</label>
                         </div>
                         <div class="col-12 d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn btn-success  me-1 mb-1" name="doivitri">Submit</button>
+                                <button type="submit" class="btn btn-success  me-1 mb-1" name="doivitri">Lưu</button>
                         
                     </div>
                     </div>

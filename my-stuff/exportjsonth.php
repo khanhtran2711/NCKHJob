@@ -73,7 +73,7 @@ $data = json_decode($jsonString, true); // The second parameter true is used to 
 		
 		$sheet->setCellValue('P'.$currentcontent ,$item['vuot']);
 
-		$sheet->setCellValue('R'.$currentcontent ,$item['note']);
+		$sheet->setCellValue('Q'.$currentcontent ,$item['note']);
 
 
 		++$currentcontent;

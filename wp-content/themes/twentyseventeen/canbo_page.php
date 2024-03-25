@@ -59,7 +59,7 @@ get_header(); ?>
                     </div>
 
                     <div class="col-12 d-flex justify-content-end mt-3">
-                        <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn">Submit</button>
+                        <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn">Lưu</button>
                     </div>
                 </form>
             </div> <!--container-->

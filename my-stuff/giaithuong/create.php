@@ -1,6 +1,8 @@
 <?php
 include('../../mydbfile.php');
-include ("./config.php");
+global $wpdb;
+include '../../wp-load.php';
+include 'config.php';
 
 
 $a = $_POST['ten_gt'];
@@ -18,6 +20,6 @@ if ($conn->query($sql) === TRUE) {
     $conn->query($sql2);
     $conn->close();
 }
-echo $id;
+echo home_url('/qlgtcanhan/');
 
 ?>

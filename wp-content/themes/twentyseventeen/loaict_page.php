@@ -37,7 +37,7 @@ get_header(); ?>
                             
 
                             <div class="col-12 d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn btn-success  me-1 mb-1" name="xxx">Submit</button>
+                                <button type="submit" class="btn btn-success  me-1 mb-1" name="xxx">Lưu</button>
                             </div>
                         </div>
                     </div>

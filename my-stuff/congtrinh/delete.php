@@ -8,14 +8,23 @@ include 'config.php';
 // error_log("current user=".$user_now);
 
 // error_log("workout id = ".$_GET['id']);
-$id = $_GET['id'];
-$sql = "DELETE FROM `DeTai_NCKH` WHERE `ma_nh` = " . $id;
-// next line is for debugging, they appear in the php_error.log file
-// comment it out before putting into production
-error_log('sql = '.$sql);
-$result = $conn->query($sql);
-$conn->close();
-header ("location: $pagename");
+if(isset($_GET['id'])){
+    
+    $id = $_GET['id'];
+    // echo $id; 
+    $sql = "DELETE FROM `CanBo_Ctr` WHERE `ma_ctr` = " . $id;
+        
+    error_log('sql = '.$sql);
+    $result = $conn->query($sql);
+    $sql = "DELETE FROM `CongTrinh_Khac` WHERE `ma_ctr` = " . $id;
+    
+    error_log('sql = '.$sql);
+    $result = $conn->query($sql);
+    $conn->close();
+
+    header ("location: ".home_url("/duyetcongtrinh/"));
+
+}
 
 
 ?>

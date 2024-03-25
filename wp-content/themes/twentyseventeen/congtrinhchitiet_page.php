@@ -18,7 +18,7 @@ include 'mydbfile.php';
  * Template name: congtrinhchitiet form Page
  */
 $ma_detai = $_GET['id'];
-$sql = "SELECT `ten_ctr`,`thoigian_hoanthanh`,`ten_tc_ky_nxb`,`sluong_thamgia`,`trangthai`,`minhchung`, loaisl.ten_loaisl, lctr.ten_loai FROM `CongTrinh_Khac` ct INNER JOIN `LoaiSL_TC` loaisl on loaisl.ma_loaisl = ct.ma_loaisltc INNER JOIN `LoaiCongTrinh_Khac` lctr on lctr.ma_loai = loaisl.ma_loaict WHERE ct.ma_ctr =".$ma_detai;
+$sql = "SELECT `ten_ctr`,`thoigian_hoanthanh`,`ten_tc_ky_nxb`,`sluong_thamgia`,`trangthai`,`minhchung`, loaisl.ten_loaisl, lctr.ten_loai,`sotinchi` FROM `CongTrinh_Khac` ct INNER JOIN `LoaiSL_TC` loaisl on loaisl.ma_loaisl = ct.ma_loaisltc INNER JOIN `LoaiCongTrinh_Khac` lctr on lctr.ma_loai = loaisl.ma_loaict WHERE ct.ma_ctr =".$ma_detai;
 
 $re = $conn->query($sql);
 
@@ -77,7 +77,7 @@ get_header(); ?>
                     <h3 class="box-title mt-5">Thông tin chung công trình 
 
                     <?php
-                               if($data[0]['trangthai']==0 || current_user_can('administrator')): 
+                               if(current_user_can('administrator')): 
                                 $urlsua = '/suacongtrinh/?id='.$ma_detai;
                             ?>
                     <a href="<?=home_url($urlsua)?>" class="text-decoration-none btn btn-info">Sửa</a>
@@ -110,6 +110,10 @@ get_header(); ?>
                                 <tr>
                                     <td>Loại điểm/tín chỉ</td>
                                     <td><?=$data[0]['ten_loaisl']?></td>
+                                </tr>
+                                <tr>
+                                    <td>Số tín chỉ</td>
+                                    <td><?=$data[0]['sotinchi']?></td>
                                 </tr>
                                 <tr>
                                     <td>Minh Chứng</td>

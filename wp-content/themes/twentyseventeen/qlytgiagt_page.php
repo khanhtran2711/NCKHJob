@@ -28,6 +28,7 @@ if(isset($_POST['doivitri'])){
     $sql3 = "SELECT `ma_gt` FROM `$tablename` WHERE `ten_gt` like '%".$a."%'";
     error_log('sql = '.$sql3);
     $result = $conn->query($sql3);
+    if ($result->num_rows == 1) {
     $d = $result->fetch_all(MYSQLI_ASSOC);
     $ma_gt = $d[0]['ma_gt'];
     $vitri = "INSERT INTO `CanBo_GiaiThuong`(`ma_gt`, `ma_cb`, `thoigiannhan`) VALUES ('$ma_gt','$macb',NOW())";
@@ -35,6 +36,13 @@ if(isset($_POST['doivitri'])){
     $result = $conn->query($vitri);
     $conn->close();
     echo "<script>window.location.href = '".home_url('/qlgtcanhan/')."';</script>";
+    }
+    else{
+        echo '<script type="text/javascript">
+       window.onload = function () { alert("Thêm thất bại, thầy/cô nên xem lại tên giải thưởng"); } 
+            </script>'; 
+
+    }
 }
 //giang vien nay chua cap nhat chuc danh và khoa-pb truc thuoc cua minh
 get_header();
@@ -54,14 +62,14 @@ get_header();
                     <div class="row">
                         
                         <div class="form-floating mb-3 ui-widget">
-                            <input class="form-control" id="ten_gt" name="tendetai" type="text" />
+                            <input class="form-control" id="ten_gt" name="ten_gt" type="text" />
                             <label for="ten_gt">Tên Giải thưởng</label>
                             <div class="invalid-feedback" data-sb-feedback="ten_gt:required">Tên Giải thưởng is required.</div>
                         </div>
                         
                         
                         <div class="col-12 d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn btn-success  me-1 mb-1" name="doivitri">Submit</button>
+                                <button type="submit" class="btn btn-success  me-1 mb-1" name="doivitri">Lưu</button>
                         
                     </div>
                     </div>

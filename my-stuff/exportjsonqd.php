@@ -57,12 +57,11 @@ $data = json_decode($jsonString, true); // The second parameter true is used to 
 
 		$sheet->setCellValue('G'.$currentcontent ,$item['cap']);
 		$sheet->setCellValue('H'.$currentcontent ,date("d-m-Y",strtotime($item['ketthuc'])));
-		$sheet->setCellValue('I'.$currentcontent ,1);
-		$sheet->setCellValue('J'.$currentcontent ,$item['vitri']);
+		$sheet->setCellValue('I'.$currentcontent ,$item['vitri']);
 		
-		$sheet->setCellValue('K'.$currentcontent ,$item['soluong']);
-		$sheet->setCellValue('L'.$currentcontent ,1);
-		$sheet->setCellValue('M'.$currentcontent ,$item['quydoi']);
+		$sheet->setCellValue('J'.$currentcontent ,$item['soluong']);
+		$sheet->setCellValue('K'.$currentcontent ,$item['tinchi']);
+		$sheet->setCellValue('L'.$currentcontent ,$item['quydoi']);
 
 
 		++$currentcontent;

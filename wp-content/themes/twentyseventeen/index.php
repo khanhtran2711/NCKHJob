@@ -33,7 +33,7 @@ get_header(); ?>
 	</script>";
 	}
 	//narrow down your query with $args
-$args = array('post_type'=>'page', 'tag'=>$tag, 'posts_per_page'=>9,'orderby' => 'menu_order','order'=>"ASC");
+$args = array('post_type'=>'page', 'tag'=>$tag, 'posts_per_page'=>15,'orderby' => 'menu_order','order'=>"ASC");
 
 // The Query
 $the_query = new WP_Query( $args );

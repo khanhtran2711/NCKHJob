@@ -35,7 +35,7 @@ $pagename = '/congtrinhchitiet/';
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
-echo "<th>Tên công trình NCKH</th><th>Thời gian hoàn thành</th><th>Tên Tạp chí/kỷ yếu/NXB</th><th>Trạng thái</th><th>Xem chi tiết</th>";
+echo "<th>Tên công trình NCKH</th><th>Thời gian hoàn thành</th><th>Tên Tạp chí/kỷ yếu/NXB</th><th>Trạng thái</th><th>Xem chi tiết</th><th>Xóa</th>";
 echo "</thead>";
 while ($row = $re->fetch_assoc()) {
 		echo "<tr>";
@@ -44,6 +44,9 @@ while ($row = $re->fetch_assoc()) {
 		echo "<td>" . $row['ten_tc_ky_nxb'] . "</td>";
 		echo "<td>" . (($row['trangthai']==0)?'Chưa duyệt':'Đã duyệt') . "</td>";
 		echo '<td><a class="btn btn-info" href="'.home_url($pagename).'?id=' . $row["ma_ctr"] . '">Xem</a></td>';
+		echo '<td><form method="POST" action="'.$mystufflink.'congtrinh/delete.php?id=' . $row['ma_ctr'] . '" onsubmit="return confirmDesactiv()">
+				<input type="submit" class="btn btn-danger" value="Xóa">
+		</form></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
 		echo "</tr>";
 		echo "</tbody>";

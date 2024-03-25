@@ -1,5 +1,5 @@
 <?php
-include 'my-stuff/loaigtr/config.php';
+include 'my-stuff/cap_detai/config.php';
 /**
  * The template for displaying all pages
  *
@@ -14,7 +14,7 @@ include 'my-stuff/loaigtr/config.php';
  * @subpackage Twenty_Seventeen
  * @since Twenty Seventeen 1.0
  * @version 1.0
- * Template name: Loaigtr management Page
+ * Template name: Khoa management Page
  */
 
 get_header(); ?>
@@ -25,26 +25,17 @@ get_header(); ?>
         <main id="main" class="site-main">
             
             <div class="container">
-            
-                <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="loaigtr">
+                
+                <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="capdetai">
                     <div class="form-body">
                         <div class="row">
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="ten_gtr" name="ten_gtr" type="text" placeholder="Tên loại giảm trừ" data-sb-validations="required" />
-                                <label for="ten_gtr">Tên giảm trừ</label>
-                                <div class="invalid-feedback" data-sb-feedback="ten_loaigt:required">Tên giảm trừ is required.</div>
+                                <input class="form-control" id="ten_khoa" name="ten_khoa" type="text" placeholder="Tên khoa" data-sb-validations="required" />
+                                <label for="tenCấpDềTai">Tên khoa/ phòng ban</label>
+                                <div class="invalid-feedback" data-sb-feedback="tenCấpDềTai:required">Tên khoa is required.</div>
                             </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="mucgiam" name="mucgiam" type="text" placeholder="Giờ chuẩn" data-sb-validations="required" />
-                                <label for="mucgiam">Mức giảm (số lẻ)</label>
-                                <div class="invalid-feedback" data-sb-feedback="heso_loaigt:required">Mức giảm is required.</div>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="thoigian_apdung" name="thoigian_apdung" type="date" placeholder="Thời gian áp dụng" data-sb-validations="required" value="<?=date('Y-m-d')?>"/>
-                                <label for="thoigian_apdung">Thời gian áp dụng</label>
-                                <div class="invalid-feedback" data-sb-feedback="thờiGianApDụng:required">Thời gian áp dụng is required.</div>
-                            </div>
-                          
+                            
+                            <!-- <input type="hidden" id="user_id" class="form-control" name="time_mins" value="<?= get_current_user_id(); ?>"> -->
 
                             <div class="col-12 d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn">Lưu</button>
@@ -53,7 +44,7 @@ get_header(); ?>
                     </div>
                 </form>
                 <div class="container mt-3">
-                    <h2>Danh sách các loại giảm trừ</h2>
+                    <h2>Danh sách các khoa và phòng ban</h2>
                     <p><?=get_the_content()?></p>
                     <table class="table table-striped" id="records">
 
@@ -78,7 +69,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     const array = window.location.pathname.split('/');
     const lastsegment = array[array.length-2];
 
-    $("#loaigtr").on("submit", function(event) {
+    $("#capdetai").on("submit", function(event) {
         
         callCreate();
     });
@@ -93,12 +84,11 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     function callCreate() {
         let urlc = "http://"+localURL+"/my-stuff/"+lastsegment+"/create.php";
         $.post(urlc, {
-            ten_gtr: $('#ten_gtr').val(),
-                mucgiam: $('#mucgiam').val(),
-                thoigian_apdung:$('#thoigian_apdung').val()
+            ten_khoa: $('#ten_khoa').val()
             },
             function(data, status) {
-                console.log(data);
+                const alertmess = '<div class="auto-close alert alert-success" role="alert"> Đã thêm thành công</div>'
+                // document.getElementById("mess").innerHTML = alertmess;
             });
     }
 

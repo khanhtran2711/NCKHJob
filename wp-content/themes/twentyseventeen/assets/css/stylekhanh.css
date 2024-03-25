@@ -36,6 +36,9 @@ body{
   .items:nth-child(odd) .card{
     background-color: #dff4ff;
   }
+  .itemscb:nth-child(3n+1) .card{
+    background-color: #dff4ff;
+  }
 
   a{
       color: black;

@@ -25,14 +25,14 @@ $sql4= "SELECT namhoc FROM `NamHoc` WHERE ma_nh = $a ";
 
 	error_log('sql = ' . $sql1);
 
-$sql3 = "SELECT ctk.ma_ctr,cb.ma_cb, cb.user_id, max(cbcd.id),cd.ten_cd, ctk.ten_ctr, ctk.thoigian_hoanthanh, cd.dinhmuc, ctk.ten_tc_ky_nxb ,lsl.giatri_sl, khoa.ten_khoa , lctk.ten_loai , ctk.sluong_thamgia, cbct.ten_loaivt FROM `CongTrinh_Khac` ctk INNER JOIN `CanBo_Ctr` cbct on ctk.ma_ctr=cbct.ma_ctr INNER JOIN `Canbo` cb on cb.ma_cb=cbct.ma_cb INNER JOIN `CanBo_ChucDanh` cbcd on cbcd.ma_cb=cb.ma_cb INNER JOIN `NamHoc` nh on ctk.ma_nh = nh.ma_nh INNER JOIN `ChucDanh` cd on cd.ma_cd=cbcd.ma_cd INNER JOIN `LoaiSL_TC` lsl ON lsl.ma_loaisl=ctk.ma_loaisltc INNER JOIN `LoaiCongTrinh_Khac` lctk ON lctk.ma_loai=lsl.ma_loaict INNER JOIN `Khoa_PB` khoa on khoa.ma_khoa = cb.ma_khoa WHERE nh.ma_nh = $a and ctk.trangthai = 1 GROUP by ctk.ma_ctr,cb.ma_cb, cb.user_id;";
+$sql3 = "SELECT ctk.ma_ctr,cb.ma_cb, cb.user_id, max(cbcd.id),cd.ten_cd, ctk.ten_ctr, ctk.thoigian_hoanthanh, cd.dinhmuc, ctk.ten_tc_ky_nxb ,lsl.giatri_sl, khoa.ten_khoa , lctk.ten_loai , ctk.sluong_thamgia, cbct.ten_loaivt,sotinchi FROM `CongTrinh_Khac` ctk INNER JOIN `CanBo_Ctr` cbct on ctk.ma_ctr=cbct.ma_ctr INNER JOIN `Canbo` cb on cb.ma_cb=cbct.ma_cb INNER JOIN `CanBo_ChucDanh` cbcd on cbcd.ma_cb=cb.ma_cb INNER JOIN `NamHoc` nh on ctk.ma_nh = nh.ma_nh INNER JOIN `ChucDanh` cd on cd.ma_cd=cbcd.ma_cd INNER JOIN `LoaiSL_TC` lsl ON lsl.ma_loaisl=ctk.ma_loaisltc INNER JOIN `LoaiCongTrinh_Khac` lctk ON lctk.ma_loai=lsl.ma_loaict INNER JOIN `Khoa_PB` khoa on khoa.ma_khoa = cb.ma_khoa WHERE nh.ma_nh = $a and ctk.trangthai = 1 GROUP by ctk.ma_ctr,cb.ma_cb, cb.user_id;";
 $re3 = $conn->query($sql3);
 
 	error_log('sql = ' . $sql3);
 	// webpage form starts here
 	echo "<tbody>";
 	echo "<thead>";
-	echo "<th>Họ tên</th><th>Khoa</th><th>Tên đề tài NCKH</th><th>Loại công trình</th><th>Cấp đề tài/Tên Tạp chí/Tên Kỷ yếu-Tên NXB</th><th>Kết thúc</th><th>Số lượng</th><th>Vị trí</th><th>Số lượng quy đổi</th>";
+	echo "<th>Họ tên</th><th>Khoa</th><th>Tên đề tài/Tên công trình/Giải thưởng</th><th>Loại công trình</th><th>Cấp đề tài/Tên Tạp chí/Tên Kỷ yếu-Tên NXB</th><th>Kết thúc</th><th>Số người tham gia</th><th>Vị trí tham gia</th><th>Số tín chỉ</th><th>Số giờ quy đổi công trình</th>";
 	echo "</thead>";
 	while ($row = $re->fetch_assoc()) {
         $user = new WP_User($row['user_id']);
@@ -47,9 +47,8 @@ $re3 = $conn->query($sql3);
 			$c->setKetthuc($row['nam_kethuc']);
 			$c->setSoluong($row['sluong_thamgia']);
 			$c->setVitri($row['ten_loaivt']);
+			$c->setTinchi(1);
 			
-			
-			array_push($listtonghop,$c);
 		echo "<tr>";
         echo "<td>" . $user->last_name." ".$user->first_name . "</td>";
         echo "<td>" . $row['ten_khoa'] . "</td>";
@@ -59,6 +58,7 @@ $re3 = $conn->query($sql3);
 		echo "<td>" . $row['nam_kethuc'] . "</td>";
 		echo "<td>" . $row['sluong_thamgia'] . "</td>";
 		echo "<td>" . $row['ten_loaivt'] . "</td>";
+		echo "<td>1</td>";
         $giotong = $row['giochuan'];
         $sogioquydoi = 0;
         if($row['ten_loaivt']=='TV chính')
@@ -66,9 +66,11 @@ $re3 = $conn->query($sql3);
         else{
             $sogioquydoi = ($giotong*(2/3))/($row['sluong_thamgia']);
         }
-        echo "<td>".number_format($sogioquydoi,2)."</td>";
-		$c->setQuydoi(number_format($sogioquydoi,2));
+        echo "<td>".number_format($sogioquydoi,1)."</td>";
+		$c->setQuydoi(number_format($sogioquydoi,1));
 		$c->setNamhoc($namhoc);
+
+		array_push($listtonghop,$c);
 		// echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
 		echo "</tr>";
@@ -84,6 +86,7 @@ $re3 = $conn->query($sql3);
 		echo "<td>" . $row['thoigiannhan'] . "</td>";
 		echo "<td></td>";
 		echo "<td></td>";
+		echo "<td>1</td>";
         echo "<td>".$row['heso_loaigt']."</td>";
 		$c = new Chitiet();
 			$c->setMacb($row['ma_cb']);
@@ -95,7 +98,9 @@ $re3 = $conn->query($sql3);
 			$c->setCap($row['ten_loaigt']);
 			$c->setKetthuc($row['thoigiannhan']);
 			$c->setQuydoi($row['heso_loaigt']);
+
 		$c->setNamhoc($namhoc);
+		$c->setTinchi(1);
 		array_push($listtonghop,$c);
 		// echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
@@ -114,13 +119,15 @@ $re3 = $conn->query($sql3);
         echo "<td>" . $row['sluong_thamgia'] . "</td>";
 		echo "<td>" . $row['ten_loaivt'] . "</td>";
 		$giotong = $row['giatri_sl'];
+		$sotinchi = $row['sotinchi'];
+		echo "<td>$sotinchi</td>";
         $sogioquydoi = 0;
         if($row['ten_loaivt']=='TV chính')
-            $sogioquydoi = $giotong/3 + ($giotong*(2/3))/($row['sluong_thamgia']);
+            $sogioquydoi = ($giotong/3*$sotinchi) + ($giotong*(2/3)*$sotinchi)/($row['sluong_thamgia']);
         else{
-            $sogioquydoi = ($giotong*(2/3))/($row['sluong_thamgia']);
+            $sogioquydoi = ($giotong*(2/3)*$sotinchi)/($row['sluong_thamgia']);
         }
-        echo "<td>".number_format($sogioquydoi,2)."</td>";
+        echo "<td>".number_format($sogioquydoi,1)."</td>";
 		$c = new Chitiet();
 			$c->setMacb($row['ma_cb']);
 			$c->setUserid($row['user_id']);
@@ -130,7 +137,10 @@ $re3 = $conn->query($sql3);
 			$c->setLoaict($row['ten_loai']);
 			$c->setCap($row['ten_tc_ky_nxb']);
 			$c->setKetthuc($row['thoigian_hoanthanh']);
-			$c->setQuydoi(number_format($sogioquydoi,2));
+			$c->setQuydoi(number_format($sogioquydoi,1));
+			$c->setTinchi($sotinchi);
+			$c->setVitri($row['ten_loaivt']);
+			$c->setSoluong($row['sluong_thamgia'] );
 		$c->setNamhoc($namhoc);
 		array_push($listtonghop,$c);
 		// echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';

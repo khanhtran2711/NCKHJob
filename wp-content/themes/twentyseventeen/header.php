@@ -35,7 +35,8 @@
 
 <body <?php body_class(); ?>>
 	 		
-<?php if ( is_user_logged_in() ) { ?>
+<?php if ( is_user_logged_in() ) {
+	$home = home_url("/index.php"); ?>
 	<style>
 	body {
 		margin: 0;
@@ -44,7 +45,7 @@
 </style>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container">
-			<a class="navbar-brand" href="index.php">
+			<a class="navbar-brand" href="<?=$home?>">
 				<img src="https://blu.edu.vn/assets/img/logo.png" alt="">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

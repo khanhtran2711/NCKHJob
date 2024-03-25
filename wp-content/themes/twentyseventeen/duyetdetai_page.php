@@ -17,7 +17,6 @@ include 'mydbfile.php';
  * @version 1.0
  * Template name: DuyetDeTai form Page
  */
-
 get_header(); ?>
 
 <div class="wrap">
@@ -73,7 +72,10 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = "detainckh";
-
+    function confirmDesactiv()
+    {
+    return confirm("bạn có muốn xóa không?")
+    }
     $(document).ready(function() {
 
         read();

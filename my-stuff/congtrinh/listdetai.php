@@ -7,7 +7,7 @@ include '../../wp-load.php';
 include 'config.php';
 
 
-$sql = "SELECT * FROM `$tablename`";
+$sql = "SELECT * FROM `$tablename` where trangthai = 0";
 
 $re = $conn->query($sql);
 

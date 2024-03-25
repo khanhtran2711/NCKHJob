@@ -47,12 +47,12 @@ get_header(); ?>
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="nam_batdau" type="Date" placeholder="Năm bắt đầu" data-sb-validations="required" value="<?=$data[0]['nam_batdau']?>" />
-                        <label for="nam_batdau">Năm bắt đầu</label>
+                        <label for="nam_batdau">Ngày bắt đầu</label>
                         <div class="invalid-feedback" data-sb-feedback="nam_batdau:required">Năm bắt đầu is required.</div>
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="nam_kethuc" type="Date" placeholder="Năm kết thúc" data-sb-validations="required" value="<?=$data[0]['nam_kethuc']?>"/>
-                        <label for="nam_kethuc">Năm kết thúc</label>
+                        <label for="nam_kethuc">Ngày kết thúc</label>
                         <div class="invalid-feedback" data-sb-feedback="nam_kethuc:required">Năm kết thúc is required.</div>
                     </div>
                     <div class="form-floating mb-3">

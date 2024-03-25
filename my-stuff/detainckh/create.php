@@ -1,6 +1,7 @@
 <?php
 include('../../mydbfile.php');
-
+global $wpdb;
+include '../../wp-load.php';
 $a = $_POST['ten_dtnckh'];
 $b = $_POST['nam_batdau'];
 $c = $_POST['nam_kethuc'];
@@ -19,6 +20,8 @@ if ($conn->query($sql) === TRUE) {
     $conn->query($sql2);
     $conn->close();
 }
-echo $id;
+
+echo home_url('/qldetaicanhan/');
+// echo $id;
 
 ?>

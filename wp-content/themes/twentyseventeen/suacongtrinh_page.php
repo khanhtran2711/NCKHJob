@@ -21,7 +21,7 @@ if(!current_user_can('administrator')){
     echo "<script>window.location.href = '".home_url()."';</script>";
 }
 $ma_detai = $_GET['id'];
-$sql = "SELECT `ten_ctr`,`thoigian_hoanthanh`,`ten_tc_ky_nxb`,`sluong_thamgia`,`trangthai`,`minhchung`, loaisl.ten_loaisl, lctr.ten_loai, nh.namhoc FROM `CongTrinh_Khac` ct INNER JOIN `LoaiSL_TC` loaisl on loaisl.ma_loaisl = ct.ma_loaisltc INNER JOIN `LoaiCongTrinh_Khac` lctr on lctr.ma_loai = loaisl.ma_loaict INNER JOIN `NamHoc` nh ON ct.ma_nh = nh.ma_nh WHERE ct.ma_ctr =".$ma_detai;
+$sql = "SELECT `ten_ctr`,`thoigian_hoanthanh`,`ten_tc_ky_nxb`,`sluong_thamgia`,`trangthai`,`minhchung`, loaisl.ma_loaisl, lctr.ma_loai, nh.namhoc FROM `CongTrinh_Khac` ct INNER JOIN `LoaiSL_TC` loaisl on loaisl.ma_loaisl = ct.ma_loaisltc INNER JOIN `LoaiCongTrinh_Khac` lctr on lctr.ma_loai = loaisl.ma_loaict INNER JOIN `NamHoc` nh ON ct.ma_nh = nh.ma_nh WHERE ct.ma_ctr =".$ma_detai;
 
 $re = $conn->query($sql);
 
@@ -72,8 +72,8 @@ get_header(); ?>
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="ten_tc_ky_nxb" name="ten_tc_ky_nxb" type="text" placeholder="Năm bắt đầu" data-sb-validations="required" value="<?=$data[0]['ten_tc_ky_nxb']?>" />
-                        <label for="ten_tc_ky_nxb">Tên tạp chí/kỹ yếu/ NXB</label>
-                        <div class="invalid-feedback" data-sb-feedback="ten_tc_ky_nxb:required">Tên tạp chí/kỹ yếu/ NXB is required.</div>
+                        <label for="ten_tc_ky_nxb">Tên tạp chí/kỷ yếu/ NXB</label>
+                        <div class="invalid-feedback" data-sb-feedback="ten_tc_ky_nxb:required">Tên tạp chí/kỷ yếu/ NXB is required.</div>
                     </div>
                     
                     <div class="form-floating mb-3">
@@ -94,7 +94,7 @@ get_header(); ?>
                                 $re = $conn->query($sql);
                                 while ($row = $re->fetch_assoc()):
                             ?>
-                                <option value="<?=$row['ma_loai']?>" <?=$data[0]['ten_loai']==$row['ten_loai']?'selected':''?>><?=$row['ten_loai']?></option>
+                                <option value="<?=$row['ma_loai']?>" <?=$data[0]['ma_loai']==$row['ma_loai']?'selected':''?>><?=$row['ten_loai']?></option>
                             <?php
                                 endwhile;
                             ?>
@@ -104,18 +104,25 @@ get_header(); ?>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_loaisltc" name="ma_loaisltc" aria-label="ma_loaisltc">
                         <?php
-                                $sql12 = "SELECT * FROM `LoaiSL_TC`";
+                        $dd = $data[0]['ma_loai'];
+                                $sql12 = "SELECT * FROM `LoaiSL_TC` WHERE `ma_loaict` = $dd and (YEAR(`thoigian_apdung`) = YEAR(NOW()) or thoigian_apdung >= DATE(str_to_date( concat( year( curdate( ) )-1 , '-', 9 , '-', 1 ) , '%Y-%m-%d' )));";
 
                                 $re12 = $conn->query($sql12);
                                 while ($row = $re12->fetch_assoc()):
+                                    
                             ?>
-                                <option value="<?=$row['ma_loaisl']?>" <?=$data[0]['ten_loaisl']==$row['ten_loaisl']?'selected':''?>><?=$row['ten_loaisl']?></option>
+                                <option value="<?=$row['ma_loaisl']?>" <?=$data[0]['ma_loaisl']==$row['ma_loaisl']?'selected':''?>><?=$row['ten_loaisl']?></option>
                             <?php
                                 endwhile;
                             ?>
                         </select>
                         <label for="ma_loaisltc">Loại tên đơn vị tính/ mức điểm/giờ chuẩn</label>
                     </div>
+                    <div class="form-floating mb-3">
+                                <input class="form-control" id="sotinchi" type="text" placeholder="Số tín chỉ" data-sb-validations="required" value="1"/>
+                                <label for="sotinchi">Số tín chỉ</label>
+                                <div class="invalid-feedback" data-sb-feedback="sotinchi:required">Số tín chỉ is required.</div>
+                            </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_nh" name="ma_nh" aria-label="Năm học">
                         <?php
@@ -167,14 +174,21 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             readLoaiSL( this.value );
         });
     $(document).ready(function() {
-        const mact = $("#ma_loaict").val();
-        readLoaiSL(mact);
+        // const mact = $("#ma_loaict").val();
+        // readLoaiSL(mact);
     });
 
         function readLoaiSL(param){
               const url = getReadUrlSL(param);
                 $.get(url, function(data) {
                     document.getElementById("ma_loaisltc").innerHTML = data;
+                    const ct = $('#ma_loaisltc option:selected').text();
+                    let a = "Tín chỉ";
+                    if(ct.toLowerCase()=== a.toLowerCase()){
+                        $("#sotinchi").prop("readonly",false);
+                    }else{
+                        $("#sotinchi").prop("readonly",true);
+                    }
                 });   
         }
         function getReadUrlSL(param){

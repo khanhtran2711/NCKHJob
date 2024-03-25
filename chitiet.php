@@ -13,6 +13,8 @@ class Chitiet{
     public $quydoi;  
     public $namhoc;
 
+    public $tinchi;
+
     function __construct() {
         $this->vitri = "";
         $this->soluong = "";
@@ -237,6 +239,26 @@ class Chitiet{
     public function setKhoa($khoa)
     {
         $this->khoa = $khoa;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of tinchi
+     */ 
+    public function getTinchi()
+    {
+        return $this->tinchi;
+    }
+
+    /**
+     * Set the value of tinchi
+     *
+     * @return  self
+     */ 
+    public function setTinchi($tinchi)
+    {
+        $this->tinchi = $tinchi;
 
         return $this;
     }

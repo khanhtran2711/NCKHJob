@@ -51,8 +51,8 @@ get_header(); ?>
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="ten_tc_ky_nxb" type="text" placeholder="Năm bắt đầu" data-sb-validations="required" />
-                        <label for="ten_tc_ky_nxb">Tên tạp chí/kỹ yếu/ NXB</label>
-                        <div class="invalid-feedback" data-sb-feedback="ten_tc_ky_nxb:required">Tên tạp chí/kỹ yếu/ NXB is required.</div>
+                        <label for="ten_tc_ky_nxb">Tên tạp chí/kỷ yếu/ NXB</label>
+                        <div class="invalid-feedback" data-sb-feedback="ten_tc_ky_nxb:required">Tên tạp chí/kỷ yếu/ NXB is required.</div>
                     </div>
                     
                     <div class="form-floating mb-3">
@@ -84,8 +84,13 @@ get_header(); ?>
                         <select class="form-select" id="ma_loaisltc" aria-label="ma_loaisltc">
                             
                         </select>
-                        <label for="ma_loaisltc">Loại tên đơn vị tính/ mức điểm/giờ chuẩn</label>
+                        <label for="ma_loaisltc">Loại đơn vị tính/ mức điểm/giờ chuẩn</label>
                     </div>
+                    <div class="form-floating mb-3">
+                                <input class="form-control" id="sotinchi" type="text" placeholder="Số tín chỉ" data-sb-validations="required" value="1"/>
+                                <label for="sotinchi">Số tín chỉ</label>
+                                <div class="invalid-feedback" data-sb-feedback="sotinchi:required">Số tín chỉ is required.</div>
+                            </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_nh" aria-label="Năm học">
                         <?php
@@ -104,7 +109,7 @@ get_header(); ?>
                     </div>
                     <input type="hidden" id="user_id" class="form-control" name="time_mins" value="<?= $macb ?>">
                     <div class="col-12 d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn" id="btnSubmit">Submit</button>
+                                <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn" id="btnSubmit">Lưu</button>
                             </div>
                         </div>
                     </div>
@@ -142,17 +147,35 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     });
     $('#ma_loaict').on('change', function() {
             readLoaiSL( this.value );
-        });
+            
+    });
+    $('#ma_loaisltc').on('change', function() {
+        const ct = $('#ma_loaisltc option:selected').text();
+            console.log(ct);
+    });
+    $(document).ready(function() {
+
+        readLoaiSL( $('#ma_loaict').val());
+        $("#sotinchi").prop("readonly",false);
+    });
 
         function readLoaiSL(param){
               const url = getReadUrlSL(param);
                 $.get(url, function(data) {
                     document.getElementById("ma_loaisltc").innerHTML = data;
+                    const ct = $('#ma_loaisltc option:selected').text();
+                    let a = "Tín chỉ";
+                    if(ct.toLowerCase()=== a.toLowerCase()){
+                        $("#sotinchi").prop("readonly",false);
+                    }else{
+                        $("#sotinchi").prop("readonly",true);
+                    }
+                    //  console.log(ct);
                 });   
         }
         function getReadUrlSL(param){
             let urlr = "http://" + localURL + "/my-stuff/listofloaisltc.php?id=" + param;
-            console.log(urlr);
+            // console.log(urlr);
             return urlr;
         }
     $("#sluong_thamgia").on("click",function(event){
@@ -190,12 +213,13 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             ma_loaisltc: $('#ma_loaisltc').val(),
             ma_nh: $('#ma_nh').val(),
             minhchung: $('#minhchung').val(),
+            sotinchi: $('#sotinchi').val(),
             user_id:$("#user_id").val()
             },
             function(data, status) {
-                
-                const alertmess = '<div class="auto-close alert alert-success" role="alert"> Mã công trình là: '+data+'</div>';
-                document.getElementById("mess").innerHTML =alertmess;
+                window.location.href = data;
+                // const alertmess = '<div class="auto-close alert alert-success" role="alert"> Mã công trình là: '+data+'</div>';
+                // document.getElementById("mess").innerHTML =alertmess;
                 
             });
     }

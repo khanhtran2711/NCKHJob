@@ -98,7 +98,10 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             document.getElementById("records").innerHTML = data;
         });
     }
-
+    function confirmDesactiv()
+    {
+    return confirm("bạn có muốn xóa không?")
+    }
 
     function read() {
         const url = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-admin.php";

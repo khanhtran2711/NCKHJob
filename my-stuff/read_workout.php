@@ -28,7 +28,7 @@ while ($row = $re->fetch_assoc()) {
 			echo '<tr><td><input type="date" name="workout_date" value="' . $row['workout_date'] . '"></td>';
 			echo '<td><input type="text" name="activity" value="' . $row['activity'] . '"></td>';
 			echo '<td><input type="text" name="time_mins" value="' . $row['time_mins'] . '"></td>';
-			echo '<td><input type="hidden" name="user_id" value="' . $row['user_id'] . '"><input type="submit" value="Save"></td>';
+			echo '<td><input type="hidden" name="user_id" value="' . $row['user_id'] . '"><input type="submit"  value="Lưu" class="btn btn-primary"></td>';
 			echo '<td><input type="hidden" name="id" value="' . $row['id'] . '"></td></tr>';
 			echo '</form>';
 			echo '</td></td>';

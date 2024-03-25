@@ -16,8 +16,14 @@ $list = array();
 	$rows = $re->num_rows;
  
 	if($rows > 0){
+		$i=1;
 		while($fetch = $re->fetch_assoc()){
-			echo "<option value='".$fetch['ma_loaisl']."'>".$fetch['ten_loaisl']."</option>";
+			if($i==1)
+				echo "<option selected value='".$fetch['ma_loaisl']."'>".$fetch['ten_loaisl']."</option>";
+			else{
+				echo "<option value='".$fetch['ma_loaisl']."'>".$fetch['ten_loaisl']."</option>";
+			}
+			$i++;
 		}
 	}
     

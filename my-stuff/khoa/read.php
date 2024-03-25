@@ -23,7 +23,7 @@ while ($row = $re->fetch_assoc()) {
 			echo '<table>';
 			echo '<tr><td><input class="form-control" id="ten_khoa" name="ten_khoa" type="text" value="' . $row['ten_khoa'] . '"></td>';
 			
-			echo '<td><input type="hidden" name="ma_khoa" value="' . $row['ma_khoa'] . '"><input type="submit" value="Save"></td>';
+			echo '<td><input type="hidden" name="ma_khoa" value="' . $row['ma_khoa'] . '"><input type="submit"  value="Lưu" class="btn btn-primary"></td>';
 			echo '</tr>';
 			echo '</form>';
 			echo '</td></td>';

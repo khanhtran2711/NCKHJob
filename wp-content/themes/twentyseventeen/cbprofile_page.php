@@ -85,7 +85,7 @@ get_header();
                                     <label for="ma_khoa">Khoa/phòng ban hiện tại</label>
                                 </div>
                                 <div class="col-12 d-flex justify-content-end mt-3">
-                                    <button type="submit" class="btn btn-success  me-1 mb-1" name="cbprofilebtn">Submit</button>
+                                    <button type="submit" class="btn btn-success  me-1 mb-1" name="cbprofilebtn">Lưu</button>
                                 </div>
                         </div>
                     <?php } else {
@@ -94,7 +94,7 @@ get_header();
                     ?>
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-4 pe-2 py-2 items">
+                                <div class="col-md-6 pe-2 py-2 itemscb">
                                     <div class="card">
                                         <div class="card-body d-flex justify-content-center align-items-center ">
                                             <a href="<?= home_url('/doichucdanh/') ?>" class="text-decoration-none">
@@ -103,7 +103,7 @@ get_header();
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 pe-2 py-2 items">
+                                <div class="col-md-6 pe-2 py-2 itemscb">
                                     <div class="card">
                                         <div class="card-body d-flex justify-content-center align-items-center ">
                                             <a href="<?= home_url('/doikhoa/') ?>" class="text-decoration-none">
@@ -112,7 +112,16 @@ get_header();
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 pe-2 py-2 items">
+                                <div class="col-md-6 pe-2 py-2 itemscb">
+                                    <div class="card">
+                                        <div class="card-body d-flex justify-content-center align-items-center ">
+                                            <a href="<?= home_url('/doigiamtru/') ?>" class="text-decoration-none">
+                                                <h5 class="card-title text-center">Thay đổi giảm trừ</h5>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pe-2 py-2 itemscb">
                                     <div class="card">
                                         <div class="card-body d-flex justify-content-center align-items-center ">
                                             <a href="<?= admin_url( 'profile.php') ?>" class="text-decoration-none">
@@ -173,19 +182,19 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     function callCreate() {
         let urlc = "http://" + localURL + "/my-stuff/" + lastsegment + "/create.php";
         let dataf = {};
-        if ($('#elementId').length > 0) {
+        // if ($('#elementId').length > 0) {
 
             dataf = {
                 ma_cd: $('#ma_cd').val(),
                 ma_khoa: $('#ma_khoa').val(),
                 ma_cb: $("#user_id").val()
             };
-        } else {
-            dataf = {
-                ma_cd: $('#ma_cd').val(),
-                ma_cb: $("#user_id").val()
-            }
-        }
+        // } else {
+        //     dataf = {
+        //         ma_cd: $('#ma_cd').val(),
+        //         ma_cb: $("#user_id").val()
+        //     }
+        // }
         $.post(urlc, dataf,
             function(data, status) {
                 // console.log(data);

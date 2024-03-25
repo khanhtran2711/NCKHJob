@@ -37,8 +37,8 @@ get_header(); ?>
                             </div>
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="giatri_sl" name="giatri_sl" type="text" placeholder="Giá trị" data-sb-validations="required" />
-                                <label for="giatri_sl">Giá trị (1)</label>
-                                <div class="invalid-feedback" data-sb-feedback="giatri_sl:required">Giá trị is required.</div>
+                                <label for="giatri_sl">Giờ chuẩn</label>
+                                <div class="invalid-feedback" data-sb-feedback="giatri_sl:required">Giờ chuẩn is required.</div>
                             </div>
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="thoigian_apdung" name="thoigian_apdung" type="date" placeholder="Thời gian áp dụng" data-sb-validations="required" value="<?=date('Y-m-d')?>"/>
@@ -63,13 +63,12 @@ get_header(); ?>
                           
 
                             <div class="col-12 d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn">Submit</button>
+                                <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn">Lưu</button>
                             </div>
                         </div>
                     </div>
                 </form>
                 <div class="container mt-3">
-                    <h2>Danh sách các loại giải thưởng</h2>
                     <p><?=get_the_content()?></p>
                     <table class="table table-striped" id="records">
 

@@ -47,7 +47,7 @@ get_header(); ?>
                             <!-- <input type="hidden" id="user_id" class="form-control" name="time_mins" value="<?= get_current_user_id(); ?>"> -->
 
                             <div class="col-12 d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn">Submit</button>
+                                <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn">Lưu</button>
                             </div>
                         </div>
                     </div>

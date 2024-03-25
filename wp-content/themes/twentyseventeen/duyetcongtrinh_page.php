@@ -68,7 +68,10 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = "congtrinh";
-
+    function confirmDesactiv()
+    {
+    return confirm("bạn có muốn xóa không?")
+    }
     $(document).ready(function() {
 
         read();

@@ -97,7 +97,7 @@ get_header(); ?>
                     </div>
                     <input type="hidden" id="user_id" class="form-control" name="time_mins" value="<?= $macb ?>">
                     <div class="col-12 d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn" id="btnSubmit">Submit</button>
+                                <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn" id="btnSubmit">Lưu</button>
                             </div>
                         </div>
                     </div>
@@ -162,10 +162,9 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             user_id:$("#user_id").val()
             },
             function(data, status) {
-                
-                const alertmess = '<div class="auto-close alert alert-success" role="alert"> Mã đề tài là: '+data+'</div>';
-                document.getElementById("mess").innerHTML =alertmess;
-                
+                // console.log(data);
+                window.location.href = data;
+
             });
     }
 

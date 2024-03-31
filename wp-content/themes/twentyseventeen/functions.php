@@ -458,8 +458,9 @@ function twentyseventeen_scripts() {
 	wp_enqueue_style( 'twentyseventeen-block-style', get_theme_file_uri( '/assets/css/blocks.css' ), array( 'twentyseventeen-style' ), '20220912' );
 
 	//Made by Khanh
-	wp_enqueue_style( 'twentyseventeen-bs5-style', get_theme_file_uri( '/assets/css/bootstrap.min.css' ), array(),'5.2.3' );
+	// wp_enqueue_style( 'twentyseventeen-bs5-style', get_theme_file_uri( '/assets/css/bootstrap.min.css' ), array(),'5.2.3' );
 	wp_enqueue_style( 'twentyseventeen-own-style', get_theme_file_uri( '/assets/css/stylekhanh.css' ), array(),'1' );
+	wp_enqueue_style( 'twentyseventeen-app-style', get_theme_file_uri( '/assets/css/app.css' ), array(),'3.3.0' );
 
 	// Load the dark colorscheme.
 	if ( 'dark' === get_theme_mod( 'colorscheme', 'light' ) || is_customize_preview() ) {

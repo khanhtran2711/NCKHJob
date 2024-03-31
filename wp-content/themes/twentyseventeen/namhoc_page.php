@@ -1,5 +1,7 @@
 <?php
 include 'my-stuff/namhoc/config.php';
+global $wpdb;
+include 'wp-load.php';
 /**
  * The template for displaying all pages
  *
@@ -25,6 +27,7 @@ get_header(); ?>
         <main id="main" class="site-main">
             
             <div class="container">
+            <h2 class="mt-3"><?=get_the_title() ?></h2>
                 <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="namhocfr">
                     <div class="form-body">
                         <div class="row">
@@ -37,6 +40,10 @@ get_header(); ?>
 
                             <div class="col-12 d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn">Lưu</button>
+                                <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
                             </div>
                         </div>
                     </div>
@@ -62,7 +69,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 <script>
     const currentUrl = window.location.hostname;
     const folder = "NCKH";
-    let localURL =currentUrl+'/'+folder;
+    let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = array[array.length-2];
@@ -80,7 +87,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     });
 
     function callCreate() {
-        let urlc = "http://"+localURL+"/my-stuff/"+lastsegment+"/create.php";
+        let urlc = localURL+"/my-stuff/"+lastsegment+"/create.php";
         $.post(urlc, {
             namhoc: $('#namhoc').val()
             },
@@ -92,7 +99,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 
     function getReadUrl() {
         const params = new URLSearchParams(window.location.search);
-        let urlr = "http://"+localURL+"/my-stuff/"+lastsegment+"/read.php";
+        let urlr = localURL+"/my-stuff/"+lastsegment+"/read.php";
 
         if (params.has('id')) {
             urlr += "?id=" + params.get('id');

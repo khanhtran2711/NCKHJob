@@ -27,7 +27,7 @@ get_header(); ?>
         <main id="main" class="site-main">
             
             <div class="container">
-                
+                <h2 class="mt-3"><?=get_the_title() ?></h2>
                 <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="capdetai">
                     <div class="form-body">
                         <div class="row">
@@ -78,7 +78,6 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 <script src="<?= $jquery ?>"></script>
 <script>
     const currentUrl = window.location.hostname;
-    const folder = "NCKH";
     let localURL = $("#homeurl").val();
     // let localURL =currentUrl+'/'+folder;
     let path = window.location.pathname.split('/').pop();

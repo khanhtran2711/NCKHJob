@@ -2,6 +2,9 @@ body{
     font-family: 'Nunito', sans-serif;
     padding: 50px;
   }
+  .form-floating label{
+  	font-family: system-ui;
+}
   .card{
       border-radius: 4px;
       /* background: #fff; */

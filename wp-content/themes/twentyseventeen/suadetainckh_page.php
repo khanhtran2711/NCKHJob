@@ -1,6 +1,8 @@
 <?php
 include 'my-stuff/detainckh/config.php';
 include 'mydbfile.php';
+global $wpdb;
+include 'wp-load.php';
 /**
  * The template for displaying all pages
  *
@@ -99,6 +101,10 @@ get_header(); ?>
                     <input type="hidden" id="ma_dt" class="form-control" name="time_mins" value="<?= $ma_detai ?>">
                     <div class="col-12 d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn">Sửa</button>
+                                <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
                             </div>
                         </div>
                     </div>
@@ -122,8 +128,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 <script src="<?= $jquery ?>"></script>
 <script>
     const currentUrl = window.location.hostname;
-    const folder = "NCKH";
-    let localURL = currentUrl + '/' + folder;
+    let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = "detainckh";
@@ -142,7 +147,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     // });
 
     function callUpdate(id) {
-        let urlc = "http://" + localURL + "/my-stuff/" + lastsegment + "/update.php";
+        let urlc =localURL + "/my-stuff/" + lastsegment + "/update.php";
         $.post(urlc, {
             ten_dtnckh: $('#ten_dtnckh').val(),
             nam_batdau: $('#nam_batdau').val(),

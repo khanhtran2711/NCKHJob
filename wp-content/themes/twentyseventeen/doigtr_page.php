@@ -41,7 +41,7 @@ get_header();
         <main id="main" class="site-main">
             
             <div class="container">
-            
+            <h2 class="mt-3"><?=get_the_title() ?></h2>
                 <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="loaigtr">
                     <div class="form-body">
                         <div class="row">
@@ -92,7 +92,6 @@ get_header();
    
 <?php
 $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
-$url = home_url();
 ?>
 <script src="<?= $jquery ?>"></script>
 <script>

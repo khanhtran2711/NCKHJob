@@ -1,6 +1,7 @@
 <?php
 include 'my-stuff/detainckh/config.php';
 include 'mydbfile.php';
+
 /**
  * The template for displaying all pages
  *
@@ -126,6 +127,7 @@ get_header(); ?>
                             <th>Email</th>
                             <th>Khoa</th>
                             <th>Vị trí</th>
+                            <th>Sửa vị trí</th>
                             <?php
                                if($data[0]['trangthai']==0 || current_user_can('administrator')): 
                             ?>
@@ -141,11 +143,25 @@ get_header(); ?>
                                 echo "<td>" . $row['ten_khoa'] . "</td>";
                                 echo "<td>" . $row['ten_loaivt'] . "</td>";
                                 // echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
+                                ?>
+            <td>
+            <form action="<?=home_url("/doivitri")?>" method="post">
+            <input type="hidden" name="cbdt_id" class="form-control"  value="<?=$ma_detai?>"/>
+            <input type="hidden" class="form-control" name="macb" value="<?=$row['detaicbid']?>"/>
+            <input type="hidden" class="form-control" name="tencb" value="<?=$user->last_name." ".$user->first_name?>"/>
+            <input type="hidden" class="form-control" name="tenvtr" value="<?=$row['ten_loaivt']?>"/>
+            <input type="hidden" class="form-control" name="loainckh" value="detainckh"/>
+            <input type="submit" value="Sửa"  name="editBtn" class="btn btn-secondary">
+            </form>
+
+            </td>
+                                <?php
                                 if($data[0]['trangthai']==0 || current_user_can('administrator')):
                                     
                                     ?>
             <td> <form method="POST">
-             <input type="hidden" name="cbdt_id" class="form-control" name="time_mins" value="<?=$row['detaicbid']?>"/>
+             <input type="hidden" name="cbdt_id" class="form-control"  value="<?=$row['detaicbid']?>"/>
+             
              <input type="submit" value="Xóa" onclick="return confirm('Bạn có chắc là muốn xóa?')" name="delBtn" class="btn btn-danger">
              </form>     </td>                  
                                     <?php

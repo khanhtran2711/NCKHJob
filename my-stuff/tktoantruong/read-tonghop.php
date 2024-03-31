@@ -80,7 +80,7 @@ include '../../nhiemvu.php';
 					$item->setHuongsv(number_format($temp+$row['heso_loaigt']));
 				}
 				else if(str_contains($row['ten_loaigt'], 'đề tài NCKH, sáng tạo kỹ thuật')) {
-					$temp = $item->gets();
+					$temp = $item->getSvnckh();
 					$item->setSvnckh(number_format($temp+$row['heso_loaigt']));
 				}
 				else{

@@ -95,6 +95,19 @@ get_header(); ?>
                         <label for="ma_nh">Năm học</label>
                         
                     </div>
+                    <div class="form-floating mb-3">
+                                <select class="form-select" id="ten_loaivt" name="ten_loaivt" aria-label="Vị trí tham gia">
+                                    <?php
+                                    $list_vt = ['TV Chính', 'TV Tham Gia'];
+                                    foreach ($list_vt as $vt) :
+                                    ?>
+                                        <option value="<?= $vt ?>"><?= $vt ?></option>
+                                    <?php
+                                    endforeach;
+                                    ?>
+                                </select>
+                                <label for="ten_loaivt">Vị trí tham gia trong đề tài</label>
+                            </div>
                     <input type="hidden" id="user_id" class="form-control" name="time_mins" value="<?= $macb ?>">
                     <div class="col-12 d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn" id="btnSubmit">Lưu</button>
@@ -159,6 +172,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             ma_cdt: $('#ma_cdt').val(),
             ma_nh: $('#ma_nh').val(),
             minhchung: $('#minhchung').val(),
+            ten_loaivt: $('#ten_loaivt').val(),
             user_id:$("#user_id").val()
             },
             function(data, status) {

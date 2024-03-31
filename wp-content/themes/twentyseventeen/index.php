@@ -39,11 +39,25 @@ $args = array('post_type'=>'page', 'tag'=>$tag, 'posts_per_page'=>15,'orderby' =
 $the_query = new WP_Query( $args );
   ?>
 	</div>
-	<div class="container">
+				<div class="row">
+						<!-- <div class="col-12 d-flex order-1 order-xxl-1">
+                        <img src="./image/Header-nkch.jpg" style="background-size: cover;height: 333px;margin: 0px;">
+                        </div> -->
+						<div class="col-12 d-flex order-1 order-xxl-1">
+							<img src="https://e1.pxfuel.com/desktop-wallpaper/1003/116/desktop-wallpaper-business-management-on-dog-administration.jpg" alt="">
+						</div>
+
+					</div>
+
+
+
+				</div>
+	
+	<!-- <div class="container">
         <div class="row">
 			<?php
-				while ( $the_query->have_posts() ) :
-					$the_query->the_post();
+				// while ( $the_query->have_posts() ) :
+				// 	$the_query->the_post();
 			?>
             <div class="col-md-4 pe-2 py-2 items">
                 <div class="card">
@@ -54,10 +68,10 @@ $the_query = new WP_Query( $args );
             </div>
 			<?php
 
-				endwhile;
+				// endwhile;
 			?>
         </div>
-    </div>
+    </div> -->
 	<?php //get_sidebar(); ?>
 <!-- </div> -->
 <!-- .wrap -->

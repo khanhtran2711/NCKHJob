@@ -25,6 +25,14 @@ error_log('sql = ' . $cbid);
 $re3 = $conn->query($cbid);
 $data3 = $re3->fetch_all(MYSQLI_ASSOC);
 $macb = $data3[0]['ma_cb'];
+// if(isset($_GET['id'])){
+//     $sql = "SELECT * FROM `CanBo_GiamTru` cb INNER JOIN `NamHoc` nh on cb.ma_nh = nh.ma_nh INNER JOIN `LoaiGiamTru` lgt on cb.ma_gtr=lgt.ma_gtr WHERE  ma_cb = $macb and id=".$_GET['id'];
+//     $re4 = $conn->query($sql);
+// $data4 = $re4->fetch_all(MYSQLI_ASSOC);
+
+
+// error_log('sql = ' . $sql);
+// }
 // if(isset($_POST['doichucdanh'])){
 //     $a = $_POST['ma_cd'];
 //     $sql = "INSERT INTO `CanBo_ChucDanh`(`ma_cb`, `ma_cd`, `thoigiannhan`) VALUES ('$macb','$a',NOW())";
@@ -47,6 +55,7 @@ get_header();
                         <div class="row">
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="ma_gtr" aria-label="Loại giảm trừ">
+                                <option value="0">Chọn loại giảm trừ</option>
                                     <?php
                                         $sql = "SELECT * FROM `LoaiGiamTru`";
 
@@ -61,10 +70,27 @@ get_header();
                                 <label for="ma_cdt">Tên loại giảm trừ</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="thoigiannhan" name="thoigiannhan" type="date" placeholder="Thời gian áp dụng" data-sb-validations="required" value="<?=date('Y-m-d')?>"/>
-                                <label for="thoigiannhan">Thời gian nhận</label>
-                                <div class="invalid-feedback" data-sb-feedback="thờiGianApDụng:required">Thời gian nhận is required.</div>
-                            </div>
+                        <input class="form-control" id="sothang" type="text" placeholder="Số tháng giảm trừ" data-sb-validations="required" />
+                        <label for="sothang">Số tháng giảm trừ</label>
+                        <div class="invalid-feedback" data-sb-feedback="sothang:required">Số tháng giảm trừ is required.</div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="ma_nh" aria-label="Năm học">
+                        <option value="0">Chọn năm học</option>
+                        <?php
+                                $sql = "SELECT * FROM `NamHoc`";
+
+                                $re = $conn->query($sql);
+                                while ($row = $re->fetch_assoc()):
+                            ?>
+                                <option value="<?=$row['ma_nh']?>"><?=$row['namhoc']?></option>
+                            <?php
+                                endwhile;
+                            ?>
+                        </select>
+                        <label for="ma_nh">Năm học</label>
+                        
+                    </div>
                             <?php
                             $url = home_url();
                             ?>
@@ -101,7 +127,10 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     const array = window.location.pathname.split('/');
     const lastsegment = array[array.length - 2];
 
-
+    function confirmDesactiv()
+    {
+    return confirm("bạn có muốn xóa không?")
+    }
     $("#loaigtr").on("submit", function(event) {
         
         callCreate();
@@ -109,8 +138,6 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     $(document).ready(function() {
         let userid = $("#user_id").val();
         read(userid);
-        // let urlc = localURL+"/my-stuff/"+lastsegment+"/create.php";
-        // console.log(urlc);
 
 
     });
@@ -120,7 +147,8 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
         $.post(urlc, {
             ma_gtr: $('#ma_gtr').val(),
                 uid: $('#user_id').val(),
-                thoigiannhan:$('#thoigiannhan').val()
+                sothang: $("#sothang").val(),
+            ma_nh: $("#ma_nh").val()
             },
             function(data, status) {
                 console.log(data);
@@ -129,8 +157,14 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 
     function getReadUrl(uid) {
         const params = new URLSearchParams(window.location.search);
-        let urlr = localURL+"/my-stuff/"+lastsegment+"/read-cb.php?uid="+ uid;
-        
+        let urlr = localURL+"/my-stuff/"+lastsegment+"/read-cb.php";
+        if (params.has('id')) {
+            urlr += "?id=" + params.get('id');
+        }
+        if (params.has('pg')) {
+            urlr += "?pg=" + params.get('pg');
+        }
+
 
         return urlr;
     }

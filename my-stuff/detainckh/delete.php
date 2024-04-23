@@ -6,19 +6,6 @@ include 'config.php';
 ?>
 
 <?php
-// function prompt(){
-//     echo ('<script>
-//     var jsChoose = confirm("are you sure?");
-    
-//     document.getElementById("inputBoolean").value = jsChoose;
-    
-//     document.getElementById("myForm").submit();
-//     </script>');
-// }
-// // $user_now = get_current_user_id();
-// // error_log("current user=".$user_now);
-
-// // error_log("workout id = ".$_GET['id']);
 
 if(isset($_GET['id'])){
     
@@ -34,7 +21,7 @@ if(isset($_GET['id'])){
     $result = $conn->query($sql);
     $conn->close();
 
-    header ("location: ".home_url("/duyetdetai/"));
+    header ("location: ".home_url("/qldetaicanhan/"));
 
 }
 

@@ -80,8 +80,6 @@ get_header();
                 </div>
             </div>
         </main>
-    </div>
-    </div>
    
 
 <?php

@@ -44,7 +44,7 @@ $the_query = new WP_Query( $args );
                         <img src="./image/Header-nkch.jpg" style="background-size: cover;height: 333px;margin: 0px;">
                         </div> -->
 						<div class="col-12 d-flex order-1 order-xxl-1">
-							<img src="https://e1.pxfuel.com/desktop-wallpaper/1003/116/desktop-wallpaper-business-management-on-dog-administration.jpg" alt="">
+							<img src="<?php echo get_template_directory_uri().'/assets/images/Header PX 1110 - 1110.jpg'; ?>" alt="" style="width:inherit;">
 						</div>
 
 					</div>
@@ -76,4 +76,4 @@ $the_query = new WP_Query( $args );
 <!-- </div> -->
 <!-- .wrap -->
 <?php
-get_footer();
+// get_footer();

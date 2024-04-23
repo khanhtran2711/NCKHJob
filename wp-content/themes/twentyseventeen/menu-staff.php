@@ -1,6 +1,9 @@
 <?php
 global $wpdb;
 include 'wp-load.php';
+include 'mydbfile.php';
+
+
 ?>
 
 <div class="wrapper">
@@ -13,13 +16,34 @@ include 'wp-load.php';
                 </a>
 
 				<ul class="sidebar-nav">
-                <li class="sidebar-item active">
+                <li class="sidebar-item ">
 						<a class="sidebar-link" href="<?=$home?>">
               <i class="align-middle" data-feather="home"></i> <span class="align-middle">Trang chủ</span>
             </a>
 					</li>
+			<?php
+			$user = get_current_user_id();
+			$sql = "SELECT `vaitro_noibo` FROM `Canbo` c INNER JOIN `realdev_users` usr on c.user_id=usr.ID WHERE id= $user";
+			error_log('sql = ' . $sql);
+			$re = $conn->query($sql);
+			$row = $re->fetch_assoc();
+			if($row['vaitro_noibo']==1):
+			?>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="<?=home_url('/duyetchucdanh')?>">
+						<i class="align-middle" data-feather="file-text"></i>  <span class="align-middle">Duyệt chức danh</span>
+            </a>
+				</li>
+				<li class="sidebar-item">
+						<a class="sidebar-link" href="<?=home_url('/duyetgiamtru')?>">
+						<i class="align-middle" data-feather="file-text"></i>  <span class="align-middle">Duyệt giảm trừ</span>
+            </a>
+				</li>
+			<?php
+			endif;
+			?>
 					<li class="sidebar-header">
-						Cập nhật thông tin chuyên môn
+					<a class="" href="<?=home_url( '/cbprofile')?>">Cập nhật thông tin chuyên môn</a>
 					</li>
 
 					<li class="sidebar-item">
@@ -29,19 +53,19 @@ include 'wp-load.php';
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="<?=home_url('/chucdanh')?>">
+						<a class="sidebar-link" href="<?=home_url('/doigiamtru')?>">
                         <i class="align-middle" data-feather="edit"></i>  <span class="align-middle">Thay đổi giảm trừ</span>
             </a>
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="<?=home_url('/khoa')?>">
+						<a class="sidebar-link" href="<?=home_url('/doikhoa')?>">
                         <i class="align-middle" data-feather="edit"></i>  <span class="align-middle">Sửa thông tin đơn vị</span>
             </a>
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="<?=home_url('/cbprofile')?>">
+						<a class="sidebar-link" href="<?=admin_url( 'profile.php')?>">
               <i class="align-middle" data-feather="edit"></i> <span class="align-middle">Sửa thông tin cá nhân</span>
             </a>
 					</li>

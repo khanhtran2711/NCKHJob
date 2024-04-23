@@ -4,17 +4,11 @@ global $wpdb;
 include '../../wp-load.php';
 $a = $_POST['ma_gtr'];
 $b = $_POST['uid'];
-$c = $_POST['thoigiannhan'];
+$c = $_POST['ma_nh'];
+$d = $_POST['sothang'];
 
 
-
-
-$sql = "UPDATE `CanBo_GiamTru` SET `trangthai`=0 WHERE `ma_cb` = ".$b;
-
-error_log($sql);
-$conn->query($sql);
-
-$sql = "INSERT INTO `CanBo_GiamTru`(`ma_cb`, `ma_gtr`, `thoigiannhan`, `trangthai`) VALUES ($b,$a,'$c',1)";
+$sql = "INSERT INTO `CanBo_GiamTru`(`ma_cb`, `ma_gtr`, `thoigiannhan`, `trangthaiduyet`,`trangthaisudung`, `sothang`, `ma_nh`) VALUES ($b,$a,NOW(),0,0,$d,$c)";
 
 
 error_log($sql);

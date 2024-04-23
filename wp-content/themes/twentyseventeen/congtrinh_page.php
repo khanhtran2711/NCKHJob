@@ -27,15 +27,24 @@ if($re3->num_rows>0){
 }else{
     echo "<script>window.location.href = '".home_url('/cbprofile/')."';</script>";
 }
+$sql3 = "SELECT `start`,`end` FROM `deadline`";
+error_log('sql = ' . $sql3);
+$re3 = $conn->query($sql3);
+$data3 = $re3->fetch_all(MYSQLI_ASSOC);
+$start = $data3[0]['start'];
+$end = $data3[0]['end'];
 get_header(); ?>
 
 <div class="wrap">
     <div id="primary" class="content-area">
 
         <main id="main" class="site-main">
-
+        <?php
+           if($start <= date("Y-m-d") && $end >= date("Y-m-d")):
+            ?>
             <div class="container">
             <div class="mb-3">Nếu quý thầy/cô đã có thông tin công trình tham gia, vui lòng nhấp vào đây <a href="<?=home_url('/qlyvitrictr/')?>" class="text-decoration-none btn btn-info">Điền vị trí cá nhân tham gia</a></div>
+            <div id="mess" class="p-3"></div>
                 <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="ctr">
                     <div class="form-body">
                         <div class="row">
@@ -67,6 +76,7 @@ get_header(); ?>
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_loaict" aria-label="LoaiCongTrinhKhac">
+                            <option value="0">Chọn loại công trình</option>
                             <?php
                                 $sql = "SELECT * FROM `LoaiCongTrinh_Khac`";
 
@@ -82,6 +92,7 @@ get_header(); ?>
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_loaisltc" aria-label="ma_loaisltc">
+                        <option value="0">Chọn loại đơn vị/mức điểm/giờ chuẩn</option>
                             
                         </select>
                         <label for="ma_loaisltc">Loại đơn vị tính/ mức điểm/giờ chuẩn</label>
@@ -114,17 +125,26 @@ get_header(); ?>
                         </div>
                     </div>
                 </form>
-                <div class="container mt-3">
-                    <h2>Thông tin về mã đề tài sau khi nhập thành công</h2>
-                    <p><?= get_the_content() ?></p>
-                    <div id="mess"></div>
+                
+            </div> <!--container-->
+            <?php
+                endif;
+            ?>
+            <div class="container mt-3">
+                    <h2>Thông tin công trình</h2>
+                    <p>
+                        <?php
+                        if($end<date("Y-m-d") ):
+                            echo "<p style='color:red'>Thời gian nhập thông tin đã hết hạn</p>";
+                        endif;
+                        ?>
+                    </p>
+                    
                     <div>
                             <a href="<?=home_url('/qlctrcanhan/')?>" class="text-decoration-none btn btn-info">Quản lý công trình NCKH cá nhân</a>
                             <a href="<?=home_url()?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>
                     </div>
                 </div>
-            </div> <!--container-->
-
         </main><!-- #main -->
     </div><!-- #primary -->
 </div><!-- .wrap -->
@@ -154,9 +174,10 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             console.log(ct);
     });
     $(document).ready(function() {
-
-        readLoaiSL( $('#ma_loaict').val());
-        $("#sotinchi").prop("readonly",false);
+        if($('#ma_loaict').val()>0){
+            readLoaiSL( $('#ma_loaict').val());
+            $("#sotinchi").prop("readonly",false);
+        }
     });
 
         function readLoaiSL(param){
@@ -178,12 +199,14 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             // console.log(urlr);
             return urlr;
         }
-    $("#sluong_thamgia").on("click",function(event){
-        event.preventDefault();
-        $("#btnSubmit").removeAttr('Disabled');
-        document.getElementById("mess").innerHTML = "";
-        let tendt = $("#ten_ctr").val();
-        callCheck(tendt);
+    $("#ten_ctr").on("change",function(event){
+        if($("#ten_ctr").val()!=""){
+            event.preventDefault();
+            $("#btnSubmit").removeAttr('Disabled');
+            document.getElementById("mess").innerHTML = "";
+            let tendt = $("#ten_ctr").val();
+            callCheck(tendt);
+        }
     });
     function callCheck(ten) {
         const url = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-admin.php/?ten="+ten;

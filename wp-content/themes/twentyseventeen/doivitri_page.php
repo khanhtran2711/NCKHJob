@@ -31,6 +31,15 @@ if(isset($_POST['editBtn'])){
         $result = $conn->query($sql3);
         $data = $result->fetch_all(MYSQLI_ASSOC);
         $tendetai = $data[0]['ten_dtnckh'];
+        $backpage = "/detaichitiet";
+    }
+    if($loainckh == "congtrinh"){
+        $sql3 = "SELECT `ten_ctr` FROM `CongTrinh_Khac` WHERE `ma_ctr`= $ma_detai";
+        error_log('sql = ' . $sql3);
+        $result = $conn->query($sql3);
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        $tendetai = $data[0]['ten_ctr'];
+        $backpage = "/congtrinhchitiet";
     }
     $tenvtr = $_POST['tenvtr'];
 }
@@ -47,6 +56,24 @@ $loainckh = $_POST['loainckh'];
         echo "<script>window.location.href = '" . home_url('/detaichitiet/?id='.$ma_detai) . "';</script>";
    
 }
+$sql = "SELECT * FROM `realdev_users`";
+
+$re = $conn->query($sql);
+
+error_log('sql = ' . $sql);
+
+$list = array();
+	$rows = $re->num_rows;
+ 
+	if($rows > 0){
+		while($fetch = $re->fetch_assoc()){
+			if(!user_can( $fetch['ID'], "manage_options" ))
+			{
+				
+				array_push($list, $fetch['user_email']);
+			}
+		}
+	}
 //giang vien nay chua cap nhat chuc danh và khoa-pb truc thuoc cua minh
 get_header();
 
@@ -96,13 +123,18 @@ get_header();
                                 </select>
                                 <label for="ten_loaivt">Vị trí tham gia trong đề tài</label>
                             </div>
+                            <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
+                                        <input type="hidden" id="result" value='<?=json_encode($list,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);?>'>
                             <div class="col-12 d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn-success  me-1 mb-1" name="doivitri">Lưu</button>
 
                             </div>
                         </div>
                     </div>
-                    <a href="<?= home_url() ?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>
+                    <a href="<?= home_url($backpage). '?id=' . $ma_detai ?>" class="text-decoration-none btn btn-info">Trở về trang chi tiết</a>
 
                 </form>
             </div>
@@ -117,18 +149,11 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
     const currentUrl = window.location.hostname;
-    const folder = "NCKH";
-    let localURL = currentUrl + '/' + folder;
+    let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = "detainckh";
-    let urlr = "http://" + localURL + "/my-stuff/" + lastsegment + "/listdetai.php";
-    $(document).ready(function() {
-        $("#tendetai").autocomplete({
-            source: urlr
-        });
-       
-    });
+    
 </script>
 <?php
 get_footer();

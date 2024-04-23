@@ -44,8 +44,26 @@ get_header(); ?>
                                     <label for="trangthai">Trạng thái</label>
 
                                 </div>
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="nam" aria-label="Năm học">
+                                        <option value="none">Chọn tất cả</option>
+                                        <?php
+                                            $sql = "SELECT * FROM `NamHoc` ORDER by NamHoc ";
+
+                                            $re = $conn->query($sql);
+                                            while ($row = $re->fetch_assoc()):
+                                        ?>
+                                            <option value="<?=$row['ma_nh']?>"><?=$row['namhoc']?></option>
+                                        <?php
+                                            endwhile;
+                                        ?>
+
+                                    </select>
+                                    <label for="nam">Năm học</label>
+
+                                </div><!--form-->
                                 <div class="col-12 d-flex justify-content-end mt-3">
-                                    <button type="submit" class="btn btn-success  me-1 mb-1" name="..." id="filter">Lọc</button>
+                                    <button type="submit" class="btn btn-success  me-1 mb-1" name="..." id="btnFilter">Lọc</button>
 
                                 </div>
                             </div>
@@ -89,27 +107,54 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 
     });
 
-    $("#filter").on("click", function(event) {
+    $("#btnFilter").on("click", function(event) {
         event.preventDefault();
-        $param = $("#trangthai").val();
-        if ($param == 'none')
+        $trangthai = $("#trangthai").val();
+        $nam = $("#nam").val();
+        if ($trangthai == 'none' && $nam == 'none')
             read();
         else
-            getReadUrl($param);
+            getReadUrl($trangthai, $nam);
     })
 
 
-    function getReadUrl($param) {
-        let urlr = localURL + "/my-stuff/" + lastsegment + "/read-admin.php";
+    function getReadUrl($trangthai, $nam) {
+        let urlr =  localURL + "/my-stuff/" + lastsegment + "/read-admin.php";
+        const params = new URLSearchParams(window.location.search);
+       
 
-        urlr += "?trangthai=" + $param;
+        if($nam == 'none')            
+            urlr += "?trangthai=" + $trangthai;
+        else if ($trangthai == 'none')
+            urlr += "?nam=" + $nam;
+        else urlr += "?trangthai="+$trangthai+"&nam="+$nam;
+
         $.get(urlr, function(data) {
             document.getElementById("records").innerHTML = data;
         });
     }
 
+    function getReadUrl1() {
+        const params = new URLSearchParams(window.location.search);
+        let url =  localURL + "/my-stuff/" +lastsegment+"/read-admin.php";
+        $page= 1;
+        if (params.has('pg')) {
+            url += "?pg=" + params.get('pg');
+        }
+        if(params.has('trangthai') && params.has('nam') ) {
+            url += "&trangthai=" + params.get('trangthai') +"&nam="+ params.get('nam');
+        }else if(params.has('trangthai')){
+            url += "&trangthai=" + params.get('trangthai');
+        }else if(params.has('nam')){
+            url += "&nam=" + params.get('nam');
+        }
+        
+        return url;
+    }
+
     function read() {
-        const url = localURL + "/my-stuff/" + lastsegment + "/read-admin.php"
+        const url = getReadUrl1();
+        // console.log(url);
         $.get(url, function(data) {
             document.getElementById("records").innerHTML = data;
         });

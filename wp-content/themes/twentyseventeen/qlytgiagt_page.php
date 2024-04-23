@@ -17,6 +17,21 @@ include './mydbfile.php';
  * @version 1.0
  * Template name: qlytgiagt_page management Page
  */
+$sql = "SELECT * FROM `GiaiThuong` where trangthai = 0";
+
+$re = $conn->query($sql);
+
+error_log('sql = ' . $sql);
+
+$list = array();
+	$rows = $re->num_rows;
+ 
+	if($rows > 0){
+		while($fetch = $re->fetch_assoc()){
+			array_push($list, $fetch['ten_gt']);
+		}
+	}
+
 $user = get_current_user_id();
 $cbid = "SELECT `ma_cb` FROM `Canbo` WHERE `user_id` = $user";
 error_log('sql = ' . $cbid);
@@ -66,7 +81,11 @@ get_header();
                             <label for="ten_gt">Tên Giải thưởng</label>
                             <div class="invalid-feedback" data-sb-feedback="ten_gt:required">Tên Giải thưởng is required.</div>
                         </div>
-                        
+                        <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
+                                        <input type="hidden" id="result" value='<?=json_encode($list,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);?>'>
                         
                         <div class="col-12 d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn-success  me-1 mb-1" name="doivitri">Lưu</button>
@@ -74,7 +93,7 @@ get_header();
                     </div>
                     </div>
                     </div>
-                    <a href="<?=home_url()?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>
+                    <a href="<?=home_url('/qlgtcanhan')?>" class="text-decoration-none btn btn-info">Trở về trang giải thưởng cá nhân</a>
 
                 </form>
             </div>
@@ -89,15 +108,16 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
     const currentUrl = window.location.hostname;
-    const folder = "NCKH";
-    let localURL = currentUrl + '/' + folder;
+    let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = "giaithuong";
-    let urlr = "http://" + localURL + "/my-stuff/" + lastsegment + "/listdetai.php";
+
     $(document).ready(function() {
+        let availableTags1 = $( "#result" ).val();
+   
         $( "#ten_gt" ).autocomplete({
-            source: urlr
+            source: JSON.parse(availableTags1)
         });
     });
     

@@ -114,9 +114,10 @@ $jquery = get_theme_file_uri( '/assets/js/jquery-3.7.0.js' );
 
     function read() {
         const url = getReadUrl();
-        $.get(url, function(data) {
-            document.getElementById("records").innerHTML = data;
-        });
+        console.log(url);
+        // $.get(url, function(data) {
+        //     document.getElementById("records").innerHTML = data;
+        // });
     }
 </script>
 <?php

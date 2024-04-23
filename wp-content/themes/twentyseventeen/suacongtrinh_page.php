@@ -17,9 +17,7 @@ include 'mydbfile.php';
  * @version 1.0
  * Template name: SuaCongtrinh form Page
  */
-if(!current_user_can('administrator')){
-    echo "<script>window.location.href = '".home_url()."';</script>";
-}
+
 $ma_detai = $_GET['id'];
 $sql = "SELECT `ten_ctr`,`thoigian_hoanthanh`,`ten_tc_ky_nxb`,`sluong_thamgia`,`trangthai`,`minhchung`, loaisl.ma_loaisl, lctr.ma_loai, nh.namhoc FROM `CongTrinh_Khac` ct INNER JOIN `LoaiSL_TC` loaisl on loaisl.ma_loaisl = ct.ma_loaisltc INNER JOIN `LoaiCongTrinh_Khac` lctr on lctr.ma_loai = loaisl.ma_loaict INNER JOIN `NamHoc` nh ON ct.ma_nh = nh.ma_nh WHERE ct.ma_ctr =".$ma_detai;
 
@@ -28,15 +26,24 @@ $re = $conn->query($sql);
 error_log('sql = ' . $sql);
 $data = $re->fetch_all(MYSQLI_ASSOC);
 $url = "/congtrinhchitiet/?id=".$ma_detai;
+$sql3 = "SELECT `start`,`end` FROM `deadline`";
+error_log('sql = ' . $sql3);
+$re3 = $conn->query($sql3);
+$data3 = $re3->fetch_all(MYSQLI_ASSOC);
+$start = $data3[0]['start'];
+$end = $data3[0]['end'];
 
+if(!($data[0]['trangthai']==0 && $start <= date("Y-m-d") && $end >= date("Y-m-d") || current_user_can('administrator'))){
+    echo "<script>window.location.href = '".home_url()."';</script>";
+}
 if(isset($_POST['sua'])){
     $a = $_POST['ten_ctr'];
-$b = $_POST['thoigian_hoanthanh'];
-$c = $_POST['ten_tc_ky_nxb'];
-$d = $_POST['sluong_thamgia'];
-$e = $_POST['ma_loaisltc'];
-$f = $_POST['ma_nh'];
-$g = $_POST['minhchung'];
+    $b = $_POST['thoigian_hoanthanh'];
+    $c = $_POST['ten_tc_ky_nxb'];
+    $d = $_POST['sluong_thamgia'];
+    $e = $_POST['ma_loaisltc'];
+    $f = $_POST['ma_nh'];
+    $g = $_POST['minhchung'];
 
     $sql3 =  "UPDATE `CongTrinh_Khac` set ten_ctr='".$a."', thoigian_hoanthanh='".$b."',
     ten_tc_ky_nxb='".$c."' , sluong_thamgia=".$d.",
@@ -149,7 +156,7 @@ get_header(); ?>
                 <div class="container mt-3">
                     <div>
                             <a href="<?=home_url('/qlctrcanhan/')?>" class="text-decoration-none btn btn-info">Quản lý công trình NCKH cá nhân</a>
-                            <a href="<?=home_url()?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>
+                            <a href="<?=home_url('/congtrinhchitiet'). '?id=' . $ma_detai?>" class="text-decoration-none btn btn-info">Trở về trang sửa chi tiết</a>
                     </div>
                 </div>
             </div> <!--container-->

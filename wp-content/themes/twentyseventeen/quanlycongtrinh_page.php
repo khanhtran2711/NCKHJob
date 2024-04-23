@@ -30,8 +30,14 @@ get_header(); ?>
                 <div class="container mt-3">
                     <h2>Thông tin về các công trình NCKH</h2>
                     <table class="table table-striped" id="records">
-
+                    
                     </table>
+
+                    <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
+
                     <a href="<?=home_url()?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>
                 </div>
             </div> <!--container-->
@@ -46,8 +52,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 <script src="<?= $jquery ?>"></script>
 <script>
     const currentUrl = window.location.hostname;
-    const folder = "NCKH";
-    let localURL = currentUrl + '/' + folder;
+    let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = "congtrinh";
@@ -62,10 +67,10 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 
     function getReadUrl() {
         const params = new URLSearchParams(window.location.search);
-        let urlr = "http://" + localURL + "/my-stuff/" + lastsegment + "/read.php";
+        let urlr = localURL + "/my-stuff/" + lastsegment + "/read.php";
 
-        if (params.has('id')) {
-            urlr += "?id=" + params.get('id');
+        if (params.has('pg')) {
+            urlr += "?pg=" + params.get('pg');
         }
 
         return urlr;

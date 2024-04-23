@@ -89,8 +89,6 @@ get_header();
 
             </div>
         </main>
-    </div>
-</div>
 <?php
 $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 ?>

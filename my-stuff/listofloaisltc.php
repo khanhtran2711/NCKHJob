@@ -16,14 +16,12 @@ $list = array();
 	$rows = $re->num_rows;
  
 	if($rows > 0){
-		$i=1;
+		echo '<option selected value="0">Chọn loại đơn vị/mức điểm/giờ chuẩn</option>';
 		while($fetch = $re->fetch_assoc()){
-			if($i==1)
-				echo "<option selected value='".$fetch['ma_loaisl']."'>".$fetch['ten_loaisl']."</option>";
-			else{
+			
 				echo "<option value='".$fetch['ma_loaisl']."'>".$fetch['ten_loaisl']."</option>";
-			}
-			$i++;
+			
+			
 		}
 	}
     

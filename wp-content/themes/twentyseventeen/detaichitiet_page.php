@@ -56,7 +56,12 @@ if(isset($_POST['delBtn'])){
     echo "<script>window.location.href = '".home_url($url)."';</script>";
 }
 
-
+$sql3 = "SELECT `start`,`end` FROM `deadline`";
+error_log('sql2 = ' . $sql3);
+$re3 = $conn->query($sql3);
+$data3 = $re3->fetch_all(MYSQLI_ASSOC);
+$start = $data3[0]['start'];
+$end = $data3[0]['end'];
 get_header(); ?>
 <style>
     body,.site-main,.site-content{
@@ -75,11 +80,14 @@ get_header(); ?>
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <h3 class="box-title mt-5">Thông tin chung đề tài
                         <?php
-                                if(current_user_can('administrator')): 
+                            if($data[0]['trangthai']==0 &&$start <= date("Y-m-d") && $end >= date("Y-m-d") || 
+                                current_user_can('administrator')): 
                                     $urlsua = '/suadetainckh/?id='.$ma_detai;
                                 ?>
                         <a href="<?=home_url($urlsua)?>" class="text-decoration-none btn btn-info">Sửa</a>
-                                <?php endif;?>
+                                <?php 
+                                endif;
+                                ?>
                         </h3>
                         <div class="table-responsive">
                             <table class="table table-striped table-product">
@@ -89,11 +97,11 @@ get_header(); ?>
                                     <td><?=$data[0]['ten_dtnckh']?></td>
                                     </tr>
                                     <tr>
-                                        <td>Ngày bắt đầu</td>
+                                        <td>Thời gian bắt đầu</td>
                                         <td><?=$data[0]['nam_batdau']?></td>
                                     </tr>
                                     <tr>
-                                        <td>Ngày kết thúc</td>
+                                        <td>Thời gian kết thúc</td>
                                     <td><?=$data[0]['nam_kethuc']?></td>
                                     </tr>
                                     <tr>
@@ -127,10 +135,11 @@ get_header(); ?>
                             <th>Email</th>
                             <th>Khoa</th>
                             <th>Vị trí</th>
-                            <th>Sửa vị trí</th>
                             <?php
-                               if($data[0]['trangthai']==0 || current_user_can('administrator')): 
+                               if(($data[0]['trangthai']==0 && $start <= date("Y-m-d") && $end >= date("Y-m-d")) || (current_user_can('administrator'))): 
                             ?>
+                            <th>Sửa vị trí</th>
+                          
                             <th>Xóa</th>
                             <?php endif;?>
                         </thead>
@@ -144,6 +153,9 @@ get_header(); ?>
                                 echo "<td>" . $row['ten_loaivt'] . "</td>";
                                 // echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
                                 ?>
+                                   <?php
+                               if(($data[0]['trangthai']==0 && $start <= date("Y-m-d") && $end >= date("Y-m-d")) || (current_user_can('administrator'))): 
+                            ?>
             <td>
             <form action="<?=home_url("/doivitri")?>" method="post">
             <input type="hidden" name="cbdt_id" class="form-control"  value="<?=$ma_detai?>"/>
@@ -156,7 +168,7 @@ get_header(); ?>
 
             </td>
                                 <?php
-                                if($data[0]['trangthai']==0 || current_user_can('administrator')):
+                               
                                     
                                     ?>
             <td> <form method="POST">

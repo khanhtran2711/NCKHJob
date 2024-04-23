@@ -39,7 +39,7 @@ $re3 = $conn->query($sql3);
 	// webpage form starts here
 	echo "<tbody>";
 	echo "<thead>";
-	echo "<th>Họ tên</th><th>Khoa</th><th>Tên đề tài/Tên công trình/Giải thưởng</th><th>Loại công trình</th><th>Cấp đề tài/Tên Tạp chí/Tên Kỷ yếu-Tên NXB</th><th>Kết thúc</th><th>Số người tham gia</th><th>Vị trí tham gia</th><th>Số tín chỉ</th><th>Số giờ quy đổi công trình</th>";
+	echo "<th>Họ tên</th><th>Khoa</th><th>Tên đề tài/Tên công trình/Giải thưởng</th><th>Loại công trình</th><th>Cấp đề tài/Tên Tạp chí/Tên Kỷ yếu-Tên NXB</th><th>Kết thúc</th><th>Số người tham gia</th><th>Vị trí tham gia</th><th>Số lượng/Số tín chỉ</th><th>Số giờ quy đổi công trình</th>";
 	echo "</thead>";
 	while ($row = $re->fetch_assoc()) {
         $user = new WP_User($user_id);

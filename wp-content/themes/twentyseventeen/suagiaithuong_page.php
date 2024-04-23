@@ -17,9 +17,7 @@ include 'mydbfile.php';
  * @version 1.0
  * Template name: SuaGiaithuong form Page
  */
-if(!current_user_can('administrator')){
-    echo "<script>window.location.href = '".home_url()."';</script>";
-}
+
 $ma_detai = $_GET['id'];
 $sql = "SELECT `ten_gt`, lgt.ten_loaigt, nh.namhoc, `trangthai`,`minhchung` FROM `GiaiThuong` gt INNER JOIN `LoaiGiaiThuong` lgt on lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `NamHoc` nh on gt.ma_nh=nh.ma_nh  WHERE `ma_gt`=".$ma_detai;
 
@@ -27,6 +25,18 @@ $re = $conn->query($sql);
 
 error_log('sql = ' . $sql);
 $data = $re->fetch_all(MYSQLI_ASSOC);
+
+
+$sql3 = "SELECT `start`,`end` FROM `deadline`";
+error_log('sql = ' . $sql3);
+$re3 = $conn->query($sql3);
+$data3 = $re3->fetch_all(MYSQLI_ASSOC);
+$start = $data3[0]['start'];
+$end = $data3[0]['end'];
+
+if(!($data[0]['trangthai']==0 && $start <= date("Y-m-d") && $end >= date("Y-m-d") || current_user_can('administrator'))){
+    echo "<script>window.location.href = '".home_url()."';</script>";
+}
 get_header(); ?>
 
 <div class="wrap">

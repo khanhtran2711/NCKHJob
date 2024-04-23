@@ -16,6 +16,7 @@
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js no-svg">
+
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,7 +25,7 @@
 	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
 	<meta name="author" content="AdminKit">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
-	
+
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
@@ -46,90 +47,107 @@
 	<?php wp_head(); ?>
 </head>
 <style>
-	.site-branding{
-		display:none;
+	.site-branding {
+		display: none;
 	}
+
 	body {
 		margin: 0;
 		padding: 0;
 	}
+
+	div.dropdown-menu-end {
+		width: -webkit-fill-available;
+	}
+
+	@media only screen and (max-width: 575px) {
+		div.dropdown-menu-end {
+			width: 10px;
+		}
+	}
 </style>
 
 <body <?php body_class(); ?>>
-	 		
-<?php 
+
+	<?php
 	$home = home_url("/index.php");
-	if ( is_user_logged_in() ) { 
-		if(current_user_can('administrator')): 
+	if (is_user_logged_in()) {
+		if (current_user_can('administrator')) :
 			include_once('menu-admin.php');
-		else:
+		else :
 			include_once('menu-staff.php');
 		endif;
-} else{
+	} else {
 	?>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container">
-			<a class="navbar-brand" href="<?=$home?>">
-				<img src="https://blu.edu.vn/assets/img/logo.png" alt="">
-			</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-		</div>
-	</nav>
-<?php
-}
-?>
-	<div class="main">
-			<nav class="navbar navbar-expand navbar-light navbar-bg">
-				<a class="sidebar-toggle js-sidebar-toggle">
-					<i class="hamburger align-self-center"></i>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container">
+				<a class="navbar-brand" href="<?= $home ?>">
+					<img src="https://blu.edu.vn/assets/img/logo.png" alt="">
 				</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</nav>
+	<?php
+	}
+	?>
+	<div class="main">
+	<?php if (!is_home() || !is_front_page()) : ?>
+			<div class="row">
 
-				<div class="navbar-collapse collapse">
-					<ul class="navbar-nav navbar-align">
-						<li class="nav-item dropdown">
-							<a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
-								<i class="align-middle" data-feather="settings"></i>
-							</a>
-
-							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-								<span class="text-dark">
-								<?php
-							$user_now = get_current_user_id();
-							$user = new WP_User($user_now);
-							$username = $user->last_name." ".$user->first_name;
-							?>
-							Xin chào, <?=$username?>
-								</span>
-							</a>
-							<div class="dropdown-menu dropdown-menu-end" style="width: -webkit-fill-available;">
-								<a class="dropdown-item" href="<?=admin_url( 'profile.php' )?>"><i class="align-middle me-1" data-feather="user"></i> Cài đặt tài khoản</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="<?php echo wp_logout_url( home_url() ); ?>"><i class="align-middle me-1" data-feather="log-out"></i> Đăng xuất</a>
-							</div>
-						</li>
-					</ul>
+				<div class="col-12 d-flex order-1 order-xxl-1">
+					<img src="<?php echo get_template_directory_uri() . '/assets/images/Header PX 1400-120.jpg'; ?>" alt="" style="width:inherit;">
 				</div>
-			</nav>
 
-			
+			</div>
+		<?php endif ?>
+		<nav class="navbar navbar-expand navbar-light navbar-bg">
+			<a class="sidebar-toggle js-sidebar-toggle">
+				<i class="hamburger align-self-center"></i>
+			</a>
+
+			<div class="navbar-collapse collapse">
+				<ul class="navbar-nav navbar-align">
+					<li class="nav-item dropdown">
+						<a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
+							<i class="align-middle" data-feather="settings"></i>
+						</a>
+
+						<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+							<span class="text-dark">
+								<?php
+								$user_now = get_current_user_id();
+								$user = new WP_User($user_now);
+								$username = $user->last_name . " " . $user->first_name;
+								?>
+								Xin chào, <?= $username ?>
+							</span>
+						</a>
+						<div class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
+							<a class="dropdown-item" href="<?= admin_url('profile.php') ?>"><i class="align-middle me-1" data-feather="user"></i> Cài đặt tài khoản</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="<?php echo wp_logout_url(home_url()); ?>"><i class="align-middle me-1" data-feather="log-out"></i> Đăng xuất</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</nav>
 
 		
-	<div id="page" class="site">
-		<a class="skip-link screen-reader-text" href="#content">
-			<?php
+
+		<div id="page" class="site">
+			<a class="skip-link screen-reader-text" href="#content">
+				<?php
 				// wp_body_open(); 
-	show_admin_bar(false);
-			/* translators: Hidden accessibility text. */
-			_e('Skip to content', 'twentyseventeen');
-			?>
-		</a>
-		
+				show_admin_bar(false);
+				/* translators: Hidden accessibility text. */
+				_e('Skip to content', 'twentyseventeen');
+				?>
+			</a>
 
-		<!-- <div class="site-content-contain">
+
+			<!-- <div class="site-content-contain">
 			<div id="content" class="site-content"> -->
 			<main class="content p-0">
 				<div class="container-fluid p-0">
-
-				

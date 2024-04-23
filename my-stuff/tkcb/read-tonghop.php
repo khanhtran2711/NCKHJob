@@ -229,13 +229,30 @@ include '../../nhiemvu.php';
 		$row = $ree->fetch_assoc();
 		
 
-		$sqlextra2 = "SELECT lgtr.mucgiam, lgtr.ten_gtr  FROM `Canbo` cb INNER JOIN `realdev_users` as u on u.ID=cb.user_id INNER JOIN `CanBo_GiamTru` cbgtr on cb.ma_cb=cbgtr.ma_cb INNER JOIN `LoaiGiamTru` lgtr on cbgtr.ma_gtr=lgtr.ma_gtr WHERE cbgtr.trangthai=1 and cb.user_id=".$user_id." ORDER by cbgtr.thoigiannhan desc LIMIT 1;";
-		error_log('sql = ' . $sqlextra);
+		$sqlextra2 = "SELECT lgtr.mucgiam, lgtr.ten_gtr,sothang FROM `Canbo` cb INNER JOIN `realdev_users` as u on u.ID=cb.user_id INNER JOIN `CanBo_GiamTru` cbgtr on cb.ma_cb=cbgtr.ma_cb INNER JOIN `LoaiGiamTru` lgtr on cbgtr.ma_gtr=lgtr.ma_gtr WHERE cbgtr.trangthaisudung=1 and cbgtr.trangthaiduyet=1 and cb.user_id=".$user_id." and cbgtr.ma_nh=$a ORDER by cbgtr.thoigiannhan desc";
 		$ree2 = $conn->query($sqlextra2);
-		if($ree2->num_rows>0){
-			$row2 = $ree2->fetch_assoc();
-			$dinhmucnew = $row['dinhmucmax'] * (1-$row2['mucgiam']);
-			$note = $row2['ten_gtr'];
+		if($ree2!=false && $ree2->num_rows>0){
+			
+			$tilesothang = 0;
+			$note ="";
+			$i=0;
+			while($row2 = $ree2->fetch_assoc()){
+				if(str_contains($row2['ten_gtr'], 'nghỉ thai sản')){
+					$tilesothang = $row2['sothang']/6;
+				}else{
+					$tilesothang = $row2['sothang']/10;
+				}
+				// chua biet cai nay tinh sao??????
+				$dinhmucnew = $row['dinhmucmax'] * (1-($row2['mucgiam']*$tilesothang));
+				if($i==0)
+				$note .= $row2['ten_gtr'];
+				else
+				$note .= ','.$row2['ten_gtr'];
+
+				$i++;
+			}
+			
+			
 		}else{
 			$dinhmucnew = $row['dinhmucmax'];
 			$note= '';

@@ -44,11 +44,14 @@ get_header(); ?>
 
                                 </div>
                                 <div class="col-12 d-flex justify-content-end mt-3">
-                                    <button type="submit" class="btn btn-success  me-1 mb-1" name="..." id="filter">Lọc</button>
+                                    <button type="submit" class="btn btn-success  me-1 mb-1" name="..." id="btnFilter">Lọc</button>
                                 </div>
                             </div>
                         </div>
-            
+                        <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
 
                     </form>
             <table class="table table-striped" id="records">
@@ -68,8 +71,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 <script src="<?= $jquery ?>"></script>
 <script>
     const currentUrl = window.location.hostname;
-    const folder = "NCKH";
-    let localURL = currentUrl + '/' + folder;
+    let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = "giaithuong";
@@ -80,31 +82,51 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 
 
     });
-    $("#filter").on("click", function(event) {
+    $("#btnFilter").on("click", function(event) {
         event.preventDefault();
-        $param = $("#trangthai").val();
-        if ($param == 'none')
+        $trangthai = $("#trangthai").val();
+        if ($trangthai == 'none')
             read();
         else
-            getReadUrl($param);
+            getReadUrl($trangthai);
     })
 
-
-    function getReadUrl($param) {
-        let urlr = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-admin.php";
-
-        urlr += "?trangthai=" + $param;
-        $.get(urlr, function(data) {
-            document.getElementById("records").innerHTML = data;
-        });
-    }
-    function confirmDesactiv()
+function confirmDesactiv()
     {
     return confirm("bạn có muốn xóa không?")
     }
 
+    function getReadUrl($trangthai) {
+        let urlr =  localURL + "/my-stuff/" + lastsegment + "/read-admin.php";
+        const params = new URLSearchParams(window.location.search);
+       
+
+       
+            urlr += "?trangthai=" + $trangthai;
+        
+
+        $.get(urlr, function(data) {
+            document.getElementById("records").innerHTML = data;
+        });
+    }
+
+    function getReadUrl1() {
+        const params = new URLSearchParams(window.location.search);
+        let url =  localURL + "/my-stuff/" +lastsegment+"/read-admin.php";
+        $page= 1;
+        if (params.has('pg')) {
+            url += "?pg=" + params.get('pg');
+        }
+        if(params.has('trangthai')){
+            url += "&trangthai=" + params.get('trangthai');
+        }
+        
+        return url;
+    }
+
     function read() {
-        const url = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-admin.php";
+        const url = getReadUrl1();
+        // console.log(url);
         $.get(url, function(data) {
             document.getElementById("records").innerHTML = data;
         });

@@ -20,11 +20,10 @@ $list = array();
 		while($fetch = $re->fetch_assoc()){
 			if(!user_can( $fetch['ID'], "manage_options" ))
 			{
-				$data['value'] = $fetch['user_email'];
-			 
-				array_push($list, $data);
+				
+				array_push($list, $fetch['user_email']);
 			}
 		}
 	}
  
-	echo json_encode($list,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+echo json_encode($list,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);

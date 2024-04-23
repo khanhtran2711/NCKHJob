@@ -57,7 +57,12 @@ if(isset($_POST['delBtn'])){
     $conn->close();
     echo "<script>window.location.href = '".home_url($url)."';</script>";
 }
-
+$sql3 = "SELECT `start`,`end` FROM `deadline`";
+error_log('sql = ' . $sql3);
+$re3 = $conn->query($sql3);
+$data3 = $re3->fetch_all(MYSQLI_ASSOC);
+$start = $data3[0]['start'];
+$end = $data3[0]['end'];
 get_header(); ?>
 <style>
     body,.site-main,.site-content{
@@ -77,11 +82,14 @@ get_header(); ?>
                     <h3 class="box-title mt-5">Thông tin chung công trình 
 
                     <?php
-                               if(current_user_can('administrator')): 
+                             if($data[0]['trangthai']==0 && $start <= date("Y-m-d") && $end >= date("Y-m-d")|| 
+                             current_user_can('administrator')):
                                 $urlsua = '/suacongtrinh/?id='.$ma_detai;
                             ?>
                     <a href="<?=home_url($urlsua)?>" class="text-decoration-none btn btn-info">Sửa</a>
-                            <?php endif;?>
+                            <?php 
+                             endif;
+                        ?>
                     </h3>
                     
                     <div class="table-responsive">
@@ -134,8 +142,10 @@ get_header(); ?>
                             <th>Khoa</th>
                             <th>Vị trí</th>
                             <?php
-                               if($data[0]['trangthai']==0 || current_user_can('administrator')): 
+                               if(($data[0]['trangthai']==0 && $start <= date("Y-m-d") && $end >= date("Y-m-d")) || (current_user_can('administrator'))): 
                             ?>
+                            <th>Sửa vị trí</th>
+                          
                             <th>Xóa</th>
                             <?php endif;?>
                         </thead>
@@ -148,9 +158,21 @@ get_header(); ?>
                                 echo "<td>" . $row['user_email'] . "</td>";
                                 echo "<td>" . $row['ten_khoa'] . "</td>";
                                 echo "<td>" . $row['ten_loaivt'] . "</td>";
-                                if($data[0]['trangthai']==0 || current_user_can('administrator')):
-                                    
+                               
+                               if(($data[0]['trangthai']==0 && $start <= date("Y-m-d") && $end >= date("Y-m-d")) || (current_user_can('administrator'))): 
+
                                     ?>
+            <td>
+                <form action="<?=home_url("/doivitri")?>" method="post">
+                <input type="hidden" name="cbdt_id" class="form-control"  value="<?=$ma_detai?>"/>
+                <input type="hidden" class="form-control" name="macb" value="<?=$row['cbctid']?>"/>
+                <input type="hidden" class="form-control" name="tencb" value="<?=$user->last_name." ".$user->first_name?>"/>
+                <input type="hidden" class="form-control" name="tenvtr" value="<?=$row['ten_loaivt']?>"/>
+                <input type="hidden" class="form-control" name="loainckh" value="congtrinh"/>
+                <input type="submit" value="Sửa"  name="editBtn" class="btn btn-secondary">
+                </form>
+
+            </td>
             <td> <form method="POST">
              <input type="hidden" name="cbctid" class="form-control" name="time_mins" value="<?=$row['cbctid']?>"/>
              <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" name="delBtn" class="btn btn-danger">

@@ -54,6 +54,13 @@ background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 
 /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
 }
+form{
+  text-align: center;
+}
+#nut-dk{
+  background-color: #253dac;
+  color:white;
+}
 </style>
 <body>
 
@@ -203,12 +210,12 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
 
                 <div class="d-flex justify-content-center">
                   <button type="submit" name="btnregister" id="nut-dk" 
-                    class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Đăng ký</button>
+                    class="btn btn-block" style="padding: 10px 22px;">Đăng ký</button>
                     <input type="hidden" name="task" value="register" />
                 </div>
 
                 <p class="text-center text-muted mt-5 mb-0">Nếu bạn đã có tài khoản, hãy truy cập  <a href="<?= home_url('/dang-nhap/'); ?>"
-                    class="fw-bold text-body"><u>Đăng nhập</u></a></p>
+                     style="color: blue;text-decoration: none;">Đăng nhập</a></p>
 
               </form>
               <?php } ?>
@@ -219,7 +226,7 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
     </div>
   </div>
 </section>
-</div>
+
 
 </body>
 </html>

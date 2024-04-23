@@ -16,6 +16,24 @@ include 'mydbfile.php';
  * @version 1.0
  * Template name: ThongKe theo cb Page
  */
+$sql = "SELECT * FROM `realdev_users`";
+
+$re = $conn->query($sql);
+
+error_log('sql = ' . $sql);
+
+$list = array();
+	$rows = $re->num_rows;
+ 
+	if($rows > 0){
+		while($fetch = $re->fetch_assoc()){
+			if(!user_can( $fetch['ID'], "manage_options" ))
+			{
+				
+				array_push($list, $fetch['user_email']);
+			}
+		}
+	}
 
 get_header();
 
@@ -49,8 +67,12 @@ get_header();
                                     endwhile;
                                     ?>
                                 </select>
+                                <input type="hidden" id="result" value='<?=json_encode($list,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);?>'>
                                 <label for="ma_nh">Năm học</label>
-
+                                <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
                             </div>
                             <div class="col-12 d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn" id="btnTongHop">Thống kê tổng hợp</button>
@@ -83,8 +105,6 @@ get_header();
 
             </div>
         </main>
-    </div>
-</div>
 <?php
 $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 ?>
@@ -93,19 +113,22 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script>
     const currentUrl = window.location.hostname;
-    const folder = "NCKH";
-    let localURL = currentUrl + '/' + folder;
+    let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = array[array.length - 2];
 
     const foldercb = "cbprofile";
-    let urlr = "http://" + localURL + "/my-stuff/" + foldercb + "/listcb.php";
+    let urlr =  localURL + "/my-stuff/" + foldercb + "/listcb.php";
 
     $(document).ready(function() {
-        $( "#email" ).autocomplete({
-            source: urlr
-        });
+        let availableTags1 = $( "#result" ).val();
+   
+            $( "#email" ).autocomplete({
+                source: JSON.parse(availableTags1)
+            });
+
+            read();  
     });
 
     // $("#tkkhoa").on("submit", function(event) {
@@ -128,7 +151,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     // });
 
     function callReadQD() {
-        let urlc = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-quydoi.php";
+        let urlc =  localURL + "/my-stuff/" + lastsegment + "/read-quydoi.php";
         $.post(urlc, {
             ma_nh: $('#ma_nh').val(),
             email: $('#email').val()
@@ -141,7 +164,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             });
     }
     function callReadTH() {
-        let urlc = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-tonghop.php";
+        let urlc =  localURL + "/my-stuff/" + lastsegment + "/read-tonghop.php";
         $.post(urlc, {
             ma_nh: $('#ma_nh').val(),
             email: $('#email').val()
@@ -156,7 +179,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 
     // function getReadUrl() {
     //     const params = new URLSearchParams(window.location.search);
-    //     let urlr = "http://" + localURL + "/my-stuff/" + lastsegment + "/read.php";
+    //     let urlr =  localURL + "/my-stuff/" + lastsegment + "/read.php";
 
     //     if (params.has('id')) {
     //         urlr += "?id=" + params.get('id');

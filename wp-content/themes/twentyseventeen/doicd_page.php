@@ -1,6 +1,9 @@
 <?php
 include 'my-stuff/cbprofile/config.php';
 include './mydbfile.php';
+
+global $wpdb;
+include 'wp-load.php';
 /**
  * The template for displaying all pages
  *
@@ -25,11 +28,13 @@ $data3 = $re3->fetch_all(MYSQLI_ASSOC);
 $macb = $data3[0]['ma_cb'];
 if(isset($_POST['doichucdanh'])){
     $a = $_POST['ma_cd'];
-    $sql = "INSERT INTO `CanBo_ChucDanh`(`ma_cb`, `ma_cd`, `thoigiannhan`) VALUES ('$macb','$a',NOW())";
+    
+    $sql = "INSERT INTO `CanBo_ChucDanh`(`ma_cb`, `ma_cd`, `thoigiannhan`,`trangthaiduyet`,`trangthaisudung`) VALUES ('$macb','$a',NOW(),0,0)";
     error_log($sql);
     $conn->query($sql);
-    echo "<script>window.location.href = '".home_url('/cbprofile/')."';</script>";
+    echo "<script>window.location.href = '".home_url('/doichucdanh/')."';</script>";
 }
+
 get_header();
 
     ?>
@@ -51,6 +56,7 @@ get_header();
                        
                         <div class="form-floating mb-3">
                             <select class="form-select" id="ma_cd" name="ma_cd" aria-label="Chức danh hiện tại">
+                            <option value="0">Chọn loại chức danh</option>
                                 <?php
                                     $list_cd = "SELECT `ma_cd`, `ten_cd` FROM `ChucDanh`";
                                     error_log('sql = ' . $list_cd);
@@ -64,7 +70,10 @@ get_header();
                             </select>
                             <label for="ma_cdt">Chức danh hiện tại</label>
                         </div>
-                        
+                        <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
                         <div class="col-12 d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn-success  me-1 mb-1" name="doichucdanh">Lưu</button>
                             </div>
@@ -74,16 +83,83 @@ get_header();
                     </div>
                     </div>
                 </form>
-                <div class="container">
-                <a href="<?=home_url()?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>
+                
+                <div class="container mt-3">
+        <h2>Thông tin hiện tại</h2>
 
-                </div>
+        <table class="table table-striped" id="records">
+
+        </table>
+        <a href="<?= home_url() ?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>
+    </div>
                
             </div>
         </main>
-    </div>
-    </div>
-   
+        <div class="h-100">
+
+        </div>
+        <?php
+$jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
+?>
+<script src="<?= $jquery ?>"></script>
+<script>
+    const currentUrl = window.location.hostname;
+    let localURL = $("#homeurl").val();
+    let path = window.location.pathname.split('/').pop();
+    const array = window.location.pathname.split('/');
+    const lastsegment = 'cbprofile';
+
+    $(document).ready(function() {
+
+        read();
+
+
+    });
+
+    // function callCreate() {
+    //     let urlc =  localURL + "/my-stuff/" + lastsegment + "/create.php";
+    //     let dataf = {};
+    //     // if ($('#elementId').length > 0) {
+
+    //         dataf = {
+    //             ma_cd: $('#ma_cd').val(),
+    //             ma_khoa: $('#ma_khoa').val(),
+    //             ma_cb: $("#user_id").val()
+    //         };
+    //     // } else {
+    //     //     dataf = {
+    //     //         ma_cd: $('#ma_cd').val(),
+    //     //         ma_cb: $("#user_id").val()
+    //     //     }
+    //     // }
+    //     $.post(urlc, dataf,
+    //         function(data, status) {
+    //             console.log(data);
+    //             // window.location.href = data
+
+    //         });
+    // }
+
+    function getReadUrl() {
+        const params = new URLSearchParams(window.location.search);
+        let urlr =  localURL + "/my-stuff/" + lastsegment + "/read.php";
+        if (params.has('id')) {
+            urlr += "?id=" + params.get('id');
+        }
+        if (params.has('pg')) {
+            urlr += "?pg=" + params.get('pg');
+        }
+
+        return urlr;
+    }
+
+    function read() {
+        const url = getReadUrl();
+        $.get(url, function(data) {
+            document.getElementById("records").innerHTML = data;
+        });
+    }
+</script>
 
 <?php
 get_footer();

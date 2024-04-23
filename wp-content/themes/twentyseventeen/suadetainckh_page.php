@@ -19,9 +19,7 @@ include 'wp-load.php';
  * @version 1.0
  * Template name: SuaDetaiNCKH form Page
  */
-if(!current_user_can('administrator')){
-    echo "<script>window.location.href = '".home_url()."';</script>";
-}
+
 $ma_detai = $_GET['id'];
 $sql = "SELECT `ten_dtnckh`, `nam_batdau`, `nam_kethuc`, `sluong_thamgia`, cdt.ten_cdt, nh.namhoc, `trangthai`,`minhchung` FROM `DeTai_NCKH` de INNER join `CapDeTai` cdt on de.ma_cdt=cdt.ma_cdt INNER JOIN `NamHoc` nh on de.ma_nh=nh.ma_nh  WHERE `ma_dtnckh` = ".$ma_detai;
 
@@ -30,6 +28,17 @@ $re = $conn->query($sql);
 error_log('sql = ' . $sql);
 $data = $re->fetch_all(MYSQLI_ASSOC);
 
+
+$sql3 = "SELECT `start`,`end` FROM `deadline`";
+error_log('sql = ' . $sql3);
+$re3 = $conn->query($sql3);
+$data3 = $re3->fetch_all(MYSQLI_ASSOC);
+$start = $data3[0]['start'];
+$end = $data3[0]['end'];
+
+if(!($data[0]['trangthai']==0 && $start <= date("Y-m-d") && $end >= date("Y-m-d") || current_user_can('administrator'))){
+    echo "<script>window.location.href = '".home_url()."';</script>";
+}
 get_header(); ?>
 
 <div class="wrap">
@@ -49,13 +58,13 @@ get_header(); ?>
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="nam_batdau" type="Date" placeholder="Năm bắt đầu" data-sb-validations="required" value="<?=$data[0]['nam_batdau']?>" />
-                        <label for="nam_batdau">Ngày bắt đầu</label>
-                        <div class="invalid-feedback" data-sb-feedback="nam_batdau:required">Năm bắt đầu is required.</div>
+                        <label for="nam_batdau">Thời gian bắt đầu</label>
+                        <div class="invalid-feedback" data-sb-feedback="nam_batdau:required">Thời gian bắt đầu is required.</div>
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="nam_kethuc" type="Date" placeholder="Năm kết thúc" data-sb-validations="required" value="<?=$data[0]['nam_kethuc']?>"/>
-                        <label for="nam_kethuc">Ngày kết thúc</label>
-                        <div class="invalid-feedback" data-sb-feedback="nam_kethuc:required">Năm kết thúc is required.</div>
+                        <label for="nam_kethuc">Thời gian kết thúc</label>
+                        <div class="invalid-feedback" data-sb-feedback="nam_kethuc:required">Thời gian kết thúc is required.</div>
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="sluong_thamgia" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" value="<?=$data[0]['sluong_thamgia']?>"/>
@@ -113,7 +122,7 @@ get_header(); ?>
                     
                     <div>
                             <a href="<?=home_url('/qldetaicanhan/')?>" class="text-decoration-none btn btn-info">Quản lý đề tài NCKH cá nhân</a>
-                            <a href="<?=home_url()?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>
+                            <a href="<?=home_url('/detaichitiet'). '?id=' . $ma_detai?>" class="text-decoration-none btn btn-info">Trở về trang sửa chi tiết</a>
                     </div>
                 </div>
             </div> <!--container-->

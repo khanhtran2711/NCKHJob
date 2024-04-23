@@ -60,7 +60,10 @@ get_header();
                                     ?>
                                 </select>
                                 <label for="ma_nh">Năm học</label>
-
+                                <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
                             </div>
                             <div class="col-12 d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn" id="btnTongHop">Thống kê tổng hợp</button>
@@ -93,16 +96,14 @@ get_header();
 
             </div>
         </main>
-    </div>
-</div>
+    
 <?php
 $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 ?>
 <script src="<?= $jquery ?>"></script>
 <script>
     const currentUrl = window.location.hostname;
-    const folder = "NCKH";
-    let localURL = currentUrl + '/' + folder;
+    let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = array[array.length - 2];
@@ -127,7 +128,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     // });
 
     function callReadQD() {
-        let urlc = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-quydoi.php";
+        let urlc =  localURL + "/my-stuff/" + lastsegment + "/read-quydoi.php";
         $.post(urlc, {
             ma_nh: $('#ma_nh').val(),
             ma_khoa: $('#ma_khoa').val()
@@ -140,7 +141,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             });
     }
     function callReadTH() {
-        let urlc = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-tonghop.php";
+        let urlc =  localURL + "/my-stuff/" + lastsegment + "/read-tonghop.php";
         $.post(urlc, {
             ma_nh: $('#ma_nh').val(),
             ma_khoa: $('#ma_khoa').val()
@@ -155,7 +156,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 
     // function getReadUrl() {
     //     const params = new URLSearchParams(window.location.search);
-    //     let urlr = "http://" + localURL + "/my-stuff/" + lastsegment + "/read.php";
+    //     let urlr =  localURL + "/my-stuff/" + lastsegment + "/read.php";
 
     //     if (params.has('id')) {
     //         urlr += "?id=" + params.get('id');

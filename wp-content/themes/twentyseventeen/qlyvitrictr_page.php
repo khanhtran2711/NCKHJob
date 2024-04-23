@@ -44,6 +44,22 @@ if(isset($_POST['doivitri'])){
 
     }
 }
+$sql = "SELECT * FROM `CongTrinh_Khac` where trangthai = 0";
+
+$re = $conn->query($sql);
+
+error_log('sql = ' . $sql);
+
+$list = array();
+	$rows = $re->num_rows;
+ 
+	if($rows > 0){
+		while($fetch = $re->fetch_assoc()){
+			$data['value'] = $fetch['ten_ctr']; 
+			array_push($list, $data);
+		}
+	}
+ 
 //giang vien nay chua cap nhat chuc danh và khoa-pb truc thuoc cua minh
 get_header();
 
@@ -86,8 +102,13 @@ get_header();
                     </div>
                     </div>
                     </div>
-                    <a href="<?=home_url()?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>
-
+                    <a href="<?=home_url('/qlctrcanhan')?>" class="text-decoration-none btn btn-info">Trở về trang công trình cá nhân</a>
+                  
+                    <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
+                                        <input type="hidden" id="result" value='<?=json_encode($list,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);?>'>
                 </form>
             </div>
         </main>
@@ -101,16 +122,19 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
     const currentUrl = window.location.hostname;
-    const folder = "NCKH";
-    let localURL = currentUrl + '/' + folder;
+    let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = "congtrinh";
-    let urlr = "http://" + localURL + "/my-stuff/" + lastsegment + "/listdetai.php";
+    
     $(document).ready(function() {
-        $( "#ten_ctr" ).autocomplete({
-            source: urlr
-        });
+        let availableTags1 = $( "#result" ).val();
+   
+   $( "#ten_ctr" ).autocomplete({
+       source: JSON.parse(availableTags1)
+   });
+
+   read();
     });
     
    

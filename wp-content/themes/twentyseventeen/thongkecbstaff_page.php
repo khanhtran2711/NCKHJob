@@ -1,5 +1,7 @@
 <?php
 include 'mydbfile.php';
+global $wpdb;
+include 'wp-load.php';
 /**
  * The template for displaying all pages
  *
@@ -68,7 +70,10 @@ get_header();
 
 
                     </div>
-
+                    <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
                 </form>
 
                 <div class="container mt-3">
@@ -77,11 +82,11 @@ get_header();
                     <table class="table table-striped" id="records">
 
                     </table>
-                    <form action="/NCKH/my-stuff/exportjsonth.php" class="my-3">
+                    <form action="<?=home_url()?>/my-stuff/exportjsonth.php" class="my-3">
                         <button style="display: none;" type="submit" id="exportth" name="exportth" class="btn btn-info ms-auto">Xuất file excel tổng hợp (xlsx)</button>
                         
                     </form>
-                    <form action="/NCKH/my-stuff/exportjsonqd.php" class="my-3">
+                    <form action="<?=home_url()?>/my-stuff/exportjsonqd.php" class="my-3">
                         <button style="display: none;" type="submit" id="exportqd" name="exportqd" class="btn btn-info ms-auto">Xuất file excel quy đổi(xlsx)</button>
                     </form>
                     <a href="<?= home_url() ?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>
@@ -95,8 +100,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 <script src="<?= $jquery ?>"></script>
 <script>
     const currentUrl = window.location.hostname;
-    const folder = "NCKH";
-    let localURL = currentUrl + '/' + folder;
+    let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = 'tkcb';

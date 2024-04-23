@@ -22,7 +22,7 @@ while ($row = $re->fetch_assoc()) {
 	echo "<td>" . $user->last_name." ".$user->first_name . "</td>";
 	echo "<td>" . $row['user_email'] . "</td>";
 	// echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
-	echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'/delete-role.php?id=' . $row['ma_cb'] . '">Delete</a></td>';
+	echo '<td> <a class="btn btn-danger" href="'.home_url().'/my-stuff/cbprofile/delete-role.php?id=' . $row['ma_cb'] . '">Delete</a></td>';
 	echo "</tr>";
 	echo "</tbody>";
 }

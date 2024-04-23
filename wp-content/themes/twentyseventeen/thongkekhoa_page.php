@@ -84,11 +84,11 @@ get_header();
                     <table class="table table-striped" id="records">
 
                     </table>
-                    <form action="/NCKH/my-stuff/exportjsonth.php" class="my-3">
+                    <form action="<?=home_url()?>/my-stuff/exportjsonth.php" class="my-3">
                         <button style="display: none;" type="submit" id="exportth" name="exportth" class="btn btn-info ms-auto">Xuất file excel tổng hợp (xlsx)</button>
                         
                     </form>
-                    <form action="/NCKH/my-stuff/exportjsonqd.php" class="my-3">
+                    <form action="<?=home_url()?>/my-stuff/exportjsonqd.php" class="my-3">
                         <button style="display: none;" type="submit" id="exportqd" name="exportqd" class="btn btn-info ms-auto">Xuất file excel quy đổi(xlsx)</button>
                     </form>
                     <a href="<?= home_url() ?>" class="text-decoration-none btn btn-info">Trở về trang chủ</a>

@@ -6,6 +6,8 @@ include '../../wp-load.php';
 
 include 'config.php';
 
+$pagename = home_url("/cap_detai/");
+
 $sql = "SELECT * FROM `CapDeTai`";
 
 $re = $conn->query($sql);
@@ -20,7 +22,7 @@ echo "</thead>";
 while ($row = $re->fetch_assoc()) {
 	if (isset($_GET['id'])) {
 		if ($row['ma_cdt'] == $_GET['id']) {
-			echo '<tr><td colspan="5"><form action="'.$mystufflink.$foldername.'/update.php" method="POST">';
+			echo '<tr><td colspan="5"><form action="'.home_url().'/my-stuff/cap_detai/update.php" method="POST">';
 			echo '<table>';
 			echo '<tr><td><input class="form-control" id="ten_cdt" name="ten_cdt" type="text" value="' . $row['ten_cdt'] . '"></td>';
 			echo '<td><input class="form-control" id="giochuan" name="giochuan" type="text"  value="' . $row['giochuan'] . '"></td>';

@@ -47,7 +47,10 @@ get_header(); ?>
                                 <div class="invalid-feedback" data-sb-feedback="thờiGianApDụng:required">Thời gian áp dụng is required.</div>
                             </div>
                           
-                            
+                            <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">                  
                             <div class="col-12 d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn">Lưu</button>
                                 <?php
@@ -78,7 +81,6 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 <script src="<?= $jquery ?>"></script>
 <script>
     const currentUrl = window.location.hostname;
-    // const folder = "NCKH";
     let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');

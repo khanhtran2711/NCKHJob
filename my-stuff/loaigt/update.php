@@ -8,7 +8,7 @@ include 'config.php';
 // error_log("current user=".$user_now);
 
 // error_log("workout id = ".$_POST['id']);
-
+$pagename = home_url("/loaigt/");
 $a = $_POST['ten_loaigt'];
 $b = $_POST['heso_loaigt'];
 $c = $_POST['thoigian_apdung'];

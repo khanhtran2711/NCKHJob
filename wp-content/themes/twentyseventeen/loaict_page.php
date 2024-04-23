@@ -1,5 +1,8 @@
 <?php
 include 'my-stuff/loaict/config.php';
+
+global $wpdb;
+include 'wp-load.php';
 /**
  * The template for displaying all pages
  *
@@ -41,6 +44,10 @@ get_header(); ?>
                             </div>
                         </div>
                     </div>
+                    <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
                 </form>
                 <div class="container mt-3">
                     <h2>Danh sách các loại công trình</h2>
@@ -62,8 +69,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 <script src="<?= $jquery ?>"></script>
 <script>
     const currentUrl = window.location.hostname;
-    const folder = "NCKH";
-    let localURL =currentUrl+'/'+folder;
+    let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = array[array.length-2];
@@ -81,7 +87,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     });
 
     function callCreate() {
-        let urlc = "http://"+localURL+"/my-stuff/"+lastsegment+"/create.php";
+        let urlc = localURL+"/my-stuff/"+lastsegment+"/create.php";
         $.post(urlc, {
             ten_loai: $('#ten_loai').val()
             },
@@ -92,7 +98,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 
     function getReadUrl() {
         const params = new URLSearchParams(window.location.search);
-        let urlr = "http://"+localURL+"/my-stuff/"+lastsegment+"/read.php";
+        let urlr = localURL+"/my-stuff/"+lastsegment+"/read.php";
 
         if (params.has('id')) {
             urlr += "?id=" + params.get('id');

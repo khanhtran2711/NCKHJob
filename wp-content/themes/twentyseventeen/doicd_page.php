@@ -4,6 +4,9 @@ include './mydbfile.php';
 
 global $wpdb;
 include 'wp-load.php';
+
+
+
 /**
  * The template for displaying all pages
  *

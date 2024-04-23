@@ -4,6 +4,7 @@ global $wpdb;
 include '../../wp-load.php';
 include 'config.php';
 
+$pagename = home_url("/loaigt/");
 // $user_now = get_current_user_id();
 // error_log("current user=".$user_now);
 

@@ -1,6 +1,9 @@
 <?php
 include 'my-stuff/congtrinh/config.php';
 include 'mydbfile.php';
+
+global $wpdb;
+include 'wp-load.php';
 /**
  * The template for displaying all pages
  *
@@ -63,7 +66,10 @@ get_header(); ?>
                         <label for="ten_tc_ky_nxb">Tên tạp chí/kỷ yếu/ NXB</label>
                         <div class="invalid-feedback" data-sb-feedback="ten_tc_ky_nxb:required">Tên tạp chí/kỷ yếu/ NXB is required.</div>
                     </div>
-                    
+                    <?php
+                            $url = home_url();
+                            ?>
+                                        <input type="hidden" id="homeurl" value="<?=$url?>">
                     <div class="form-floating mb-3">
                         <input class="form-control" id="sluong_thamgia" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" />
                         <label for="sluong_thamgia">Số lượng tham gia</label>
@@ -155,8 +161,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 <script src="<?= $jquery ?>"></script>
 <script>
     const currentUrl = window.location.hostname;
-    const folder = "NCKH";
-    let localURL = currentUrl + '/' + folder;
+    let localURL = $("#homeurl").val();
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = array[array.length - 2];
@@ -195,7 +200,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
                 });   
         }
         function getReadUrlSL(param){
-            let urlr = "http://" + localURL + "/my-stuff/listofloaisltc.php?id=" + param;
+            let urlr =  localURL + "/my-stuff/listofloaisltc.php?id=" + param;
             // console.log(urlr);
             return urlr;
         }
@@ -209,7 +214,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
         }
     });
     function callCheck(ten) {
-        const url = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-admin.php/?ten="+ten;
+        const url =  localURL + "/my-stuff/" + lastsegment + "/read-admin.php/?ten="+ten;
         $.get(url, function(data) {
             if(data!="nothing"){ 
                 const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: '+data+'</div>';
@@ -227,7 +232,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     // });
 
     function callCreate() {
-        let urlc = "http://" + localURL + "/my-stuff/" + lastsegment + "/create.php";
+        let urlc =  localURL + "/my-stuff/" + lastsegment + "/create.php";
         $.post(urlc, {
             ten_ctr: $('#ten_ctr').val(),
             thoigian_hoanthanh: $('#thoigian_hoanthanh').val(),

@@ -20,7 +20,7 @@ echo "</thead>";
 while ($row = $re->fetch_assoc()) {
 	if (isset($_GET['id'])) {
 		if ($row['ma_gtr'] == $_GET['id']) {
-			echo '<tr><td colspan="5"><form action="'.$mystufflink.$foldername.'/update.php" method="POST">';
+			echo '<tr><td colspan="5"><form action="'.home_url().'/my-stuff/loaigtr/update.php" method="POST">';
 			echo '<table>';
 			echo '<tr><td><input class="form-control" id="ten_gtr" name="ten_gtr" type="text" value="' . $row['ten_gtr'] . '"></td>';
 			echo '<td><input class="form-control" id="mucgiam" name="mucgiam" type="text"  value="' . $row['mucgiam'] . '"></td>';
@@ -36,7 +36,7 @@ while ($row = $re->fetch_assoc()) {
 		echo "<td>" . $row['ten_gtr'] . "</td>";
 		echo "<td>" . $row['mucgiam'] . "</td>";
 		echo "<td>" . $row['thoigian_apdung'] . "</td>";
-		echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_gtr"] . '">Sửa</a></td>';
+		echo '<td><a class="btn btn-info" href="'.home_url("/loaigtr/").'?id=' . $row["ma_gtr"] . '">Sửa</a></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
 		echo "</tr>";
 		echo "</tbody>";

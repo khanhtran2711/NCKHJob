@@ -100,7 +100,7 @@ while ($row = $re->fetch_assoc()) {
 
 		if($flag)
 			echo '<td><a class="btn btn-info " href="' . home_url('/doichucdanh/') . '?id=' . $row['id'] . '">Sửa</a></td>';
-		echo '<td><form method="POST" action="' . home_url() . '/my-stuff/doigiamtru/delete.php?id=' . $row['id'] . '" onsubmit="return confirmDesactiv()">
+		echo '<td><form method="POST" action="' . home_url() . '/my-stuff/cbprofile/delete-cd.php?id=' . $row['id'] . '" onsubmit="return confirmDesactiv()">
 		<input type="submit" class="btn btn-danger" value="Xóa">
 </form></td>';  
 		echo "</tr>";

@@ -15,7 +15,7 @@ $macb = $data3[0]['ma_cb'];
 
 $sql = "SELECT * FROM `CanBo_GiaiThuong` as cbgt inner join `$tablename` as gt on gt.ma_gt=cbgt.ma_gt where cbgt.ma_cb=$macb";
 $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
-	$limit = 2;
+	$limit = 10;
 	$re = $conn->query($sql);
 	error_log('sql = ' . $sql);
 

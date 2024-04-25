@@ -137,7 +137,7 @@ form{
                             ));
                            
 
-                            $sql = "INSERT INTO `Canbo`(`tendem`, `dienthoaiDD`, `user_id`,`ma_khoa`) VALUES ('$username','',$user_id,1)";
+                            $sql = "INSERT INTO `Canbo`(`tendem`, `dienthoaiDD`, `user_id`,`ma_khoa`,`vaitro_noibo`,`trangthaidoikhoa`) VALUES ('$username','',$user_id,1,0,0)";
                             $conn->query($sql);
                             error_log($sql);
                             $conn->close();

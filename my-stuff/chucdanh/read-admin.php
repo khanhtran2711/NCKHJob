@@ -9,7 +9,7 @@ include 'config.php';
 $sql = "SELECT cbcd.id,user_id, cd.ten_cd, thoigiannhan FROM `CanBo_ChucDanh` cbcd INNER join `Canbo` c ON c.ma_cb=cbcd.ma_cb INNER JOIN `realdev_users` usr on c.user_id=usr.ID INNER JOIN `ChucDanh` cd on cbcd.ma_cd=cd.ma_cd WHERE trangthaiduyet=0";
 
 $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
-	$limit = 4;
+	$limit = 10;
 	$re = $conn->query($sql);
 	$total_records = $re->num_rows;
 	$total_page = ceil($total_records / $limit);

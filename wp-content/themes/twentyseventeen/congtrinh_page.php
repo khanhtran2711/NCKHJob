@@ -21,51 +21,104 @@ include 'wp-load.php';
  * Template name: Congtrinh form Page
  */
 $user = get_current_user_id();
-$cbid = "SELECT `ma_cb` FROM `Canbo` WHERE `user_id` = $user";
+$cbid = "SELECT cbcd.`ma_cb`,`ma_cd` FROM `CanBo_ChucDanh` cbcd INNER JOIN `Canbo` cb ON cbcd.ma_cb=cb.ma_cb and cb.user_id = $user";
 error_log('sql = ' . $cbid);
 $re3 = $conn->query($cbid);
-if($re3->num_rows>0){
+if ($re3->num_rows > 0) {
     $data3 = $re3->fetch_all(MYSQLI_ASSOC);
     $macb = $data3[0]['ma_cb'];
-}else{
-    echo "<script>window.location.href = '".home_url('/cbprofile/')."';</script>";
-}
+} 
 $sql3 = "SELECT `start`,`end` FROM `deadline`";
 error_log('sql = ' . $sql3);
 $re3 = $conn->query($sql3);
 $data3 = $re3->fetch_all(MYSQLI_ASSOC);
 $start = $data3[0]['start'];
 $end = $data3[0]['end'];
+$flagerror=false;
 get_header(); ?>
 
 <div class="wrap">
     <div id="primary" class="content-area">
+    <div class="modal" id="modalmess">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
 
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Thông báo!</h4>
+                            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"></button> -->
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            Vì bạn là thành viên mới! 
+                            <ul id="messlist">
+                            </ul>
+                            
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <?php
+            
+$cbid1 = "SELECT * FROM `CanBo_ChucDanh` cbcd INNER JOIN `Canbo` cb ON cbcd.ma_cb=cb.ma_cb and trangthaiduyet=1 and cb.user_id = $user";
+error_log('sql = ' . $cbid1);
+$re31 = $conn->query($cbid1);
+$messcd = '';
+if ($re31->num_rows==0){
+    $messcd = '<li>Hãy truy cập <a href='.home_url("/doichucdanh/").'> tại đây </a> để cập nhật chức danh hiện tại của bạn và đến khi được duyệt!</li>';
+}
+$cbid2 = "SELECT `ma_cb`,`trangthaidoikhoa` FROM `Canbo` cb WHERE cb.user_id = $user";
+error_log('sql = ' . $cbid2);
+$re32 = $conn->query($cbid2);
+$messkhoa = '';
+$data32 = $re32->fetch_all(MYSQLI_ASSOC);
+if ($data32[0]['trangthaidoikhoa']==0){
+    $messkhoa = '<li>Hãy truy cập <a href='.home_url("/doikhoa/").'> tại đây </a> để thay đổi khoa mặc định hiện tại của bạn!</li>';
+}
+if(strlen($messcd)>0 || strlen($messkhoa)>0){
+    $flagerror = true;
+    echo '<script>
+    document.getElementById("messlist").innerHTML += "'.$messcd.'";
+    document.getElementById("messlist").innerHTML += "'.$messkhoa.'";
+                                    var myModal = new bootstrap.Modal(document.getElementById("modalmess"));
+                                myModal.show();
+                        </script>';
+    // echo "<script>window.location.href = '" . home_url('/doichucdanh/') . "';</script>";
+}
+?>
         <main id="main" class="site-main">
         <?php
-           if($start <= date("Y-m-d") && $end >= date("Y-m-d")):
+           if($start <= date("Y-m-d") && $end >= date("Y-m-d") && !$flagerror):
             ?>
             <div class="container">
-            <div class="mb-3">Nếu quý thầy/cô đã có thông tin công trình tham gia, vui lòng nhấp vào đây <a href="<?=home_url('/qlyvitrictr/')?>" class="text-decoration-none btn btn-info">Điền vị trí cá nhân tham gia</a></div>
+            <div class="mb-1">Nếu quý thầy/cô đã có thông tin công trình tham gia, vui lòng nhấp vào đây <a href="<?=home_url('/qlyvitrictr/')?>" class="text-decoration-none btn btn-info">Điền vị trí cá nhân tham gia</a></div>
             <div id="mess" class="p-3"></div>
                 <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="ctr">
+                    
                     <div class="form-body">
                         <div class="row">
+                        <div class="chuthich"></div>
                         <div class="form-floating mb-3">
                         <input class="form-control" id="ten_ctr" type="text" placeholder="Tên đề tài" data-sb-validations="required" />
                         <label for="ten_ctr">Tên công trình</label>
                         <div class="invalid-feedback" data-sb-feedback="ten_ctr:required">Tên công trình is required.</div>
                     </div>
+                    <div class="chuthich"></div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="thoigian_hoanthanh" type="Date" placeholder="Năm bắt đầu" data-sb-validations="required" />
                         <label for="thoigian_hoanthanh">Thời gian hoàn thành</label>
                         <div class="invalid-feedback" data-sb-feedback="thoigian_hoanthanh:required">Thời gian hoàn thành is required.</div>
                     </div>
+                    <div class="chuthich"></div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="ten_tc_ky_nxb" type="text" placeholder="Năm bắt đầu" data-sb-validations="required" />
                         <label for="ten_tc_ky_nxb">Tên tạp chí/kỷ yếu/ NXB</label>
                         <div class="invalid-feedback" data-sb-feedback="ten_tc_ky_nxb:required">Tên tạp chí/kỷ yếu/ NXB is required.</div>
                     </div>
+                    <div class="chuthich"></div>
                     <?php
                             $url = home_url();
                             ?>
@@ -75,11 +128,14 @@ get_header(); ?>
                         <label for="sluong_thamgia">Số lượng tham gia</label>
                         <div class="invalid-feedback" data-sb-feedback="sluong_thamgia:required">Số lượng tham gia is required.</div>
                     </div>
+                    <div class="chuthich"></div>
+                    <p class="pb-lg-2 chuthich">Bạn nên đọc trước hướng dẫn khi chia sẻ minh chứng - <a href="https://drive.google.com/file/d/1JkSccTzhZimqYdFSu7SAbqyVlI7ScBmu/view" target="_blank" style="color: blue;text-decoration: none;">Tài liệu HDSD</a></p>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="minhchung" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" />
                         <label for="minhchung">Minh chứng (dán liên kết từ google drive vào đây)</label>
                         <div class="invalid-feedback" data-sb-feedback="minhchung:required">Minh chứng is required.</div>
                     </div>
+                    <div class="chuthich"></div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_loaict" aria-label="LoaiCongTrinhKhac">
                             <option value="0">Chọn loại công trình</option>
@@ -96,6 +152,7 @@ get_header(); ?>
                         </select>
                         <label for="ma_cdt">Loại Công Trình</label>
                     </div>
+                    <div class="chuthich"></div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_loaisltc" aria-label="ma_loaisltc">
                         <option value="0">Chọn loại đơn vị/mức điểm/giờ chuẩn</option>
@@ -103,11 +160,13 @@ get_header(); ?>
                         </select>
                         <label for="ma_loaisltc">Loại đơn vị tính/ mức điểm/giờ chuẩn</label>
                     </div>
+                    <div class="chuthich"></div>
                     <div class="form-floating mb-3">
                                 <input class="form-control" id="sotinchi" type="text" placeholder="Số tín chỉ" data-sb-validations="required" value="1"/>
                                 <label for="sotinchi">Số tín chỉ</label>
                                 <div class="invalid-feedback" data-sb-feedback="sotinchi:required">Số tín chỉ is required.</div>
                             </div>
+                            <div class="chuthich"></div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_nh" aria-label="Năm học">
                         <?php
@@ -172,6 +231,14 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     });
     $('#ma_loaict').on('change', function() {
             readLoaiSL( this.value );
+            console.log($("#ma_loaict option:selected").text()=="Giáo trình");
+            if($("#ma_loaict option:selected").text()=="Giáo trình" || $("#ma_loaict option:selected").text()=="Biên dịch tài liệu nước ngoài, Tài liệu tham khảo"){
+                $("#sotinchi").prop("readonly",false);    
+            }
+            else {
+            $("#sotinchi").prop("readonly",true);
+            $("#sotinchi").val("1");
+            }
             
     });
     $('#ma_loaisltc').on('change', function() {
@@ -181,7 +248,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     $(document).ready(function() {
         if($('#ma_loaict').val()>0){
             readLoaiSL( $('#ma_loaict').val());
-            $("#sotinchi").prop("readonly",false);
+            
         }
     });
 
@@ -189,13 +256,13 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
               const url = getReadUrlSL(param);
                 $.get(url, function(data) {
                     document.getElementById("ma_loaisltc").innerHTML = data;
-                    const ct = $('#ma_loaisltc option:selected').text();
-                    let a = "Tín chỉ";
-                    if(ct.toLowerCase()=== a.toLowerCase()){
-                        $("#sotinchi").prop("readonly",false);
-                    }else{
-                        $("#sotinchi").prop("readonly",true);
-                    }
+                    // const ct = $('#ma_loaisltc option:selected').text();
+                    // let a = "Tín chỉ";
+                    // if(ct.toLowerCase()=== a.toLowerCase()){
+                    //     $("#sotinchi").prop("readonly",false);
+                    // }else{
+                    //     $("#sotinchi").prop("readonly",true);
+                    // }
                     //  console.log(ct);
                 });   
         }

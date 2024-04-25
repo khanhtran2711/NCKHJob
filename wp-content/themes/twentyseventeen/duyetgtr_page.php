@@ -21,7 +21,7 @@ include 'wp-load.php';
  */
 if(isset($_GET['id'])){
 
-$sql = "UPDATE `CanBo_Giamtru` SET `trangthaiduyet`= 1 , `trangthaisudung`=1 WHERE `id`= " . $_GET['id'];
+$sql = "UPDATE `CanBo_GiamTru` SET `trangthaiduyet`= 1 , `trangthaisudung`=1 WHERE `id`= " . $_GET['id'];
         
 error_log('sql = '.$sql);
 

@@ -22,16 +22,15 @@ include 'wp-load.php';
  * @version 1.0
  * Template name: Giaithuong form Page
  */
+$flagerror = false;
 $user = get_current_user_id();
-$cbid = "SELECT `ma_cb` FROM `Canbo` WHERE `user_id` = $user";
+$cbid = "SELECT cbcd.`ma_cb`,`ma_cd` FROM `CanBo_ChucDanh` cbcd INNER JOIN `Canbo` cb ON cbcd.ma_cb=cb.ma_cb and cb.user_id = $user";
 error_log('sql = ' . $cbid);
 $re3 = $conn->query($cbid);
 if ($re3->num_rows > 0) {
     $data3 = $re3->fetch_all(MYSQLI_ASSOC);
     $macb = $data3[0]['ma_cb'];
-} else {
-    echo "<script>window.location.href = '" . home_url('/cbprofile/') . "';</script>";
-}
+} 
 $sql3 = "SELECT `start`,`end` FROM `deadline`";
 error_log('sql = ' . $sql3);
 $re3 = $conn->query($sql3);
@@ -42,29 +41,81 @@ get_header(); ?>
 
 <div class="wrap">
     <div id="primary" class="content-area">
+    <div class="modal" id="modalmess">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
 
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Thông báo!</h4>
+                            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"></button> -->
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            Vì bạn là thành viên mới! 
+                            <ul id="messlist">
+                            </ul>
+                            
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <?php
+            
+$cbid1 = "SELECT * FROM `CanBo_ChucDanh` cbcd INNER JOIN `Canbo` cb ON cbcd.ma_cb=cb.ma_cb and trangthaiduyet=1 and cb.user_id =  $user";
+error_log('sql = ' . $cbid1);
+$re31 = $conn->query($cbid1);
+$messcd = '';
+if ($re31->num_rows==0){
+    $messcd = '<li>Hãy truy cập <a href='.home_url("/doichucdanh/").'> tại đây </a> để cập nhật chức danh hiện tại của bạn và đến khi được duyệt!</li>';
+}
+$cbid2 = "SELECT `ma_cb`,`trangthaidoikhoa` FROM `Canbo` cb WHERE cb.user_id = $user";
+error_log('sql = ' . $cbid2);
+$re32 = $conn->query($cbid2);
+$messkhoa = '';
+$data32 = $re32->fetch_all(MYSQLI_ASSOC);
+if ($data32[0]['trangthaidoikhoa']==0){
+    $messkhoa = '<li>Hãy truy cập <a href='.home_url("/doikhoa/").'> tại đây </a> để thay đổi khoa mặc định hiện tại của bạn!</li>';
+}
+if(strlen($messcd)>0 || strlen($messkhoa)>0){
+    $flagerror=true;
+    echo '<script>
+    document.getElementById("messlist").innerHTML += "'.$messcd.'";
+    document.getElementById("messlist").innerHTML += "'.$messkhoa.'";
+                                    var myModal = new bootstrap.Modal(document.getElementById("modalmess"));
+                                myModal.show();
+                        </script>';
+    // echo "<script>window.location.href = '" . home_url('/doichucdanh/') . "';</script>";
+}
+?>
         <main id="main" class="site-main">
 
             <?php
 
-            if ($start <= date("Y-m-d") && $end >= date("Y-m-d")) :
+            if ($start <= date("Y-m-d") && $end >= date("Y-m-d") && !$flagerror) :
             ?>
                 <div class="container">
                     <div class="mb-3">Nếu quý thầy/cô đã có thông tin giải thưởng tham gia, vui lòng nhấp vào đây <a href="<?= home_url('/qlytgiagt/') ?>" class="text-decoration-none btn btn-info">Thêm giảng viên hướng dẫn vào giải thưởng</a></div>
                     <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="giaithuong">
                         <div class="form-body">
                             <div class="row">
+                            <div class=" chuthich"></div>
                                 <div class="form-floating mb-3">
                                     <input class="form-control" id="ten_gt" type="text" placeholder="Tên đề tài" data-sb-validations="required" />
                                     <label for="ten_gt">Tên giải thưởng</label>
                                     <div class="invalid-feedback" data-sb-feedback="ten_gt:required">Tên giải thưởng is required.</div>
                                 </div>
-
+                                <div class=" chuthich"></div>
+                                <p class="pb-lg-2 chuthich">Bạn nên đọc trước hướng dẫn khi chia sẻ minh chứng - <a href="https://drive.google.com/file/d/1JkSccTzhZimqYdFSu7SAbqyVlI7ScBmu/view" target="_blank" style="color: blue;text-decoration: none;">Tài liệu HDSD</a></p>
                                 <div class="form-floating mb-3">
                                     <input class="form-control" id="minhchung" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" />
                                     <label for="minhchung">Minh chứng (dán liên kết từ google drive vào đây)</label>
                                     <div class="invalid-feedback" data-sb-feedback="minhchung:required">Minh chứng is required.</div>
                                 </div>
+                                <div class=" chuthich"></div>
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="ma_loaigt" aria-label="Cấp đề tài">
                                         <?php
@@ -80,7 +131,7 @@ get_header(); ?>
                                     </select>
                                     <label for="ma_loaigt">Loại giải thưởng</label>
                                 </div>
-
+                                <div class=" chuthich"></div>
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="ma_nh" aria-label="Năm học">
                                         <?php
@@ -97,6 +148,7 @@ get_header(); ?>
                                     <label for="ma_nh">Năm học</label>
 
                                 </div>
+                                
                                 <input type="hidden" id="user_id" class="form-control" name="time_mins" value="<?= $macb ?>">
                                 <div class="col-12 d-flex justify-content-end mt-3">
                                     <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn" id="btnSubmit">Lưu</button>

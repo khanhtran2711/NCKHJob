@@ -32,6 +32,7 @@ get_header(); ?>
                 <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="loaict">
                     <div class="form-body">
                         <div class="row">
+                        <div class="chuthich"></div>
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="ten_loai" name="ten_loai" type="text" placeholder="Tên loại công trình" data-sb-validations="required" />
                                 <label for="ten_loai">Tên loại công trình</label>

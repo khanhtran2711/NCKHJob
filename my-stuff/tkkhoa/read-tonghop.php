@@ -65,28 +65,40 @@ include '../../nhiemvu.php';
 		
 	}
 
-	$sql2 = "SELECT cb.user_id,cb.ma_cb, lgt.heso_loaigt, k.ten_khoa, lgt.ten_loaigt FROM `GiaiThuong` gt INNER JOIN `CanBo_GiaiThuong` cbgt on gt.ma_gt=cbgt.ma_gt INNER JOIN `Canbo` cb on cb.ma_cb=cbgt.ma_cb INNER JOIN `NamHoc` nh on gt.ma_nh = nh.ma_nh INNER JOIN `LoaiGiaiThuong` lgt ON lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `Khoa_PB` k on k.ma_khoa=cb.ma_khoa WHERE nh.ma_nh =$a and cb.ma_khoa=$b and gt.trangthai = 1";
+	$sql2 = "SELECT gt.ma_gt , cb.user_id,cb.ma_cb, lgt.heso_loaigt, k.ten_khoa, lgt.ten_loaigt FROM `GiaiThuong` gt INNER JOIN `CanBo_GiaiThuong` cbgt on gt.ma_gt=cbgt.ma_gt INNER JOIN `Canbo` cb on cb.ma_cb=cbgt.ma_cb INNER JOIN `NamHoc` nh on gt.ma_nh = nh.ma_nh INNER JOIN `LoaiGiaiThuong` lgt ON lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `Khoa_PB` k on k.ma_khoa=cb.ma_khoa WHERE nh.ma_nh =$a and cb.ma_khoa=$b and gt.trangthai = 1";
 
 	$re2 = $conn->query($sql2);
 
 	error_log('sql = ' . $sql2);
 
+	$sql22 = "SELECT gt.ma_gt, COUNT(cb.user_id) as sl FROM `GiaiThuong` gt INNER JOIN `CanBo_GiaiThuong` cbgt on gt.ma_gt=cbgt.ma_gt INNER JOIN `Canbo` cb on cb.ma_cb=cbgt.ma_cb INNER JOIN `NamHoc` nh on gt.ma_nh = nh.ma_nh INNER JOIN `LoaiGiaiThuong` lgt ON lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `Khoa_PB` k on k.ma_khoa=cb.ma_khoa WHERE nh.ma_nh =$a and gt.trangthai = 1 GROUP by gt.ma_gt;";
+	$re22 = $conn->query($sql22);
+
+	error_log('sql22 = ' . $sql22);
+    $gtrarray = array();
+while($row22 = $re22->fetch_assoc()){
+    $key = $row22['ma_gt'];
+    $value = $row22['sl'];
+    $gtrarray[$key] = $value;
+}
 	//;
 	while ($row = $re2->fetch_assoc()) {
 		$flag = false;
+		$magt = $row['ma_gt'];
+        $sl = $gtrarray[$magt];
 		foreach ($listtonghop as $item) {
 			if($row['ma_cb']==$item->getMacb()){
 				if (str_contains($row['ten_loaigt'], 'cấp khoa')) {
 					$temp = $item->getHuongsv();
-					$item->setHuongsv(number_format($temp+$row['heso_loaigt']));
+					$item->setHuongsv(number_format($temp+($row['heso_loaigt']/$sl),2));
 				}
 				else if(str_contains($row['ten_loaigt'], 'đề tài NCKH, sáng tạo kỹ thuật')) {
 					$temp = $item->getSvnckh();
-					$item->setSvnckh(number_format($temp+$row['heso_loaigt']));
+					$item->setSvnckh(number_format($temp+($row['heso_loaigt']/$sl),2));
 				}
 				else{
 					$temp = $item->getOlympic();
-					$item->setOlympic(number_format($temp+$row['heso_loaigt']));
+					$item->setOlympic(number_format($temp+($row['heso_loaigt']/$sl),2));
 				
 				}
 				$flag=true;
@@ -101,15 +113,16 @@ include '../../nhiemvu.php';
 			$c->setKhoa($row['ten_khoa']);
 			$c->setNamhoc($namhoc);
 			if (str_contains($row['ten_loaigt'], 'cấp khoa')) {
-				$c->setHuongsv(number_format($row['heso_loaigt']));
+				$c->setHuongsv(number_format($row['heso_loaigt']/$sl,2));
 			}
 			else if(str_contains($row['ten_loaigt'], 'đề tài NCKH, sáng tạo kỹ thuật')) {
-				$c->setSvnckh(number_format($row['heso_loaigt']));
+				$c->setSvnckh(number_format($row['heso_loaigt']/$sl,2));
 			}
 			else{
-				$c->setOlympic(number_format($row['heso_loaigt']));
+				$c->setOlympic(number_format($row['heso_loaigt']/$sl,2));
 			
 			}
+			array_push($listtonghop,$c);
 		}
 	}
 
@@ -224,6 +237,7 @@ include '../../nhiemvu.php';
 			$tilesothang = 0;
 			$note ="";
 			$i=0;
+			$dinhmucnew = 0;
 			while($row2 = $ree2->fetch_assoc()){
 				if(str_contains($row2['ten_gtr'], 'nghỉ thai sản')){
 					$tilesothang = $row2['sothang']/6;
@@ -231,7 +245,14 @@ include '../../nhiemvu.php';
 					$tilesothang = $row2['sothang']/10;
 				}
 				// chua biet cai nay tinh sao??????
-				$dinhmucnew = $row['dinhmucmax'] * (1-($row2['mucgiam']*$tilesothang));
+				
+				$dinhmuctam = $row['dinhmucmax'] * (1-($row2['mucgiam']*$tilesothang));
+				if($dinhmucnew==0){
+					$dinhmucnew = $dinhmuctam;
+				}
+				else if($dinhmuctam<$dinhmucnew){
+					$dinhmucnew = $dinhmuctam;
+				}
 				if($i==0)
 				$note .= $row2['ten_gtr'];
 				else

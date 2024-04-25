@@ -53,6 +53,7 @@ get_header();
                 <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="loaigtr">
                     <div class="form-body">
                         <div class="row">
+                        <div class="chuthich"></div>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="ma_gtr" aria-label="Loại giảm trừ">
                                 <option value="0">Chọn loại giảm trừ</option>
@@ -69,11 +70,13 @@ get_header();
                                 </select>
                                 <label for="ma_cdt">Tên loại giảm trừ</label>
                             </div>
+                            <div class="chuthich"></div>
                             <div class="form-floating mb-3">
                         <input class="form-control" id="sothang" type="text" placeholder="Số tháng giảm trừ" data-sb-validations="required" />
                         <label for="sothang">Số tháng giảm trừ</label>
                         <div class="invalid-feedback" data-sb-feedback="sothang:required">Số tháng giảm trừ is required.</div>
                     </div>
+                    <div class="chuthich"></div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_nh" aria-label="Năm học">
                         <option value="0">Chọn năm học</option>

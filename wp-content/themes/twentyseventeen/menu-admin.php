@@ -1,6 +1,7 @@
 <?php
 global $wpdb;
 include 'wp-load.php';
+// echo home_url( $wp->request ); display the current url
 ?>
 
 <div class="wrapper">

@@ -9,7 +9,7 @@ include '../../wp-load.php';
 $sql = "SELECT cbgtr.id,user_id, gtr.ten_gtr, thoigiannhan, sothang FROM `CanBo_GiamTru` cbgtr INNER join `Canbo` c ON c.ma_cb=cbgtr.ma_cb INNER JOIN `realdev_users` usr on c.user_id=usr.ID INNER JOIN `LoaiGiamTru` gtr ON gtr.ma_gtr=cbgtr.ma_gtr WHERE trangthaiduyet=0";
 
 $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
-	$limit = 4;
+	$limit = 10;
 	$re = $conn->query($sql);
 	$total_records = $re->num_rows;
 	$total_page = ceil($total_records / $limit);

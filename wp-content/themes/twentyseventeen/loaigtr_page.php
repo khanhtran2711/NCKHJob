@@ -31,16 +31,19 @@ get_header(); ?>
                 <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="loaigtr">
                     <div class="form-body">
                         <div class="row">
+                        <div class="chuthich"></div>
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="ten_gtr" name="ten_gtr" type="text" placeholder="Tên loại giảm trừ" data-sb-validations="required" />
                                 <label for="ten_gtr">Tên giảm trừ</label>
                                 <div class="invalid-feedback" data-sb-feedback="ten_loaigt:required">Tên giảm trừ is required.</div>
                             </div>
+                            <div class="chuthich"></div>
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="mucgiam" name="mucgiam" type="text" placeholder="Giờ chuẩn" data-sb-validations="required" />
                                 <label for="mucgiam">Mức giảm (số lẻ)</label>
                                 <div class="invalid-feedback" data-sb-feedback="heso_loaigt:required">Mức giảm is required.</div>
                             </div>
+                            <div class="chuthich"></div>
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="thoigian_apdung" name="thoigian_apdung" type="date" placeholder="Thời gian áp dụng" data-sb-validations="required" value="<?=date('Y-m-d')?>"/>
                                 <label for="thoigian_apdung">Thời gian áp dụng</label>

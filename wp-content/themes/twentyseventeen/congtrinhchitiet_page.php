@@ -175,7 +175,7 @@ get_header(); ?>
             </td>
             <td> <form method="POST">
              <input type="hidden" name="cbctid" class="form-control" name="time_mins" value="<?=$row['cbctid']?>"/>
-             <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete?')" name="delBtn" class="btn btn-danger">
+             <input type="submit" value="Xóa" onclick="return confirm('Are you sure you want to delete?')" name="delBtn" class="btn btn-danger">
              </form>     </td>                  
                                     <?php
                                 // echo '<td><button class="btn btn-danger" id="del'.$row['detaicbid'].'" >Delete</button>';

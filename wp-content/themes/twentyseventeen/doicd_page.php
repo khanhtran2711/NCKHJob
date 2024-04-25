@@ -118,6 +118,10 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
 
 
     });
+    function confirmDesactiv()
+    {
+    return confirm("bạn có muốn xóa không?")
+    }
 
     // function callCreate() {
     //     let urlc =  localURL + "/my-stuff/" + lastsegment + "/create.php";

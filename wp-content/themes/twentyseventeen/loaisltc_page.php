@@ -33,21 +33,25 @@ get_header(); ?>
                 <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="loaisltc">
                     <div class="form-body">
                         <div class="row">
+                        <div class="chuthich"></div>
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="ten_loaisl" name="ten_loaisl" type="text" placeholder="Tên đơn vị tính/ mức điểm/giờ chuẩn" data-sb-validations="required" />
                                 <label for="ten_loaisl">Tên đơn vị tính/ mức điểm/giờ chuẩn</label>
                                 <div class="invalid-feedback" data-sb-feedback="ten_loaigt:required">Tên đơn vị tính/ mức điểm/giờ chuẩn is required.</div>
                             </div>
+                            <div class="chuthich"></div>
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="giatri_sl" name="giatri_sl" type="text" placeholder="Giá trị" data-sb-validations="required" />
                                 <label for="giatri_sl">Giờ chuẩn</label>
                                 <div class="invalid-feedback" data-sb-feedback="giatri_sl:required">Giờ chuẩn is required.</div>
                             </div>
+                            <div class="chuthich"></div>
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="thoigian_apdung" name="thoigian_apdung" type="date" placeholder="Thời gian áp dụng" data-sb-validations="required" value="<?=date('Y-m-d')?>"/>
                                 <label for="thờiGianApDụng">Thời gian áp dụng</label>
                                 <div class="invalid-feedback" data-sb-feedback="thờiGianApDụng:required">Thời gian áp dụng is required.</div>
                             </div>
+                            <div class="chuthich"></div>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="ma_loaict" aria-label="Loaict">
                                     <?php

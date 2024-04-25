@@ -10,7 +10,7 @@ include '../../wp-load.php';
 $sql = "SELECT cbgtr.id,cbgtr.ma_gtr,sothang, cbgtr.ma_nh,lgt.ten_gtr,namhoc,trangthaiduyet FROM `CanBo_GiamTru` cbgtr INNER JOIN `NamHoc` nh on cbgtr.ma_nh = nh.ma_nh INNER JOIN `LoaiGiamTru` lgt on cbgtr.ma_gtr=lgt.ma_gtr inner join `Canbo` as cb on cbgtr.ma_cb=cb.ma_cb INNER JOIN `realdev_users` as u on u.ID=cb.user_id WHERE u.id = ".get_current_user_id()." ORDER BY cbgtr.id DESC";
 
 $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
-	$limit = 4;
+	$limit = 10;
 	$re = $conn->query($sql);
 	error_log('sql = ' . $sql);
 	

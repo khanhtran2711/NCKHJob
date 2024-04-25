@@ -77,8 +77,20 @@ $re3 = $conn->query($sql3);
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
 		echo "</tr>";
 	}
+   $sql22 = "SELECT gt.ma_gt, COUNT(cb.user_id) as sl FROM `GiaiThuong` gt INNER JOIN `CanBo_GiaiThuong` cbgt on gt.ma_gt=cbgt.ma_gt INNER JOIN `Canbo` cb on cb.ma_cb=cbgt.ma_cb INNER JOIN `NamHoc` nh on gt.ma_nh = nh.ma_nh INNER JOIN `LoaiGiaiThuong` lgt ON lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `Khoa_PB` k on k.ma_khoa=cb.ma_khoa WHERE nh.ma_nh =$a and gt.trangthai = 1 GROUP by gt.ma_gt;";
+	$re22 = $conn->query($sql22);
+
+	error_log('sql22 = ' . $sql22);
+    $gtrarray = array();
+while($row22 = $re22->fetch_assoc()){
+    $key = $row22['ma_gt'];
+    $value = $row22['sl'];
+    $gtrarray[$key] = $value;
+}
     while ($row = $re1->fetch_assoc()) {
         $user = new WP_User($row['user_id']);
+		$magt = $row['ma_gt'];
+        $sl = $gtrarray[$magt];
 		echo "<tr>";
         echo "<td>" . $user->last_name." ".$user->first_name . "</td>";
         echo "<td>" . $row['ten_khoa'] . "</td>";
@@ -89,7 +101,7 @@ $re3 = $conn->query($sql3);
 		echo "<td></td>";
 		echo "<td></td>";
 		echo "<td>1</td>";
-        echo "<td>".$row['heso_loaigt']."</td>";
+        echo "<td>".number_format($row['heso_loaigt']/$sl,1)."</td>";
 		$c = new Chitiet();
 			$c->setMacb($row['ma_cb']);
 			$c->setUserid($row['user_id']);
@@ -99,7 +111,7 @@ $re3 = $conn->query($sql3);
 			$c->setLoaict('Giải thưởng');
 			$c->setCap($row['ten_loaigt']);
 			$c->setKetthuc($row['thoigiannhan']);
-			$c->setQuydoi($row['heso_loaigt']);
+			$c->setQuydoi(number_format($row['heso_loaigt']/$sl,1));
 		$c->setNamhoc($namhoc);
 		$c->setTinchi(1);
 			

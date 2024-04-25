@@ -26,11 +26,12 @@ $macb = $data3[0]['ma_cb'];
 $makhoa = $data3[0]['ma_khoa'];
 if(isset($_POST['doikhoabtn'])){
     $a = $_POST['ma_khoa'];
-    $sql = "UPDATE `Canbo` SET `ma_khoa`='$a' WHERE `ma_cb` = ".$macb;
+    $sql = "UPDATE `Canbo` SET `ma_khoa`='$a', `trangthaidoikhoa`=1 WHERE `ma_cb` = ".$macb;
     error_log('sql = '.$sql);
     $result = $conn->query($sql);
-    echo "<script>window.location.href = '".home_url('/cbprofile/')."';</script>";
+    echo "<script>window.location.href = '" . home_url('/doikhoa/') . "';</script>";
 }
+
 //giang vien nay chua cap nhat chuc danh và khoa-pb truc thuoc cua minh
 get_header();
 
@@ -38,6 +39,7 @@ get_header();
     
     <div class="wrap">
     <div id="primary" class="content-area">
+        
 
         <main id="main" class="site-main">
 

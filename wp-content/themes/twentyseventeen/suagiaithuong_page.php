@@ -142,7 +142,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     // });
 
     function callUpdate(id) {
-        let urlc = "http://" + localURL + "/my-stuff/" + lastsegment + "/update.php";
+        let urlc = localURL + "/my-stuff/" + lastsegment + "/update.php";
         $.post(urlc, {
             ten_gt: $('#ten_gt').val(),
             ma_loaigt: $('#ma_loaigt').val(),

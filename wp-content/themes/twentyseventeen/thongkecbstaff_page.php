@@ -126,7 +126,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     // });
 
     function callReadQD() {
-        let urlc = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-quydoi.php";
+        let urlc = localURL + "/my-stuff/" + lastsegment + "/read-quydoi.php";
         $.post(urlc, {
             ma_nh: $('#ma_nh').val(),
             email: $('#email').val()
@@ -139,7 +139,9 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             });
     }
     function callReadTH() {
-        let urlc = "http://" + localURL + "/my-stuff/" + lastsegment + "/read-tonghop.php";
+        let localURL = $("#homeurl").val();
+        let urlc = localURL+"/my-stuff/tkcb/read-tonghop.php";
+        console.log(urlc);
         $.post(urlc, {
             ma_nh: $('#ma_nh').val(),
             email: $('#email').val()

@@ -158,23 +158,23 @@ while($row22 = $re22->fetch_assoc()){
 			
 			if (str_contains(strtolower($row['ten_loai']), 'giáo trình')) {
 				
-				$c->setGiaotrinh(number_format($temp+$sogioquydoi,1));
+				$c->setGiaotrinh(number_format($sogioquydoi,1));
 			}
 			else if (str_contains(strtolower($row['ten_loai']), 'tạp chí')) {
 				
-				$c->setBaitapchi(number_format($temp+$sogioquydoi,1));
+				$c->setBaitapchi(number_format($sogioquydoi,1));
 			}
 			else if (str_contains(strtolower($row['ten_loai']), 'kỷ yếu')) {
 				
-				$c->setBaikyyeu(number_format($temp+$sogioquydoi,1));
+				$c->setBaikyyeu(number_format($sogioquydoi,1));
 			}
 			else if (str_contains(strtolower($row['ten_loai']), 'sách')) {
 				
-				$c->setSach(number_format($temp+$sogioquydoi,1));
+				$c->setSach(number_format($sogioquydoi,1));
 			}
 			else if (str_contains(strtolower($row['ten_loai']), 'tài liệu')){
 				
-				$c->setTailieu(number_format($temp+$sogioquydoi,1));
+				$c->setTailieu(number_format($sogioquydoi,1));
 			}
 			array_push($listtonghop,$c);
 		}else{

@@ -32,14 +32,14 @@ $sql4= "SELECT namhoc FROM `NamHoc` WHERE ma_nh = $a ";
 
 	error_log('sql = ' . $sql1);
 
-$sql3 = "SELECT ctk.ma_ctr,cb.ma_cb, max(cbcd.id),cd.ten_cd, ctk.ten_ctr, ctk.thoigian_hoanthanh, cd.dinhmuc, ctk.ten_tc_ky_nxb ,lsl.giatri_sl, khoa.ten_khoa , lctk.ten_loai , ctk.sluong_thamgia, cbct.ten_loaivt,sotinchi FROM `CongTrinh_Khac` ctk INNER JOIN `CanBo_Ctr` cbct on ctk.ma_ctr=cbct.ma_ctr INNER JOIN `Canbo` cb on cb.ma_cb=cbct.ma_cb INNER JOIN `CanBo_ChucDanh` cbcd on cbcd.ma_cb=cb.ma_cb INNER JOIN `NamHoc` nh on ctk.ma_nh = nh.ma_nh INNER JOIN `ChucDanh` cd on cd.ma_cd=cbcd.ma_cd INNER JOIN `LoaiSL_TC` lsl ON lsl.ma_loaisl=ctk.ma_loaisltc INNER JOIN `LoaiCongTrinh_Khac` lctk ON lctk.ma_loai=lsl.ma_loaict INNER JOIN `Khoa_PB` khoa on khoa.ma_khoa = cb.ma_khoa WHERE nh.ma_nh = $a and cb.user_id = $user_id and ctk.trangthai = 1 GROUP by ctk.ma_ctr,cb.ma_cb";
+$sql3 = "SELECT ctk.ma_ctr,cb.ma_cb, max(cbcd.id),cd.ten_cd, ctk.ten_ctr, ctk.thoigian_hoanthanh, cd.dinhmuc, ctk.ten_tc_ky_nxb ,lsl.giatri_sl,lsl.ten_loaisl, khoa.ten_khoa , lctk.ten_loai , ctk.sluong_thamgia, cbct.ten_loaivt,sotinchi FROM `CongTrinh_Khac` ctk INNER JOIN `CanBo_Ctr` cbct on ctk.ma_ctr=cbct.ma_ctr INNER JOIN `Canbo` cb on cb.ma_cb=cbct.ma_cb INNER JOIN `CanBo_ChucDanh` cbcd on cbcd.ma_cb=cb.ma_cb INNER JOIN `NamHoc` nh on ctk.ma_nh = nh.ma_nh INNER JOIN `ChucDanh` cd on cd.ma_cd=cbcd.ma_cd INNER JOIN `LoaiSL_TC` lsl ON lsl.ma_loaisl=ctk.ma_loaisltc INNER JOIN `LoaiCongTrinh_Khac` lctk ON lctk.ma_loai=lsl.ma_loaict INNER JOIN `Khoa_PB` khoa on khoa.ma_khoa = cb.ma_khoa WHERE nh.ma_nh = $a and cb.user_id = $user_id and ctk.trangthai = 1 GROUP by ctk.ma_ctr,cb.ma_cb";
 $re3 = $conn->query($sql3);
 
 	error_log('sql = ' . $sql3);
 	// webpage form starts here
 	echo "<tbody>";
 	echo "<thead>";
-	echo "<th>Họ tên</th><th>Khoa</th><th>Tên đề tài/Tên công trình/Giải thưởng</th><th>Loại công trình</th><th>Cấp đề tài/Tên Tạp chí/Tên Kỷ yếu-Tên NXB</th><th>Kết thúc</th><th>Số người tham gia</th><th>Vị trí tham gia</th><th>Số lượng/Số tín chỉ</th><th>Số giờ quy đổi công trình</th>";
+	echo "<th>Họ tên</th><th>Khoa</th><th>Tên đề tài/Tên công trình/Giải thưởng</th><th>Loại công trình</th><th>Cấp đề tài/Tên Tạp chí/Tên Kỷ yếu-Tên NXB</th><th>Kết thúc</th><th>Số người tham gia</th><th>Vị trí tham gia</th><th>Số lượng/Số tín chỉ</th><th>Số giờ quy đổi công trình</th><th>Ghi chú về tên đơn vị tính/ mức điểm/giờ chuẩn</th>";
 	echo "</thead>";
 	while ($row = $re->fetch_assoc()) {
         $user = new WP_User($user_id);
@@ -146,6 +146,8 @@ while($row22 = $re22->fetch_assoc()){
             $sogioquydoi = ($giotong*(2/3)*$sotinchi)/($row['sluong_thamgia']);
         }
         echo "<td>".number_format($sogioquydoi,1)."</td>";
+		echo "<td>".$row['ten_loaisl']."</td>";
+
 		$c = new Chitiet();
 			$c->setMacb($row['ma_cb']);
 			$c->setUserid($user_id);

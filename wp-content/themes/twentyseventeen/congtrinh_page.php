@@ -168,6 +168,20 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
                                 <div class="invalid-feedback" data-sb-feedback="sotinchi:required">Số tín chỉ is required.</div>
                             </div>
                             <div class="chuthich"></div>
+                        <div class="form-floating mb-3">
+                                <select class="form-select" id="ten_loaivt" name="ten_loaivt" aria-label="Vị trí tham gia">
+                                    <?php
+                                    $list_vt = ['TV Chính', 'TV Tham Gia'];
+                                    foreach ($list_vt as $vt) :
+                                    ?>
+                                        <option value="<?= $vt ?>"><?= $vt ?></option>
+                                    <?php
+                                    endforeach;
+                                    ?>
+                                </select>
+                                <label for="ten_loaivt">Vị trí tham gia trong đề tài</label>
+                            </div>
+                            <div class="chuthich"></div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_nh" aria-label="Năm học">
                         <?php
@@ -313,7 +327,8 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             ma_nh: $('#ma_nh').val(),
             minhchung: $('#minhchung').val(),
             sotinchi: $('#sotinchi').val(),
-            user_id:$("#user_id").val()
+            user_id:$("#user_id").val(),
+            ten_loaivt: $('#ten_loaivt').val()
             },
             function(data, status) {
                 window.location.href = data;

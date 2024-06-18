@@ -29,6 +29,11 @@ include 'wp-load.php';
 						<i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Quản lý vai trò</span>
 					</a>
 				</li>
+				<li class="sidebar-item">
+					<a class="sidebar-link" href="<?= home_url('/qlthongbao') ?>">
+						<i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Quản lý thông báo</span>
+					</a>
+				</li>
 				<li class="sidebar-header">
 					Quản lý danh mục
 				</li>

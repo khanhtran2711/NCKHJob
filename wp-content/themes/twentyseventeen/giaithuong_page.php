@@ -98,6 +98,7 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
             if ($start <= date("Y-m-d") && $end >= date("Y-m-d") && !$flagerror) :
             ?>
                 <div class="container">
+                <div class="chuthich"></div>
                     <div class="mb-3">Nếu quý thầy/cô đã có thông tin giải thưởng tham gia, vui lòng nhấp vào đây <a href="<?= home_url('/qlytgiagt/') ?>" class="text-decoration-none btn btn-info">Thêm giảng viên hướng dẫn vào giải thưởng</a></div>
                     <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="giaithuong">
                         <div class="form-body">

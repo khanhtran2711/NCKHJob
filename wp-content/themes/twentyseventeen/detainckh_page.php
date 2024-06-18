@@ -95,6 +95,7 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
             if ($start <= date("Y-m-d") && $end >= date("Y-m-d")&& !$flagerror) :
             ?>
                 <div class="container">
+                    <div class="chuthich"></div>
                     <div class="mb-3">Nếu quý thầy/cô đã có thông tin đề tài tham gia, vui lòng nhấp vào đây <a href="<?= home_url('/qlyvitrinckh/') ?>" class="text-decoration-none btn btn-info">Điền vị trí cá nhân tham gia</a></div>
                     <div id="mess"></div>
                     <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="detainckh">

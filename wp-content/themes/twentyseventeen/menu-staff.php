@@ -43,7 +43,7 @@ include 'mydbfile.php';
 			endif;
 			?>
 					<li class="sidebar-header">
-					<a class="" href="<?=home_url( '/cbprofile')?>">Cập nhật thông tin chuyên môn</a>
+					Cập nhật thông tin chuyên môn
 					</li>
 
 					<li class="sidebar-item">

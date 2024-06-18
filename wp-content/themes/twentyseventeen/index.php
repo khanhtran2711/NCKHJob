@@ -14,7 +14,10 @@
  * @since Twenty Seventeen 1.0
  * @version 1.0
  */
+include 'mydbfile.php';
 
+global $wpdb;
+include 'wp-load.php';
 get_header(); ?>
 
 <!-- <div class="wrap"> -->
@@ -43,9 +46,37 @@ $the_query = new WP_Query( $args );
 						<!-- <div class="col-12 d-flex order-1 order-xxl-1">
                         <img src="./image/Header-nkch.jpg" style="background-size: cover;height: 333px;margin: 0px;">
                         </div> -->
+					<?php if(current_user_can('administrator')):?>
 						<div class="col-12 d-flex order-1 order-xxl-1">
 							<img src="<?php echo get_template_directory_uri().'/assets/images/Header PX 1110 - 1110.jpg'; ?>" alt="" style="width:inherit;">
 						</div>
+					<?php else: ?>
+					<div class="container p-5">
+						<h2>Danh sách các thông báo</h2>
+						<table class="table table-striped" id="records">
+							<?php
+							$sql = "SELECT * FROM `thongbao` WHERE `trangthai`=1 ORDER BY ngaydang DESC";
+							echo "<tbody>";
+							echo "<thead>";
+							echo "<th>Nội dung</th><th>Link</th><th>Ngày đăng</th>";
+							echo "</thead>";
+							$re = $conn->query($sql);
+
+							error_log('sql = ' . $sql);
+							while ($row = $re->fetch_assoc()) {
+								echo "<tr>";
+								echo "<td>" . $row['noidung'] . "</td>";
+								echo "<td><a href='" . $row['link'] . "' target='_blank'>Xem chi tiết</a></td>";
+								echo "<td>" . date('d-m-Y',strtotime($row['ngaydang'])) . "</td>";
+								echo "<td>";
+								echo "</tr>";
+							}
+							echo "</tbody>";
+							?>
+						</table>
+				
+					</div>
+					<?php endif;?>
 
 					</div>
 
@@ -76,4 +107,6 @@ $the_query = new WP_Query( $args );
 <!-- </div> -->
 <!-- .wrap -->
 <?php
-// get_footer();
+if(!current_user_can('administrator')):
+get_footer();
+endif;

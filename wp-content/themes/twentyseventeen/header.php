@@ -93,7 +93,9 @@
 	}
 	?>
 	<div class="main">
-	<?php if (!is_home() || !is_front_page()) : ?>
+	<?php 
+	if (((!is_home() || !is_front_page())&& current_user_can('administrator')) || !current_user_can('administrator')) :
+		 ?>
 			<div class="row">
 
 				<div class="col-12 d-flex order-1 order-xxl-1">
@@ -101,7 +103,9 @@
 				</div>
 
 			</div>
-		<?php endif ?>
+		<?php 
+		endif 
+		?>
 		<nav class="navbar navbar-expand navbar-light navbar-bg">
 			<a class="sidebar-toggle js-sidebar-toggle">
 				<i class="hamburger align-self-center"></i>

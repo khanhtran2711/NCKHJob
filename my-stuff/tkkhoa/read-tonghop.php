@@ -27,7 +27,7 @@ include '../../nhiemvu.php';
 	while ($row = $re->fetch_assoc()) {
 		$giotong = $row['giochuan'];
 		$sogioquydoi = 0;
-		if($row['ten_loaivt']=='TV chính')
+		if($row['ten_loaivt']=='TV Chính')
 			$sogioquydoi = $giotong/3 + ($giotong*(2/3))/($row['sluong_thamgia']);
 		else{
 			$sogioquydoi = ($giotong*(2/3))/($row['sluong_thamgia']);
@@ -136,7 +136,7 @@ while($row22 = $re22->fetch_assoc()){
 		$giotong = $row['giatri_sl'];
 		$sotinchi = $row['sotinchi'];
         $sogioquydoi = 0;
-        if($row['ten_loaivt']=='TV chính')
+        if($row['ten_loaivt']=='TV Chính')
             $sogioquydoi = ($giotong/3*$sotinchi) + ($giotong*(2/3)*$sotinchi)/($row['sluong_thamgia']);
         else{
             $sogioquydoi = ($giotong*(2/3)*$sotinchi)/($row['sluong_thamgia']);

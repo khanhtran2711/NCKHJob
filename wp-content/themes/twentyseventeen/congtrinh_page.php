@@ -94,6 +94,7 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
            if($start <= date("Y-m-d") && $end >= date("Y-m-d") && !$flagerror):
             ?>
             <div class="container">
+            <div class="chuthich"></div>
             <div class="mb-1">Nếu quý thầy/cô đã có thông tin công trình tham gia, vui lòng nhấp vào đây <a href="<?=home_url('/qlyvitrictr/')?>" class="text-decoration-none btn btn-info">Điền vị trí cá nhân tham gia</a></div>
             <div id="mess" class="p-3"></div>
                 <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="ctr">
@@ -224,7 +225,10 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     let path = window.location.pathname.split('/').pop();
     const array = window.location.pathname.split('/');
     const lastsegment = array[array.length - 2];
-
+    function confirmDesactiv()
+    {
+    return confirm("bạn có muốn xóa không?")
+    }
     $("#ctr").on("submit", function(event) {
         event.preventDefault();
         callCreate();

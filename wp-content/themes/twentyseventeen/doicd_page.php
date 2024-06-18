@@ -123,29 +123,6 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     return confirm("bạn có muốn xóa không?")
     }
 
-    // function callCreate() {
-    //     let urlc =  localURL + "/my-stuff/" + lastsegment + "/create.php";
-    //     let dataf = {};
-    //     // if ($('#elementId').length > 0) {
-
-    //         dataf = {
-    //             ma_cd: $('#ma_cd').val(),
-    //             ma_khoa: $('#ma_khoa').val(),
-    //             ma_cb: $("#user_id").val()
-    //         };
-    //     // } else {
-    //     //     dataf = {
-    //     //         ma_cd: $('#ma_cd').val(),
-    //     //         ma_cb: $("#user_id").val()
-    //     //     }
-    //     // }
-    //     $.post(urlc, dataf,
-    //         function(data, status) {
-    //             console.log(data);
-    //             // window.location.href = data
-
-    //         });
-    // }
 
     function getReadUrl() {
         const params = new URLSearchParams(window.location.search);

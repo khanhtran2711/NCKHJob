@@ -135,6 +135,9 @@ console.log(lastsegment);
         if (params.has('id')) {
             urlr += "?id=" + params.get('id');
         }
+        if (params.has('pg')) {
+            urlr += "?pg=" + params.get('pg');
+        }
 
         return urlr;
     }

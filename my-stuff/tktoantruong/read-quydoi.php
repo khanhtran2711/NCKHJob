@@ -73,6 +73,7 @@ $re3 = $conn->query($sql3);
 		array_push($listtonghop,$c);
 		// echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
+		echo "<td></td>";
 		echo "</tr>";
 	}
 	$sql22 = "SELECT gt.ma_gt, COUNT(cb.user_id) as sl FROM `GiaiThuong` gt INNER JOIN `CanBo_GiaiThuong` cbgt on gt.ma_gt=cbgt.ma_gt INNER JOIN `Canbo` cb on cb.ma_cb=cbgt.ma_cb INNER JOIN `NamHoc` nh on gt.ma_nh = nh.ma_nh INNER JOIN `LoaiGiaiThuong` lgt ON lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `Khoa_PB` k on k.ma_khoa=cb.ma_khoa WHERE nh.ma_nh =$a and gt.trangthai = 1 GROUP by gt.ma_gt;";
@@ -116,6 +117,7 @@ while($row22 = $re22->fetch_assoc()){
 		array_push($listtonghop,$c);
 		// echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
+		echo "<td></td>";
 		echo "</tr>";
 		
 	}

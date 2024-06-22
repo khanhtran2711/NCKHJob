@@ -70,6 +70,7 @@ $re3 = $conn->query($sql3);
             $sogioquydoi = ($giotong*(2/3))/($row['sluong_thamgia']);
         }
         echo "<td>".number_format($sogioquydoi,1)."</td>";
+		echo "<td></td>";
 		$c->setQuydoi(number_format($sogioquydoi,1));
 		$c->setNamhoc($namhoc);
 		array_push($listtonghop,$c);
@@ -114,7 +115,7 @@ while($row22 = $re22->fetch_assoc()){
 			$c->setQuydoi(number_format($row['heso_loaigt']/$sl,1));
 		$c->setNamhoc($namhoc);
 		$c->setTinchi(1);
-			
+		echo "<td></td>";
 		array_push($listtonghop,$c);
 		// echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';

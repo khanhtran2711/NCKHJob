@@ -47,13 +47,43 @@ if (isset($_POST['doivitri'])) {
     $b = $_POST['ten_loaivt'];
     $ma_detai = $_POST['ma_detai'];
 $loainckh = $_POST['loainckh'];
+$macb = $_POST['macb'];
     if($loainckh == "detainckh"){
-        $vitri = "UPDATE `DeTai_CanBo` SET `ten_loaivt`='$b' WHERE `ma_dtnckh`=$ma_detai";
+        $path = "detaichitiet";
+        $redflag = false;
+        if($b=="TV Chính"){
+            $checkvtri = "SELECT * FROM `DeTai_CanBo` WHERE `ma_dtnckh` = $ma_detai and `ten_loaivt` = 'TV Chính';";
+            $result = $conn->query($checkvtri);
+            if($result->num_rows>0){
+                $redflag = true;
+            }
+        }
+        if($redflag==false || $b!="TV Chính") {
+            $vitri = "UPDATE `DeTai_CanBo` SET `ten_loaivt`='$b' WHERE `ma_dtnckh`=$ma_detai and `macb` = $macb";
+        }
+        
     }
+    if($loainckh == "congtrinh"){
+        $path = "congtrinhchitiet";
+        $redflag = false;
+        if($b=="TV Chính"){
+            $checkvtri = "SELECT * FROM `CanBo_Ctr` WHERE `ma_ctr` = $ma_detai and `ten_loaivt` = 'TV Chính';";
+            $result = $conn->query($checkvtri);
+            if($result->num_rows>0){
+                $redflag = true;
+            }
+        }
+        if($redflag==false || $b!="TV Chính") {
+            $vitri = "UPDATE `CanBo_Ctr` SET `ten_loaivt`='$b' WHERE `ma_ctr`=$ma_detai and `ma_cb` = $macb";
+        }
+    }
+    if($redflag == false){
         error_log('sql = ' . $vitri);
         $result = $conn->query($vitri);
         $conn->close();
-        echo "<script>window.location.href = '" . home_url('/detaichitiet/?id='.$ma_detai) . "';</script>";
+    }
+        
+        echo "<script>window.location.href = '" . home_url('/'.$path.'/?id='.$ma_detai) . "';</script>";
    
 }
 $sql = "SELECT * FROM `realdev_users`";
@@ -92,6 +122,7 @@ get_header();
                         <div class="row">
                         <input type="hidden" name="ma_detai" class="form-control"  value="<?=$ma_detai?>"/>
                         <input type="hidden" class="form-control" name="loainckh" value="<?=$loainckh?>"/>
+                        <input type="hidden" class="form-control" name="macb" value="<?=$macb?>"/>
                         <div class="form-floating mb-3 ui-widget">
                                 <input class="form-control" id="tencb" name="tencb" type="text" readonly value="<?=$tencb?>" />
                                 <label for="tendetai">Tên cán bộ</label>

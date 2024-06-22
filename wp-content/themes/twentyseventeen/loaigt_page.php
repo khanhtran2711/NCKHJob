@@ -118,7 +118,9 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
         if (params.has('id')) {
             urlr += "?id=" + params.get('id');
         }
-
+        if (params.has('pg')) {
+            urlr += "?pg=" + params.get('pg');
+        }
         return urlr;
     }
 

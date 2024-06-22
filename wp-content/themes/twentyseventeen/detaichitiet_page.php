@@ -29,7 +29,7 @@ $data = $re->fetch_all(MYSQLI_ASSOC);
 // $user = new WP_User(15);
 // echo $user->last_name;
 // echo $user->first_name;
-$sql2 = "SELECT dtcb.id as detaicbid, `ten_loaivt`, u.ID,u.user_email, k.ten_khoa FROM `DeTai_CanBo` dtcb INNER JOIN `Canbo` cb ON dtcb.macb=cb.ma_cb INNER JOIN `realdev_users` u on u.ID=cb.user_id INNER JOIN `Khoa_PB` k ON k.ma_khoa=cb.ma_khoa WHERE `ma_dtnckh` =".$ma_detai;
+$sql2 = "SELECT dtcb.id as detaicbid, `ten_loaivt`, u.ID,u.user_email, k.ten_khoa,dtcb.macb as macb FROM `DeTai_CanBo` dtcb INNER JOIN `Canbo` cb ON dtcb.macb=cb.ma_cb INNER JOIN `realdev_users` u on u.ID=cb.user_id INNER JOIN `Khoa_PB` k ON k.ma_khoa=cb.ma_khoa WHERE `ma_dtnckh` =".$ma_detai;
 $re2 = $conn->query($sql2);
 error_log('sql = ' . $sql2);
 $url = "/detaichitiet/?id=".$ma_detai;
@@ -159,7 +159,7 @@ get_header(); ?>
             <td>
             <form action="<?=home_url("/doivitri")?>" method="post">
             <input type="hidden" name="cbdt_id" class="form-control"  value="<?=$ma_detai?>"/>
-            <input type="hidden" class="form-control" name="macb" value="<?=$row['detaicbid']?>"/>
+            <input type="hidden" class="form-control" name="macb" value="<?=$row['macb']?>"/>
             <input type="hidden" class="form-control" name="tencb" value="<?=$user->last_name." ".$user->first_name?>"/>
             <input type="hidden" class="form-control" name="tenvtr" value="<?=$row['ten_loaivt']?>"/>
             <input type="hidden" class="form-control" name="loainckh" value="detainckh"/>

@@ -66,6 +66,7 @@ $re3 = $conn->query($sql3);
 		echo "<td>" . $row['sluong_thamgia'] . "</td>";
 		echo "<td>" . $row['ten_loaivt'] . "</td>";
 		echo "<td>1</td>";
+		
         $giotong = $row['giochuan'];
         $sogioquydoi = 0;
         if($row['ten_loaivt']=='TV Chính')
@@ -74,6 +75,7 @@ $re3 = $conn->query($sql3);
             $sogioquydoi = ($giotong*(2/3))/($row['sluong_thamgia']);
         }
         echo "<td>".number_format($sogioquydoi,1)."</td>";
+		echo "<td></td>";
 		$c->setQuydoi(number_format($sogioquydoi,1));
 		$c->setNamhoc($namhoc);
 
@@ -107,6 +109,7 @@ while($row22 = $re22->fetch_assoc()){
 		echo "<td></td>";
 		echo "<td>1</td>";
 		echo "<td>".number_format($row['heso_loaigt']/$sl,1)."</td>";
+		echo "<td></td>";
 		$c = new Chitiet();
 			$c->setMacb($row['ma_cb']);
 			$c->setUserid($user_id);

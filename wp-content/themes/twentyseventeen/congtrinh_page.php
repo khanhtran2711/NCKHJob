@@ -101,7 +101,7 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
                     
                     <div class="form-body">
                         <div class="row">
-                        <div class="chuthich"></div>
+                        <div class="chuthich">Abc</div>
                         <div class="form-floating mb-3">
                         <input class="form-control" id="ten_ctr" type="text" placeholder="Tên đề tài" data-sb-validations="required" />
                         <label for="ten_ctr">Tên công trình</label>

@@ -8,9 +8,27 @@ include 'config.php';
 
 $pagename = home_url("/cap_detai/");
 
+$sort=$_GET['sort'];
 $sql = "SELECT * FROM `CapDeTai` cdt INNER JOIN `Namhoc` nh ON cdt.manh=nh.ma_nh";
 
-$current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
+switch ($sort) {
+	case 'ten':
+		$sql.=" order by ten_cdt";
+		break;
+	case 'dinhmuc':
+		$sql.=" order by giochuan";
+		break;
+	case 'thoigian':
+		$sql.=" order by thoigian_apdung"; 
+		break;
+	case 'namhoc':
+		$sql.=" order by namhoc"; 
+		break;
+ }
+ if(isset($_GET['by'])){
+	$sql.=" desc";
+ }
+ $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
  if(!isset($_GET['id'])){
 	 $limit = 10;
 	 $re = $conn->query($sql);
@@ -116,13 +134,13 @@ if(!isset($_GET['id'])){
 					if ($current_page > 1 && $total_page > 1) {
 						
 						$str = 'pg=' . ($current_page - 1);
-						if((isset($_GET['nam']))) {
-							$a = $_GET['nam'];
-							$str.= "&nam=$a";
+						if((isset($_GET['sort']))) {
+							$a = $_GET['sort'];
+							$str.= "&sort=$a";
 						}
-						 if(isset($_GET['trangthai'])){
-							$b = $_GET['trangthai'];
-							$str.= "&trangthai=$b";
+						 if(isset($_GET['by'])){
+							$b = $_GET['by'];
+							$str.= "&by=$b";
 						}
 						echo '<a href=?'.$str.'>&laquo;</a> ';
 	
@@ -138,14 +156,14 @@ if(!isset($_GET['id'])){
 						} else {
 							
 							$str = 'pg=' . $i;
-						if((isset($_GET['nam']))) {
-							$a = $_GET['nam'];
-							$str.= "&nam=$a";
-						}
-						 if(isset($_GET['trangthai'])){
-							$b = $_GET['trangthai'];
-							$str.= "&trangthai=$b";
-						}
+							if((isset($_GET['sort']))) {
+								$a = $_GET['sort'];
+								$str.= "&sort=$a";
+							}
+							 if(isset($_GET['by'])){
+								$b = $_GET['by'];
+								$str.= "&by=$b";
+							}
 						echo '<a href=?'.$str.'>'.$i.'</a> ';
 						}
 					}
@@ -153,13 +171,13 @@ if(!isset($_GET['id'])){
 					// nếu current_page < $total_page và total_page > 1 mới hiển thị nút prev
 					if ($current_page < $total_page && $total_page > 1) {
 						$str = 'pg=' . ($current_page + 1);
-						if((isset($_GET['nam']))) {
-							$a = $_GET['nam'];
-							$str.= "&nam=$a";
+						if((isset($_GET['sort']))) {
+							$a = $_GET['sort'];
+							$str.= "&sort=$a";
 						}
-						 if(isset($_GET['trangthai'])){
-							$b = $_GET['trangthai'];
-							$str.= "&trangthai=$b";
+						 if(isset($_GET['by'])){
+							$b = $_GET['by'];
+							$str.= "&by=$b";
 						}
 						echo '<a href=?'.$str.'>&raquo;</a> ';
 					}

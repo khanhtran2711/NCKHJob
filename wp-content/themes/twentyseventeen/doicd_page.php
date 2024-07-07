@@ -48,7 +48,7 @@ get_header();
 
             <div class="container">
                 
-                <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="themchucdanh">
+                <form class="form form-vertical pt-5" method="POST" enctype="multipart/form-data" id="themchucdanh">
                     <div class="form-body">
                     <div class="row">
                         <!-- <div class="form-floating mb-3">
@@ -59,9 +59,10 @@ get_header();
                        
                         <div class="form-floating mb-3">
                             <select class="form-select" id="ma_cd" name="ma_cd" aria-label="Chức danh hiện tại">
+                            <div class="chuthich">Dưới đây là những chức danh được đã cập nhật định mức theo năm </div>
                             <option value="0">Chọn loại chức danh</option>
                                 <?php
-                                    $list_cd = "SELECT `ma_cd`, `ten_cd` FROM `ChucDanh`";
+                                    $list_cd = 'SELECT * FROM `ChucDanh` cd INNER JOIN `NamHoc` nh ON cd.manh=nh.ma_nh where DATE(CONCAT(SUBSTRING(nh.namhoc, 1, 4),"09","01"))<=DATE(NOW()) and DATE(CONCAT(SUBSTRING(nh.namhoc, 6, 4),"09","01"))>DATE(NOW());';
                                     error_log('sql = ' . $list_cd);
                                     $re1 = $conn->query($list_cd);
                                     while ($row = $re1->fetch_assoc()):
@@ -72,6 +73,24 @@ get_header();
                                 ?>
                             </select>
                             <label for="ma_cdt">Chức danh hiện tại</label>
+                            <div class="chuthich">Đề nghị nhập đúng năm học áp dụng</div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="ma_nh" aria-label="Năm học">
+                                    <option value="0">Chọn năm học</option>
+                                    <?php
+                                    $sql = "SELECT * FROM `NamHoc` order by namhoc";
+
+                                    $re = $conn->query($sql);
+                                    while ($row = $re->fetch_assoc()) :
+                                    ?>
+                                        <option value="<?= $row['ma_nh'] ?>"><?= $row['namhoc'] ?></option>
+                                    <?php
+                                    endwhile;
+                                    ?>
+                                </select>
+                                <label for="ma_nh">Năm học</label>
+
+                            </div>
                         </div>
                         <?php
                             $url = home_url();

@@ -6,11 +6,11 @@ include '../../wp-load.php';
 
 include 'config.php';
 
-$sql = "SELECT * FROM `LoaiSL_TC` lsl INNER JOIN `LoaiCongTrinh_Khac` lct on lct.ma_loai = lsl.ma_loaict ";
+$sql = "SELECT * FROM `LoaiSL_TC` lsl INNER JOIN `LoaiCongTrinh_Khac` lct on lct.ma_loai = lsl.ma_loaict INNER JOIN `Namhoc` nh ON lsl.manh=nh.ma_nh";
 
 $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
 if(!isset($_GET['id'])){
-	$limit = 5;
+	$limit = 10;
 	$re = $conn->query($sql);
 	error_log('sql = ' . $sql);
 
@@ -39,12 +39,17 @@ if(!isset($_GET['id'])){
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
+if (isset($_GET['id'])) {
 echo "<th>Tên đơn vị tính/ mức điểm/giờ chuẩn</th><th>Giờ chuẩn</th><th>Thời gian áp dụng</th><th>Tên loại công trình</th><th></th>";
+}else{
+	echo "<th>Tên đơn vị tính/ mức điểm/giờ chuẩn</th><th>Giờ chuẩn</th><th>Thời gian áp dụng</th><th>Tên loại công trình</th><th>Năm học</th><th></th>";
+}
 echo "</thead>";
+
 while ($row = $re->fetch_assoc()) {
 	if (isset($_GET['id'])) {
 		if ($row['ma_loaisl'] == $_GET['id']) {
-			echo '<tr><td colspan="5"><form action="'.home_url().'/my-stuff/loaisltc/update.php" method="POST">';
+			echo '<tr><td colspan="5"><form action="'.home_url().'/my-stuff/loaisltc/update.php" method="POST" onsubmit="return confirmSave()">';
 			echo '<table>';
 			echo '<tr><td><input class="form-control" id="ten_loaisl" name="ten_loaisl" type="text" value="' . $row['ten_loaisl'] . '"></td>';
 			echo '<td><input class="form-control" id="giatri_sl" name="giatri_sl" type="text"  value="' . $row['giatri_sl'] . '"></td>';
@@ -62,8 +67,12 @@ while ($row = $re->fetch_assoc()) {
 		echo "<td>" . $row['giatri_sl'] . "</td>";
 		echo "<td>" . $row['thoigian_apdung'] . "</td>";
 		echo "<td>" . $row['ten_loai'] . "</td>";
+		echo "<td>" . $row['namhoc'] . "</td>";
 		echo '<td><a class="btn btn-info" href="'.home_url("/loaisltc/").'?id=' . $row["ma_loaisl"] . '">Sửa</a></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
+		echo '<td><form method="POST" action="'.home_url().'/my-stuff/loaisltc/delete.php?id=' . $row['ma_loaisl'] . '" onsubmit="return confirmDesactiv()">
+				<input type="submit" class="btn btn-danger" value="Xóa">
+		</form></td>';
 		echo "</tr>";
 		echo "</tbody>";
 		

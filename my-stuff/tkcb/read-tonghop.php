@@ -222,6 +222,7 @@ while($row22 = $re22->fetch_assoc()){
 		
 
 		$sqlextra2 = "SELECT lgtr.mucgiam, lgtr.ten_gtr,sothang FROM `Canbo` cb INNER JOIN `realdev_users` as u on u.ID=cb.user_id INNER JOIN `CanBo_GiamTru` cbgtr on cb.ma_cb=cbgtr.ma_cb INNER JOIN `LoaiGiamTru` lgtr on cbgtr.ma_gtr=lgtr.ma_gtr WHERE cbgtr.trangthaisudung=1 and cbgtr.trangthaiduyet=1 and cb.user_id=".$user_id." and cbgtr.ma_nh=$a ORDER by cbgtr.thoigiannhan desc";
+		
 		$ree2 = $conn->query($sqlextra2);
 		if($ree2!=false && $ree2->num_rows>0){
 			

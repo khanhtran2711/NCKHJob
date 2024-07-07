@@ -21,7 +21,25 @@ if (isset($_GET['ten'])) {
 	else {
 		echo "nothing";
 	}
-} else {
+} 
+else if (isset($_GET['ngayketthuc'])) {
+	$ten = $_GET['ngayketthuc'];
+	$dateValue = strtotime($ten);                     
+	$yr = date("Y", $dateValue); 
+	$mon = date("m", $dateValue); 
+	$date = date("d", $dateValue); 
+	$namhoc ="";
+	// 7/11/2023
+	if($mon>=9 && $mon <=12){
+		$namhoc.=$yr;
+		$namhoc.='-'.($yr+1);
+	}else {
+		$namhoc.=$yr-1;
+		$namhoc.='-'.($yr);
+	}	
+	echo $namhoc;
+} 
+else {
 	if (isset($_GET['trangthai']) && (isset($_GET['nam']))) {
 		$a = $_GET['nam'];
 		$b = $_GET['trangthai'];

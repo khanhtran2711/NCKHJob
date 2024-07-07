@@ -6,12 +6,12 @@ include '../../wp-load.php';
 
 include 'config.php';
 
-$sql = "SELECT * FROM `$tablename`";
+$sql = "SELECT * FROM `$tablename` gt INNER JOIN `Namhoc` nh ON gt.manh=nh.ma_nh";
 
 
 $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
 if(!isset($_GET['id'])){
-	$limit = 5;
+	$limit = 10;
 	$re = $conn->query($sql);
 	error_log('sql = ' . $sql);
 
@@ -40,13 +40,16 @@ if(!isset($_GET['id'])){
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
-echo "<th>Tên loại giải thưởng</th><th>Giờ chuẩn</th><th>Thời gian áp dụng</th><th></
-th>";
+if (isset($_GET['id'])) {
+	echo "<th>Tên loại giải thưởng</th><th>Giờ chuẩn</th><th>Thời gian áp dụng</th><th></th>";
+}else{
+	echo "<th>Tên loại giải thưởng</th><th>Giờ chuẩn</th><th>Thời gian áp dụng</th><th>Năm học</th><th></th>";
+}
 echo "</thead>";
 while ($row = $re->fetch_assoc()) {
 	if (isset($_GET['id'])) {
 		if ($row['ma_loaigt'] == $_GET['id']) {
-			echo '<tr><td colspan="5"><form action="'.home_url().'/my-stuff/loaigt/update.php" method="POST">';
+			echo '<tr><td colspan="5"><form action="'.home_url().'/my-stuff/loaigt/update.php" method="POST" onsubmit="return confirmSave()">';
 			echo '<table>';
 			echo '<tr><td><input class="form-control" id="ten_loaigt" name="ten_loaigt" type="text" value="' . $row['ten_loaigt'] . '"></td>';
 			echo '<td><input class="form-control" id="heso_loaigt" name="heso_loaigt" type="text"  value="' . $row['heso_loaigt'] . '"></td>';
@@ -62,8 +65,13 @@ while ($row = $re->fetch_assoc()) {
 		echo "<td>" . $row['ten_loaigt'] . "</td>";
 		echo "<td>" . $row['heso_loaigt'] . "</td>";
 		echo "<td>" . $row['thoigian_apdung'] . "</td>";
+		echo "<td>" . $row['namhoc'] . "</td>";
+		
 		echo '<td><a class="btn btn-info" href="'.home_url("/loaigt/").'?id=' . $row["ma_loaigt"] . '">Sửa</a></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
+		echo '<td><form method="POST" action="'.home_url().'/my-stuff/loaigt/delete.php?id=' . $row['ma_loaigt'] . '" onsubmit="return confirmDesactiv()">
+				<input type="submit" class="btn btn-danger" value="Xóa">
+		</form></td>';
 		echo "</tr>";
 		echo "</tbody>";
 		
@@ -71,69 +79,94 @@ while ($row = $re->fetch_assoc()) {
 }
 if(!isset($_GET['id'])){
 	?>
-	<style>
-		.center {
-			text-align: center;
-		}
+		<style>
+			.center {
+				text-align: center;
+			}
 	
+			.pagination {
+				display: inline-block;
+			}
 	
+			.pagination a {
+				color: black;
+				float: left;
+				padding: 8px 16px;
+				text-decoration: none;
+				transition: background-color .3s;
+				border: 1px solid #ddd;
+				margin: 0 4px;
+			}
 	
-		.pagination a {
-			color: black;
-			float: left;
-			padding: 8px 16px;
-			text-decoration: none;
-			transition: background-color .3s;
-			border: 1px solid #ddd;
-			margin: 0 4px;
-		}
-	
-		.pagination a.active {
-			background-color: #4CAF50;
-			color: white;
-			border: 1px solid #4CAF50;
-		}
-	</style>
-	<div class="center">
-		<div class="pagination">
-			<?php
-			// PHẦN HIỂN THỊ PHÂN TRANG
-			// BƯỚC 7: HIỂN THỊ PHÂN TRANG
-			if ($re) :
-				// nếu current_page > 1 và total_page > 1 mới hiển thị nút prev
-				if ($current_page > 1 && $total_page > 1) {
-					
-					$str = 'pg=' . ($current_page - 1);
-					
-					echo '<a href=?'.$str.'>&laquo;</a> ';
-	
-				}
-	
-				// Lặp khoảng giữa
-				for ($i = 1; $i <= $total_page; $i++) {
-					// Nếu là trang hiện tại thì hiển thị thẻ span
-					// ngược lại hiển thị thẻ a
-					if ($i == $current_page) {
+			.pagination a.active {
+				background-color: #4CAF50;
+				color: white;
+				border: 1px solid #4CAF50;
+			}
+		</style>
+		<div class="center">
+			<div class="pagination">
+				<?php
+				// PHẦN HIỂN THỊ PHÂN TRANG
+				// BƯỚC 7: HIỂN THỊ PHÂN TRANG
+				if ($re) :
+					// nếu current_page > 1 và total_page > 1 mới hiển thị nút prev
+					if ($current_page > 1 && $total_page > 1) {
 						
-						echo '<a href="#" class="active">' . $i . '</a>';
-					} else {
-						
-						$str = 'pg=' . $i;
-					
-					echo '<a href=?'.$str.'>'.$i.'</a> ';
+						$str = 'pg=' . ($current_page - 1);
+						if((isset($_GET['nam']))) {
+							$a = $_GET['nam'];
+							$str.= "&nam=$a";
+						}
+						 if(isset($_GET['trangthai'])){
+							$b = $_GET['trangthai'];
+							$str.= "&trangthai=$b";
+						}
+						echo '<a href=?'.$str.'>&laquo;</a> ';
+	
 					}
-				}
 	
-				// nếu current_page < $total_page và total_page > 1 mới hiển thị nút prev
-				if ($current_page < $total_page && $total_page > 1) {
-					$str = 'pg=' . ($current_page + 1);
-					
-					echo '<a href=?'.$str.'>&raquo;</a> ';
-				}
-			endif;
-			?>
+					// Lặp khoảng giữa
+					for ($i = 1; $i <= $total_page; $i++) {
+						// Nếu là trang hiện tại thì hiển thị thẻ span
+						// ngược lại hiển thị thẻ a
+						if ($i == $current_page) {
+							
+							echo '<a href="#" class="active">' . $i . '</a>';
+						} else {
+							
+							$str = 'pg=' . $i;
+						if((isset($_GET['nam']))) {
+							$a = $_GET['nam'];
+							$str.= "&nam=$a";
+						}
+						 if(isset($_GET['trangthai'])){
+							$b = $_GET['trangthai'];
+							$str.= "&trangthai=$b";
+						}
+						echo '<a href=?'.$str.'>'.$i.'</a> ';
+						}
+					}
+	
+					// nếu current_page < $total_page và total_page > 1 mới hiển thị nút prev
+					if ($current_page < $total_page && $total_page > 1) {
+						$str = 'pg=' . ($current_page + 1);
+						if((isset($_GET['nam']))) {
+							$a = $_GET['nam'];
+							$str.= "&nam=$a";
+						}
+						 if(isset($_GET['trangthai'])){
+							$b = $_GET['trangthai'];
+							$str.= "&trangthai=$b";
+						}
+						echo '<a href=?'.$str.'>&raquo;</a> ';
+					}
+				endif;
+				?>
+			</div>
 		</div>
-	</div>
 	<?php
+	
 	}
 	$conn->close();
+	

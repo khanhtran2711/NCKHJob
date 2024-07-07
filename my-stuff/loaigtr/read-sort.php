@@ -6,11 +6,24 @@ include '../../wp-load.php';
 
 include 'config.php';
 
-$pagename = home_url("/cap_detai/");
+$sort=$_GET['sort'];
+$sql = "SELECT * FROM `$tablename`";
 
-$sql = "SELECT * FROM `CapDeTai` cdt INNER JOIN `Namhoc` nh ON cdt.manh=nh.ma_nh";
-
-$current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
+switch ($sort) {
+	case 'ten':
+		$sql.=" order by ten_gtr";
+		break;
+	case 'dinhmuc':
+		$sql.=" order by mucgiam";
+		break;
+	case 'thoigian':
+		$sql.=" order by thoigian_apdung"; 
+		break;
+ }
+ if(isset($_GET['by'])){
+	$sql.=" desc";
+ }
+ $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
  if(!isset($_GET['id'])){
 	 $limit = 10;
 	 $re = $conn->query($sql);
@@ -41,43 +54,39 @@ $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
-if (isset($_GET['id'])) {
-	echo "<th>Tên Đề Tài</th><th>Giờ Chuẩn</th><th>Thời gian áp dụng</th><th></th>";
-	echo "</thead>";
-}else{
-echo "<th>Tên Đề Tài</th><th>Giờ Chuẩn</th><th>Thời gian áp dụng</th><th>Năm học</th><th></th>";
+echo "<th>Tên loại giảm trừ</th><th>Mức giảm</th><th>Thời gian áp dụng</th><th></
+th>";
 echo "</thead>";
-}
 while ($row = $re->fetch_assoc()) {
 	if (isset($_GET['id'])) {
-		if ($row['ma_cdt'] == $_GET['id']) {
-			echo '<tr><td colspan="5"><form action="'.home_url().'/my-stuff/cap_detai/update.php" method="POST"  onsubmit="return confirmSave()">';
+		if ($row['ma_gtr'] == $_GET['id']) {
+			echo '<tr><td colspan="5">';
+			echo '<form action="'.home_url().'/my-stuff/loaigtr/update.php" method="POST"  onsubmit="return confirmSave()">';
 			echo '<table>';
-			echo '<tr><td><input class="form-control" id="ten_cdt" name="ten_cdt" type="text" value="' . $row['ten_cdt'] . '"></td>';
-			echo '<td><input class="form-control" id="giochuan" name="giochuan" type="text"  value="' . $row['giochuan'] . '"></td>';
+			echo '<tr><td><input class="form-control" id="ten_gtr" name="ten_gtr" type="text" value="' . $row['ten_gtr'] . '"></td>';
+			echo '<td><input class="form-control" id="mucgiam" name="mucgiam" type="text"  value="' . $row['mucgiam'] . '"></td>';
 			echo '<td><input class="form-control" id="thoigian_apdung" name="thoigian_apdung" type="date" value="' . $row['thoigian_apdung'] . '"></td>';
 
-			echo '<td><input type="hidden" name="ma_cdt" value="' . $row['ma_cdt'] . '"><input type="submit"  value="Lưu" class="btn btn-primary"></td>';
+			echo '<td><input type="hidden" name="ma_gtr" value="' . $row['ma_gtr'] . '"><input type="submit"  value="Lưu" class="btn btn-primary"></td>';
 			echo '</tr>';
 			echo '</form>';
 			echo '</td></td>';
 		}
 	} else {
-		
 		echo "<tr>";
-		echo "<td>" . $row['ten_cdt'] . "</td>";
-		echo "<td>" . $row['giochuan'] . "</td>";
+		echo "<td>" . $row['ten_gtr'] . "</td>";
+		echo "<td>" . $row['mucgiam'] . "</td>";
 		echo "<td>" . $row['thoigian_apdung'] . "</td>";
-		echo "<td>" . $row['namhoc'] . "</td>";
-		echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_cdt"] . '">Sửa</a></td>';
-		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
-		echo '<td><form method="POST" action="'.home_url().'/my-stuff/cap_detai/delete.php?id=' . $row['ma_cdt'] . '" onsubmit="return confirmDesactiv()">
+		// echo '<td><a id="update" class="btn btn-info" href="'.home_url("/loaigtr/").'?id=' . $row["ma_gtr"] . '">Sửa</a></td>';
+		echo '<td><a class="btn btn-info" href="'.home_url("/loaigtr/").'?id=' . $row["ma_gtr"] . '">Sửa</a></td>';
+		// echo '<td> <a class="btn btn-danger" href="'.home_url() . '/my-stuff/loaigtr/delete.php?id=' . $row['ma_gtr'] . '">Xóa</a></td>';
+		echo '<td><form method="POST" action="'.home_url().'/my-stuff/loaigtr/delete.php?id=' . $row['ma_gtr'] . '" onsubmit="return confirmDesactiv()">
 				<input type="submit" class="btn btn-danger" value="Xóa">
 		</form></td>';
 		echo "</tr>";
 		echo "</tbody>";
-		
 	}
+	
 }
 if(!isset($_GET['id'])){
 	?>
@@ -116,13 +125,13 @@ if(!isset($_GET['id'])){
 					if ($current_page > 1 && $total_page > 1) {
 						
 						$str = 'pg=' . ($current_page - 1);
-						if((isset($_GET['nam']))) {
-							$a = $_GET['nam'];
-							$str.= "&nam=$a";
+						if((isset($_GET['sort']))) {
+							$a = $_GET['sort'];
+							$str.= "&sort=$a";
 						}
-						 if(isset($_GET['trangthai'])){
-							$b = $_GET['trangthai'];
-							$str.= "&trangthai=$b";
+						 if(isset($_GET['by'])){
+							$b = $_GET['by'];
+							$str.= "&by=$b";
 						}
 						echo '<a href=?'.$str.'>&laquo;</a> ';
 	
@@ -138,14 +147,14 @@ if(!isset($_GET['id'])){
 						} else {
 							
 							$str = 'pg=' . $i;
-						if((isset($_GET['nam']))) {
-							$a = $_GET['nam'];
-							$str.= "&nam=$a";
-						}
-						 if(isset($_GET['trangthai'])){
-							$b = $_GET['trangthai'];
-							$str.= "&trangthai=$b";
-						}
+							if((isset($_GET['sort']))) {
+								$a = $_GET['sort'];
+								$str.= "&sort=$a";
+							}
+							 if(isset($_GET['by'])){
+								$b = $_GET['by'];
+								$str.= "&by=$b";
+							}
 						echo '<a href=?'.$str.'>'.$i.'</a> ';
 						}
 					}
@@ -153,13 +162,13 @@ if(!isset($_GET['id'])){
 					// nếu current_page < $total_page và total_page > 1 mới hiển thị nút prev
 					if ($current_page < $total_page && $total_page > 1) {
 						$str = 'pg=' . ($current_page + 1);
-						if((isset($_GET['nam']))) {
-							$a = $_GET['nam'];
-							$str.= "&nam=$a";
+						if((isset($_GET['sort']))) {
+							$a = $_GET['sort'];
+							$str.= "&sort=$a";
 						}
-						 if(isset($_GET['trangthai'])){
-							$b = $_GET['trangthai'];
-							$str.= "&trangthai=$b";
+						 if(isset($_GET['by'])){
+							$b = $_GET['by'];
+							$str.= "&by=$b";
 						}
 						echo '<a href=?'.$str.'>&raquo;</a> ';
 					}

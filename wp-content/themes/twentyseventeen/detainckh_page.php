@@ -150,19 +150,9 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
                                 </div>
                                 <div class="chuthich"></div>
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="ma_nh" aria-label="Năm học">
-                                        <?php
-                                        $sql = "SELECT * FROM `NamHoc`";
-
-                                        $re = $conn->query($sql);
-                                        while ($row = $re->fetch_assoc()) :
-                                        ?>
-                                            <option value="<?= $row['ma_nh'] ?>"><?= $row['namhoc'] ?></option>
-                                        <?php
-                                        endwhile;
-                                        ?>
-                                    </select>
+                                    <input class="form-control" id="ma_nh" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" />
                                     <label for="ma_nh">Năm học</label>
+                                    <div class="invalid-feedback" data-sb-feedback="ma_nh:required">Năm học is required.</div>
 
                                 </div>
                                 <div class="chuthich"></div>
@@ -241,12 +231,33 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
         }
     });
 
-    // $(document).ready(function() {
+    $("#nam_kethuc").on("change",function(event){
+        if($("#nam_kethuc").val()!= ""){
+            event.preventDefault();
+            let startDate = $("#nam_batdau").val();
+            let endDate = $("#nam_kethuc").val();
+            // console.log(callCheckDiffDate(startDate,endDate));
+            if(callCheckDiffDate(startDate,endDate)){
+                
+                document.getElementById("mess").innerHTML = "";
+                $("#btnSubmit").prop('disabled',false);
+                callCheckDate(endDate);
+                
+            }else{
+                const data = "Ngày bắt đầu phải nhỏ hơn ngày kết thúc";
+                const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: ' + data + '</div>';
+                document.getElementById("mess").innerHTML = alertmess;
+                $("#btnSubmit").prop('disabled', true);
 
-    //     read();
+            }
+                
+        }
+    });
 
+    $(document).ready(function() {
+        $("#ma_nh").prop("disabled",true);
 
-    // });
+    });
 
     function callCreate() {
         let urlc =  localURL + "/my-stuff/" + lastsegment + "/create.php";
@@ -275,6 +286,21 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
                 const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: ' + data + '</div>';
                 document.getElementById("mess").innerHTML = alertmess
                 $("#btnSubmit").attr('disabled', 'disabled');
+            }
+        });
+    }
+    function callCheckDiffDate(start, end){
+        return new Date(start) < new Date(end);
+    }
+    function callCheckDate(date) {
+        const url =  localURL + "/my-stuff/" + lastsegment + "/read-admin.php/?ngayketthuc=" + date;
+        $.get(url, function(data) {
+            if (data != "nothing") {
+
+                console.log(data);
+                // const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: ' + data + '</div>';
+                $("#ma_nh").val(data);
+                // $("#btnSubmit").attr('disabled', 'disabled');
             }
         });
     }

@@ -6,46 +6,60 @@ include '../../wp-load.php';
 
 include 'config.php';
 
-$sql = "SELECT * FROM `$tablename`";
+$sort=$_GET['sort'];
+$sql = "SELECT * FROM `ChucDanh`";
 
-$current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
-if(!isset($_GET['id'])){
-	$limit = 10;
-	$re = $conn->query($sql);
-	error_log('sql = ' . $sql);
-
-	$total_records = $re->num_rows;
-	$total_page = ceil($total_records / $limit);
-
-	// Giới hạn current_page trong khoảng 1 đến total_page
-	if ($current_page > $total_page) {
-		$current_page = $total_page;
-	} else if ($current_page < 1) {
-		$current_page = 1;
-	}
-
-	// Tìm Start
-	$start = ($current_page - 1) * $limit;
-
-	$sql .= " limit $start, $limit";
-	$re = $conn->query($sql);
-
-	error_log('sql = ' . $sql);
-}else{
-	$re = $conn->query($sql);
-
-	error_log('sql = ' . $sql);
-}
+switch ($sort) {
+	case 'ten':
+		$sql.=" order by ten_cd";
+		break;
+	case 'dinhmuc':
+		$sql.=" order by dinhmuc";
+		break;
+	case 'thoigian':
+		$sql.=" order by thoigian_apdung"; 
+		break;
+ }
+ if(isset($_GET['by'])){
+	$sql.=" desc";
+ }
+ $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
+ if(!isset($_GET['id'])){
+	 $limit = 10;
+	 $re = $conn->query($sql);
+	 error_log('sql = ' . $sql);
+ 
+	 $total_records = $re->num_rows;
+	 $total_page = ceil($total_records / $limit);
+ 
+	 // Giới hạn current_page trong khoảng 1 đến total_page
+	 if ($current_page > $total_page) {
+		 $current_page = $total_page;
+	 } else if ($current_page < 1) {
+		 $current_page = 1;
+	 }
+ 
+	 // Tìm Start
+	 $start = ($current_page - 1) * $limit;
+ 
+	 $sql .= " limit $start, $limit";
+	 $re = $conn->query($sql);
+ 
+	 error_log('sql = ' . $sql);
+ }else{
+	 $re = $conn->query($sql);
+ 
+	 error_log('sql = ' . $sql);
+ }
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
-echo "<th>Tên chức danh</th><th>Định mức</th><th>Thời gian áp dụng</th><th></
-th>";
+echo "<th>Tên loại giảm trừ</th><th>Mức giảm</th><th>Thời gian áp dụng</th><th></th><th></th>";
 echo "</thead>";
 while ($row = $re->fetch_assoc()) {
 	if (isset($_GET['id'])) {
 		if ($row['ma_cd'] == $_GET['id']) {
-			echo '<tr><td colspan="5"><form action="'.home_url().'/my-stuff/chucdanh/update.php" method="POST" onsubmit="return confirmSave()">';
+			echo '<tr><td colspan="5"><form action="'.home_url().'/my-stuff/chucdanh/update.php" method="POST" onsubmit="return confirmSave()>';
 			echo '<table>';
 			echo '<tr><td><input class="form-control" id="ten_cd" name="ten_cd" type="text" value="' . $row['ten_cd'] . '"></td>';
 			echo '<td><input class="form-control" id="dinhmuc" name="dinhmuc" type="text"  value="' . $row['dinhmuc'] . '"></td>';
@@ -70,6 +84,7 @@ while ($row = $re->fetch_assoc()) {
 		echo "</tbody>";
 		
 	}
+	
 }
 if(!isset($_GET['id'])){
 ?>
@@ -108,13 +123,13 @@ if(!isset($_GET['id'])){
 				if ($current_page > 1 && $total_page > 1) {
 					
 					$str = 'pg=' . ($current_page - 1);
-					if((isset($_GET['nam']))) {
-						$a = $_GET['nam'];
-						$str.= "&nam=$a";
+					if((isset($_GET['sort']))) {
+						$a = $_GET['sort'];
+						$str.= "&sort=$a";
 					}
-					 if(isset($_GET['trangthai'])){
-						$b = $_GET['trangthai'];
-						$str.= "&trangthai=$b";
+					 if(isset($_GET['by'])){
+						$b = $_GET['by'];
+						$str.= "&by=$b";
 					}
 					echo '<a href=?'.$str.'>&laquo;</a> ';
 
@@ -130,14 +145,14 @@ if(!isset($_GET['id'])){
 					} else {
 						
 						$str = 'pg=' . $i;
-					if((isset($_GET['nam']))) {
-						$a = $_GET['nam'];
-						$str.= "&nam=$a";
-					}
-					 if(isset($_GET['trangthai'])){
-						$b = $_GET['trangthai'];
-						$str.= "&trangthai=$b";
-					}
+						if((isset($_GET['sort']))) {
+							$a = $_GET['sort'];
+							$str.= "&sort=$a";
+						}
+						 if(isset($_GET['by'])){
+							$b = $_GET['by'];
+							$str.= "&by=$b";
+						}
 					echo '<a href=?'.$str.'>'.$i.'</a> ';
 					}
 				}
@@ -145,13 +160,13 @@ if(!isset($_GET['id'])){
 				// nếu current_page < $total_page và total_page > 1 mới hiển thị nút prev
 				if ($current_page < $total_page && $total_page > 1) {
 					$str = 'pg=' . ($current_page + 1);
-					if((isset($_GET['nam']))) {
-						$a = $_GET['nam'];
-						$str.= "&nam=$a";
+					if((isset($_GET['sort']))) {
+						$a = $_GET['sort'];
+						$str.= "&sort=$a";
 					}
-					 if(isset($_GET['trangthai'])){
-						$b = $_GET['trangthai'];
-						$str.= "&trangthai=$b";
+					 if(isset($_GET['by'])){
+						$b = $_GET['by'];
+						$str.= "&by=$b";
 					}
 					echo '<a href=?'.$str.'>&raquo;</a> ';
 				}

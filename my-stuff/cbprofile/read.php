@@ -6,7 +6,7 @@ include '../../wp-load.php';
 
 include 'config.php';
 
-$sql = "SELECT cbcd.id,cbcd.ma_cd,cd.ten_cd,cbcd.thoigiannhan,cbcd.trangthaiduyet,cbcd.trangthaisudung FROM `CanBo_ChucDanh` as cbcd inner join `ChucDanh` as cd on cbcd.ma_cd = cd.ma_cd inner join `Canbo` as cb on cbcd.ma_cb=cb.ma_cb INNER JOIN `realdev_users` as u on u.ID=cb.user_id WHERE cb.user_id=".get_current_user_id()." order by cbcd.id DESC";
+$sql = "SELECT cbcd.id,cbcd.ma_cd,cd.ten_cd,cd.dinhmuc,cbcd.thoigiannhan,cbcd.trangthaiduyet,cbcd.trangthaisudung FROM `CanBo_ChucDanh` as cbcd inner join `ChucDanh` as cd on cbcd.ma_cd = cd.ma_cd inner join `Canbo` as cb on cbcd.ma_cb=cb.ma_cb INNER JOIN `realdev_users` as u on u.ID=cb.user_id WHERE cb.user_id=".get_current_user_id()." order by cbcd.id DESC";
 
 $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
 	$limit = 10;
@@ -40,7 +40,7 @@ if (isset($_GET['id'])) {
 	echo "</thead>";
 } else {
 	echo "<thead>";
-	echo "<th>Chức danh hiện tại</th><th>Thời gian áp dụng</th><th>Trạng thái duyệt</th><th colspan='2' style='text-align:center'>Thao tác</th>";
+	echo "<th>Chức danh hiện tại</th><th>Thời gian áp dụng</th><th>Định mức</th><th>Trạng thái duyệt</th><th colspan='2' style='text-align:center'>Thao tác</th>";
 	echo "</thead>";
 }
 ?>
@@ -86,6 +86,7 @@ while ($row = $re->fetch_assoc()) {
 		echo "<tr>";
 		echo "<td>" . $row['ten_cd'] . "</td>";
 		echo "<td>" . $row['thoigiannhan'] . "</td>";
+		echo "<td>" . $row['dinhmuc'] . "</td>";
 		$duyet ='';
 		$flag = false;
 		if($row['trangthaiduyet']==0){

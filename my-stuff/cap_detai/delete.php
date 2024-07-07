@@ -16,8 +16,15 @@ $sql = "DELETE FROM `CapDeTai` WHERE `ma_cdt` = " . $id;
 // comment it out before putting into production
 error_log('sql = '.$sql);
 $result = $conn->query($sql);
+if (!$result) {
+    if($conn->errno==1451){
+        $conn->close();
+        echo '<script>alert("Thất bại! Bạn không thể xóa do có dữ liệu liên quan");'; 
+        echo "window.location.href = '$pagename' </script>";
+    }
+}else{
 $conn->close();
 header ("location: $pagename");
-
+}
 
 ?>

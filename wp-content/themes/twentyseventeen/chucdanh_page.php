@@ -19,7 +19,9 @@ include 'wp-load.php';
  * @version 1.0
  * Template name: Chuc danh management Page
  */
-
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 get_header(); 
 
 ?>

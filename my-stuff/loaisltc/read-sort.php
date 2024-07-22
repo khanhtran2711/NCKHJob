@@ -7,7 +7,7 @@ include '../../wp-load.php';
 include 'config.php';
 
 $sort=$_GET['sort'];
-$sql = "SELECT * FROM `LoaiSL_TC` lsl INNER JOIN `LoaiCongTrinh_Khac` lct on lct.ma_loai = lsl.ma_loaict INNER JOIN `Namhoc` nh ON lsl.manh=nh.ma_nh";
+$sql = "SELECT * FROM `LoaiSL_TC` lsl INNER JOIN `LoaiCongTrinh_Khac` lct on lct.ma_loai = lsl.ma_loaict INNER JOIN `NamHoc` nh ON lsl.manh=nh.ma_nh";
 
 switch ($sort) {
 	case 'ten':

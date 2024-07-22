@@ -17,6 +17,10 @@ include './mydbfile.php';
  * @version 1.0
  * Template name: doikhoapb management Page
  */
+
+ if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 $user = get_current_user_id();
 $cbid = "SELECT `ma_cb`,`ma_khoa` FROM `Canbo` WHERE `user_id` = $user";
 error_log('sql = ' . $cbid);

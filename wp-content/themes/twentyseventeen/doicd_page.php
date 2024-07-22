@@ -31,8 +31,9 @@ $data3 = $re3->fetch_all(MYSQLI_ASSOC);
 $macb = $data3[0]['ma_cb'];
 if(isset($_POST['doichucdanh'])){
     $a = $_POST['ma_cd'];
+    $b = $_POST['ma_nh'];
     
-    $sql = "INSERT INTO `CanBo_ChucDanh`(`ma_cb`, `ma_cd`, `thoigiannhan`,`trangthaiduyet`,`trangthaisudung`) VALUES ('$macb','$a',NOW(),0,0)";
+    $sql = "INSERT INTO `CanBo_ChucDanh`(`ma_cb`, `ma_cd`, `thoigiannhan`,`trangthaiduyet`,`trangthaisudung`,`manh`) VALUES ('$macb','$a',NOW(),0,0,'$b')";
     error_log($sql);
     $conn->query($sql);
     echo "<script>window.location.href = '".home_url('/doichucdanh/')."';</script>";
@@ -65,17 +66,28 @@ get_header();
                                     $list_cd = 'SELECT * FROM `ChucDanh` cd INNER JOIN `NamHoc` nh ON cd.manh=nh.ma_nh where DATE(CONCAT(SUBSTRING(nh.namhoc, 1, 4),"09","01"))<=DATE(NOW()) and DATE(CONCAT(SUBSTRING(nh.namhoc, 6, 4),"09","01"))>DATE(NOW());';
                                     error_log('sql = ' . $list_cd);
                                     $re1 = $conn->query($list_cd);
-                                    while ($row = $re1->fetch_assoc()):
-                                ?>
-                                    <option value="<?=$row['ma_cd']?>"><?=$row['ten_cd']?></option>
-                                <?php
-                                    endwhile;
-                                ?>
+                                    if($re1->num_rows>=1):
+                                        while ($row = $re1->fetch_assoc()) :
+                                    ?>
+                                            <option value="<?= $row['ma_cd'] ?>"><?= $row['ten_cd'] ?></option>
+                                    <?php
+                                        endwhile;
+                                    else:
+                                        $sql_extra = 'SELECT * FROM `ChucDanh` cdt INNER JOIN `NamHoc` nh ON cdt.manh=nh.ma_nh where namhoc = (SELECT MAX(namhoc) FROM `CapDeTai` cdt INNER JOIN `NamHoc` nh ON cdt.manh=nh.ma_nh) ORDER by namhoc DESC;';
+                                        $re_ex = $conn->query($sql_extra);
+                                        while ($row = $re->fetch_assoc()) :
+                                    ?>
+                                            <option value="<?= $row['ma_cdt'] ?>"><?= $row['ten_cdt'] ?></option>
+                                    <?php
+                                        endwhile;
+
+                                    endif;
+                                    ?>
                             </select>
                             <label for="ma_cdt">Chức danh hiện tại</label>
                             <div class="chuthich">Đề nghị nhập đúng năm học áp dụng</div>
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="ma_nh" aria-label="Năm học">
+                                <select class="form-select" name="ma_nh" id="ma_nh" aria-label="Năm học">
                                     <option value="0">Chọn năm học</option>
                                     <?php
                                     $sql = "SELECT * FROM `NamHoc` order by namhoc";

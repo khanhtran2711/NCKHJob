@@ -19,7 +19,7 @@ $sql4= "SELECT namhoc FROM `NamHoc` WHERE ma_nh = $a ";
 
 	error_log('sql = ' . $sql2);
 
-    $sql1 = "SELECT gt.ma_gt,cb.ma_cb, cb.user_id, max(cbcd.id),cd.ten_cd, gt.ten_gt, cbgt.thoigiannhan, cd.dinhmuc, lgt.ten_loaigt ,lgt.heso_loaigt,khoa.ten_khoa FROM `GiaiThuong` gt INNER JOIN `CanBo_GiaiThuong` cbgt on gt.ma_gt=cbgt.ma_gt INNER JOIN `Canbo` cb on cb.ma_cb=cbgt.ma_cb INNER JOIN `CanBo_ChucDanh` cbcd on cbcd.ma_cb=cb.ma_cb INNER JOIN `NamHoc` nh on gt.ma_nh = nh.ma_nh INNER JOIN `ChucDanh` cd on cd.ma_cd=cbcd.ma_cd INNER JOIN `LoaiGiaiThuong` lgt ON lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `Khoa_PB` khoa on khoa.ma_khoa = cb.ma_khoa WHERE nh.ma_nh = $a and gt.trangthai = 1 GROUP by gt.ma_gt,cb.ma_cb, cb.user_id;";
+    $sql1 = "SELECT gt.ma_gt,cb.ma_cb, cb.user_id, max(cbcd.id),cd.ten_cd, gt.ten_gt, gt.thoigian_nhan, cd.dinhmuc, lgt.ten_loaigt ,lgt.heso_loaigt,khoa.ten_khoa,cbgt.ten_loaivt,gt.sluong_thamgia  FROM `GiaiThuong` gt INNER JOIN `CanBo_GiaiThuong` cbgt on gt.ma_gt=cbgt.ma_gt INNER JOIN `Canbo` cb on cb.ma_cb=cbgt.ma_cb INNER JOIN `CanBo_ChucDanh` cbcd on cbcd.ma_cb=cb.ma_cb INNER JOIN `NamHoc` nh on gt.ma_nh = nh.ma_nh INNER JOIN `ChucDanh` cd on cd.ma_cd=cbcd.ma_cd INNER JOIN `LoaiGiaiThuong` lgt ON lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `Khoa_PB` khoa on khoa.ma_khoa = cb.ma_khoa WHERE nh.ma_nh = $a and gt.trangthai = 1 GROUP by gt.ma_gt,cb.ma_cb, cb.user_id;";
 
     $re1 = $conn->query($sql1);
 
@@ -32,7 +32,7 @@ $re3 = $conn->query($sql3);
 	// webpage form starts here
 	echo "<tbody>";
 	echo "<thead>";
-	echo "<th>Họ tên</th><th>Khoa</th><th>Tên đề tài/Tên công trình/Giải thưởng</th><th>Loại công trình</th><th>Cấp đề tài/Tên Tạp chí/Tên Kỷ yếu-Tên NXB</th><th>Kết thúc</th><th>Số người tham gia</th><th>Vị trí tham gia</th><th>Số lượng/Số tín chỉ</th><th>Số giờ quy đổi công trình</th><th>Ghi chú về tên đơn vị tính/ mức điểm/giờ chuẩn</th>";
+	echo "<th>Họ tên</th><th>Khoa</th><th>Tên đề tài/Tên công trình/Giải thưởng</th><th>Loại công trình</th><th>Cấp đề tài/Tên Tạp chí/Tên Kỷ yếu-Tên NXB</th><th>Thời gian Kết thúc</th><th>Số người tham gia</th><th>Vị trí tham gia</th><th>Số lượng/Số tín chỉ</th><th>Số giờ quy đổi công trình</th><th>Ghi chú về tên đơn vị tính/ mức điểm/giờ chuẩn</th>";
 	echo "</thead>";
 	while ($row = $re->fetch_assoc()) {
         $user = new WP_User($row['user_id']);
@@ -96,21 +96,22 @@ while($row22 = $re22->fetch_assoc()){
 		echo "<td>" . $row['ten_gt'] . "</td>";
 		echo "<td> Giải thưởng </td>";
         echo "<td>" . $row['ten_loaigt'] . "</td>";
-		echo "<td>" . $row['thoigiannhan'] . "</td>";
-		echo "<td></td>";
-		echo "<td></td>";
+		echo "<td>" . $row['thoigian_nhan'] . "</td>";
+		echo "<td>" . $row['sluong_thamgia'] . "</td>";
+		echo "<td>" . $row['ten_loaivt'] . "</td>";
 		echo "<td>1</td>";
-        echo "<td>".number_format($row['heso_loaigt']/$sl,1)."</td>";
+        echo "<td>".number_format($row['heso_loaigt']/$row['sluong_thamgia'],1)."</td>";
 		$c = new Chitiet();
 			$c->setMacb($row['ma_cb']);
 			$c->setUserid($row['user_id']);
 			$c->setKhoa($row['ten_khoa']);
-		
+			$c->setSoluong($row['sluong_thamgia']);
+			$c->setVitri($row['ten_loaivt']);
 			$c->setTendetai($row['ten_gt']);
 			$c->setLoaict('Giải thưởng');
 			$c->setCap($row['ten_loaigt']);
-			$c->setKetthuc($row['thoigiannhan']);
-			$c->setQuydoi(number_format($row['heso_loaigt']/$sl,1));
+			$c->setKetthuc($row['thoigian_nhan']);
+			$c->setQuydoi(number_format($row['heso_loaigt']/$row['sluong_thamgia'],1));
 
 		$c->setNamhoc($namhoc);
 		$c->setTinchi(1);
@@ -157,6 +158,7 @@ while($row22 = $re22->fetch_assoc()){
 			$c->setVitri($row['ten_loaivt']);
 			$c->setSoluong($row['sluong_thamgia'] );
 		$c->setNamhoc($namhoc);
+		$c->setGhichu($row['ten_loaisl']);
 		array_push($listtonghop,$c);
 		// echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
 		// echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';

@@ -16,6 +16,9 @@ include 'mydbfile.php';
  * @version 1.0
  * Template name: ThongKe theo cb Page
  */
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 $sql = "SELECT * FROM `realdev_users`";
 
 $re = $conn->query($sql);
@@ -57,6 +60,7 @@ get_header();
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="ma_nh" aria-label="Năm học">
                                     <?php
+                                    
                                     $sql = "SELECT * FROM `NamHoc`";
 
                                     $re = $conn->query($sql);
@@ -70,6 +74,7 @@ get_header();
                                 <input type="hidden" id="result" value='<?=json_encode($list,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);?>'>
                                 <label for="ma_nh">Năm học</label>
                                 <?php
+                            
                             $url = home_url();
                             ?>
                                         <input type="hidden" id="homeurl" value="<?=$url?>">

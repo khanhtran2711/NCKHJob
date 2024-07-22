@@ -6,7 +6,7 @@ include '../../wp-load.php';
 
 include 'config.php';
 
-$sql = "SELECT * FROM `$tablename` gt INNER JOIN `Namhoc` nh ON gt.manh=nh.ma_nh";
+$sql = "SELECT * FROM `$tablename` gt INNER JOIN `NamHoc` nh ON gt.manh=nh.ma_nh";
 
 
 $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;

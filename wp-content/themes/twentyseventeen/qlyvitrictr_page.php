@@ -17,6 +17,9 @@ include './mydbfile.php';
  * @version 1.0
  * Template name: qlyvitrictr management Page
  */
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 $user = get_current_user_id();
 $cbid = "SELECT `ma_cb` FROM `Canbo` WHERE `user_id` = $user";
 error_log('sql = ' . $cbid);
@@ -32,11 +35,21 @@ if(isset($_POST['doivitri'])){
     if ($result->num_rows == 1) {
     $d = $result->fetch_all(MYSQLI_ASSOC);
     $ma_ctr = $d[0]['ma_ctr'];
-    $vitri = "INSERT INTO `CanBo_Ctr`(`ten_loaivt`, `ma_cb`, `ma_ctr`) VALUES ('$b','$macb','$ma_ctr')";
-    error_log('sql = '.$vitri);
-    $result = $conn->query($vitri);
-    $conn->close();
-    echo "<script>window.location.href = '".home_url('/qlctrcanhan/')."';</script>";
+    $sql4 = "SELECT * FROM `CanBo_Ctr` WHERE `ma_ctr` = '$ma_ctr' and `ma_cb` = '$macb'";
+    error_log('sql = ' . $sql4);
+    $result = $conn->query($sql4);
+    if($result->num_rows >= 1){
+        echo '<script type="text/javascript">
+            window.onload = function () { alert("Thêm thất bại! Thông tin công trình đã có rồi!"); } 
+                 </script>'; 
+    }else{
+        $vitri = "INSERT INTO `CanBo_Ctr`(`ten_loaivt`, `ma_cb`, `ma_ctr`) VALUES ('$b','$macb','$ma_ctr')";
+        error_log('sql = '.$vitri);
+        $result = $conn->query($vitri);
+        $conn->close();
+        echo "<script>window.location.href = '".home_url('/qlctrcanhan/')."';</script>";
+    }
+    
     }else{
         echo '<script type="text/javascript">
        window.onload = function () { alert("Thêm thất bại, thầy/cô nên xem lại tên công trình NCKH"); } 

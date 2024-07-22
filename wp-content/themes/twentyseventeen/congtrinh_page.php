@@ -20,6 +20,9 @@ include 'wp-load.php';
  * @version 1.0
  * Template name: Congtrinh form Page
  */
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 $user = get_current_user_id();
 $cbid = "SELECT cbcd.`ma_cb`,`ma_cd` FROM `CanBo_ChucDanh` cbcd INNER JOIN `Canbo` cb ON cbcd.ma_cb=cb.ma_cb and cb.user_id = $user";
 error_log('sql = ' . $cbid);
@@ -103,19 +106,19 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
                         <div class="row">
                         <div class="chuthich">Abc</div>
                         <div class="form-floating mb-3">
-                        <input class="form-control" id="ten_ctr" type="text" placeholder="Tên đề tài" data-sb-validations="required" />
+                        <input class="form-control" id="ten_ctr" type="text" placeholder="Tên đề tài" data-sb-validations="required" required/>
                         <label for="ten_ctr">Tên công trình</label>
                         <div class="invalid-feedback" data-sb-feedback="ten_ctr:required">Tên công trình is required.</div>
                     </div>
                     <div class="chuthich"></div>
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="thoigian_hoanthanh" type="Date" placeholder="Năm bắt đầu" data-sb-validations="required" />
+                        <input class="form-control" id="thoigian_hoanthanh" type="Date" placeholder="Năm bắt đầu" data-sb-validations="required" required/>
                         <label for="thoigian_hoanthanh">Thời gian hoàn thành</label>
                         <div class="invalid-feedback" data-sb-feedback="thoigian_hoanthanh:required">Thời gian hoàn thành is required.</div>
                     </div>
                     <div class="chuthich"></div>
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="ten_tc_ky_nxb" type="text" placeholder="Năm bắt đầu" data-sb-validations="required" />
+                        <input class="form-control" id="ten_tc_ky_nxb" type="text" placeholder="Năm bắt đầu" data-sb-validations="required" required/>
                         <label for="ten_tc_ky_nxb">Tên tạp chí/kỷ yếu/ NXB</label>
                         <div class="invalid-feedback" data-sb-feedback="ten_tc_ky_nxb:required">Tên tạp chí/kỷ yếu/ NXB is required.</div>
                     </div>
@@ -125,20 +128,20 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
                             ?>
                                         <input type="hidden" id="homeurl" value="<?=$url?>">
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="sluong_thamgia" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" />
+                        <input class="form-control" id="sluong_thamgia" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" required/>
                         <label for="sluong_thamgia">Số lượng tham gia</label>
                         <div class="invalid-feedback" data-sb-feedback="sluong_thamgia:required">Số lượng tham gia is required.</div>
                     </div>
                     <div class="chuthich"></div>
                     <p class="pb-lg-2 chuthich">Bạn nên đọc trước hướng dẫn khi chia sẻ minh chứng - <a href="https://drive.google.com/file/d/1JkSccTzhZimqYdFSu7SAbqyVlI7ScBmu/view" target="_blank" style="color: blue;text-decoration: none;">Tài liệu HDSD</a></p>
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="minhchung" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" />
+                        <input class="form-control" id="minhchung" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" required/>
                         <label for="minhchung">Minh chứng (dán liên kết từ google drive vào đây)</label>
                         <div class="invalid-feedback" data-sb-feedback="minhchung:required">Minh chứng is required.</div>
                     </div>
                     <div class="chuthich"></div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="ma_loaict" aria-label="LoaiCongTrinhKhac">
+                        <select class="form-select" id="ma_loaict" aria-label="LoaiCongTrinhKhac" required>
                             <option value="0">Chọn loại công trình</option>
                             <?php
                                 $sql = "SELECT * FROM `LoaiCongTrinh_Khac`";
@@ -155,7 +158,7 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
                     </div>
                     <div class="chuthich"></div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="ma_loaisltc" aria-label="ma_loaisltc">
+                        <select class="form-select" id="ma_loaisltc" aria-label="ma_loaisltc" required>
                         <option value="0">Chọn loại đơn vị/mức điểm/giờ chuẩn</option>
                             
                         </select>
@@ -163,13 +166,13 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
                     </div>
                     <div class="chuthich"></div>
                     <div class="form-floating mb-3">
-                                <input class="form-control" id="sotinchi" type="text" placeholder="Số tín chỉ" data-sb-validations="required" value="1"/>
+                                <input class="form-control" id="sotinchi" type="text" placeholder="Số tín chỉ" data-sb-validations="required" value="1" required/>
                                 <label for="sotinchi">Số tín chỉ</label>
                                 <div class="invalid-feedback" data-sb-feedback="sotinchi:required">Số tín chỉ is required.</div>
                             </div>
                             <div class="chuthich"></div>
                         <div class="form-floating mb-3">
-                                <select class="form-select" id="ten_loaivt" name="ten_loaivt" aria-label="Vị trí tham gia">
+                                <select class="form-select" id="ten_loaivt" name="ten_loaivt" aria-label="Vị trí tham gia" required>
                                     <?php
                                     $list_vt = ['TV Chính', 'TV Tham Gia'];
                                     foreach ($list_vt as $vt) :
@@ -182,22 +185,12 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
                                 <label for="ten_loaivt">Vị trí tham gia trong đề tài</label>
                             </div>
                             <div class="chuthich"></div>
-                    <div class="form-floating mb-3">
-                        <select class="form-select" id="ma_nh" aria-label="Năm học">
-                        <?php
-                                $sql = "SELECT * FROM `NamHoc`";
+                            <div class="form-floating mb-3">
+                                    <input class="form-control" id="ma_nh" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" required/>
+                                    <label for="ma_nh">Năm học</label>
+                                    <div class="invalid-feedback" data-sb-feedback="ma_nh:required">Năm học is required.</div>
 
-                                $re = $conn->query($sql);
-                                while ($row = $re->fetch_assoc()):
-                            ?>
-                                <option value="<?=$row['ma_nh']?>"><?=$row['namhoc']?></option>
-                            <?php
-                                endwhile;
-                            ?>
-                        </select>
-                        <label for="ma_nh">Năm học</label>
-                        
-                    </div>
+                            </div>
                     <input type="hidden" id="user_id" class="form-control" name="time_mins" value="<?= $macb ?>">
                     <div class="col-12 d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn" id="btnSubmit">Lưu</button>
@@ -248,7 +241,8 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
         callCreate();
     });
     $('#ma_loaict').on('change', function() {
-            readLoaiSL( this.value );
+        if($("#ma_nh").val()!= ""){
+            readLoaiSL( this.value, $("#ma_nh").val());
             console.log($("#ma_loaict option:selected").text()=="Giáo trình");
             if($("#ma_loaict option:selected").text()=="Giáo trình" || $("#ma_loaict option:selected").text()=="Biên dịch tài liệu nước ngoài, Tài liệu tham khảo"){
                 $("#sotinchi").prop("readonly",false);    
@@ -257,21 +251,51 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             $("#sotinchi").prop("readonly",true);
             $("#sotinchi").val("1");
             }
+        }else{
+            $("#thoigian_hoanthanh").focus();
+        }
             
     });
     $('#ma_loaisltc').on('change', function() {
         const ct = $('#ma_loaisltc option:selected').text();
             console.log(ct);
     });
+    $("#thoigian_hoanthanh").on("change",function(event){
+        checkDate();
+    });
+
+    function checkDate(){
+        if($("#thoigian_hoanthanh").val()!= ""){
+            event.preventDefault();
+            let endDate = $("#thoigian_hoanthanh").val();
+            callCheckDate(endDate);
+            
+                
+        }
+    }
+
+    function callCheckDate(date) {
+        const url =  localURL + "/my-stuff/detainckh/read-admin.php/?ngayketthuc=" + date;
+        $.get(url, function(data) {
+            if (data != "nothing") {
+
+                console.log(data);
+                // const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: ' + data + '</div>';
+                $("#ma_nh").val(data);
+                // $("#btnSubmit").attr('disabled', 'disabled');
+            }
+        });
+    }
     $(document).ready(function() {
         if($('#ma_loaict').val()>0){
             readLoaiSL( $('#ma_loaict').val());
             
         }
+        $("#ma_nh").prop("disabled",true);
     });
 
-        function readLoaiSL(param){
-              const url = getReadUrlSL(param);
+        function readLoaiSL(param,namhoc){
+              const url = getReadUrlSL(param,namhoc);
                 $.get(url, function(data) {
                     document.getElementById("ma_loaisltc").innerHTML = data;
                     // const ct = $('#ma_loaisltc option:selected').text();
@@ -284,8 +308,8 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
                     //  console.log(ct);
                 });   
         }
-        function getReadUrlSL(param){
-            let urlr =  localURL + "/my-stuff/listofloaisltc.php?id=" + param;
+        function getReadUrlSL(param,namhoc){
+            let urlr =  localURL + "/my-stuff/listofloaisltc.php?id=" + param+"&nh="+namhoc;
             // console.log(urlr);
             return urlr;
         }

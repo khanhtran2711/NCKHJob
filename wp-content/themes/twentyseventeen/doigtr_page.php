@@ -41,7 +41,9 @@ $macb = $data3[0]['ma_cb'];
 //     echo "<script>window.location.href = '".home_url('/cbprofile/')."';</script>";
 // }
 get_header();
-
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 ?>
 <div class="wrap">
     <div id="primary" class="content-area">

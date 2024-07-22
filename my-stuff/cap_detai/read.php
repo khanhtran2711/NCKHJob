@@ -8,7 +8,7 @@ include 'config.php';
 
 $pagename = home_url("/cap_detai/");
 
-$sql = "SELECT * FROM `CapDeTai` cdt INNER JOIN `Namhoc` nh ON cdt.manh=nh.ma_nh";
+$sql = "SELECT * FROM `CapDeTai` cdt INNER JOIN `NamHoc` nh ON cdt.manh=nh.ma_nh";
 
 $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
  if(!isset($_GET['id'])){

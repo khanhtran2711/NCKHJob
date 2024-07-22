@@ -45,13 +45,14 @@ $current_page = isset($_GET['pg']) ? $_GET['pg'] : 1;
 // webpage form starts here
 echo "<tbody>";
 echo "<thead>";
-echo "<th>Tên giải thưởng</th><th>Trạng thái</th><th>Xem chi tiết</th><th></th>";
+echo "<th>Tên giải thưởng</th><th>Vị trí</th><th>Trạng thái</th><th>Xem chi tiết</th><th></th>";
 echo "</thead>";
 if ($re != false && $re->num_rows > 0) :
 while ($row = $re->fetch_assoc()) {
 	
 		echo "<tr>";
 		echo "<td>" . $row['ten_gt'] . "</td>";
+		echo "<td>" . $row['ten_loaivt'] . "</td>";
 		echo "<td>" . (($row['trangthai']==0)?'Chưa duyệt':'Đã duyệt') . "</td>";
 		echo '<td><a class="btn btn-info" href="'.home_url('/giaithuongchitiet').'?id=' . $row["ma_gt"] . '">Xem</a></td>';
 		if($row['trangthai'] == 0 && $startd <= date("Y/m/d") && $end >= date("Y/m/d")){

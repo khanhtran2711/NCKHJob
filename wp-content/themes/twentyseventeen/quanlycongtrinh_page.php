@@ -17,9 +17,10 @@ include 'mydbfile.php';
  * @version 1.0
  * Template name: QuanlyCongTrinh form Page
  */
-
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 get_header(); ?>
-
 <div class="wrap">
     <div id="primary" class="content-area">
 

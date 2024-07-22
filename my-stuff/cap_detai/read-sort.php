@@ -9,7 +9,7 @@ include 'config.php';
 $pagename = home_url("/cap_detai/");
 
 $sort=$_GET['sort'];
-$sql = "SELECT * FROM `CapDeTai` cdt INNER JOIN `Namhoc` nh ON cdt.manh=nh.ma_nh";
+$sql = "SELECT * FROM `CapDeTai` cdt INNER JOIN `NamHoc` nh ON cdt.manh=nh.ma_nh";
 
 switch ($sort) {
 	case 'ten':

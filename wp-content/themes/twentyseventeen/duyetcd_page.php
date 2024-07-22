@@ -19,6 +19,9 @@ include 'wp-load.php';
  * @version 1.0
  * Template name: Duyet chuc danh form Page
  */
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 if(isset($_GET['id'])){
 
 $sql = "UPDATE `CanBo_ChucDanh` SET `trangthaiduyet`= 1 , `trangthaisudung`=1 WHERE `id`= " . $_GET['id'];

@@ -18,7 +18,9 @@ include 'mydbfile.php';
  */
 //giang vien nay chua cap nhat chuc danh và khoa-pb truc thuoc cua minh
 get_header();
-
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 ?>
 <div class="wrap">
     <div id="primary" class="content-area">

@@ -20,6 +20,9 @@ include 'wp-load.php';
  * @version 1.0
  * Template name: DetaiNCKH form Page
  */
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 $user = get_current_user_id();
 $cbid = "SELECT cbcd.`ma_cb`,`ma_cd` FROM `CanBo_ChucDanh` cbcd INNER JOIN `Canbo` cb ON cbcd.ma_cb=cb.ma_cb and cb.user_id = $user";
 error_log('sql = ' . $cbid);
@@ -103,48 +106,39 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
                             <div class="row">
                                 <div class="chuthich"></div>
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" id="ten_dtnckh" type="text" placeholder="Tên đề tài" data-sb-validations="required" />
+                                    <input class="form-control" id="ten_dtnckh" type="text" placeholder="Tên đề tài" data-sb-validations="required" required/>
                                     <label for="ten_dtnckh">Tên đề tài</label>
                                     <div class="invalid-feedback" data-sb-feedback="ten_dtnckh:required">Tên đề tài is required.</div>
                                 </div>
                                 <div class="chuthich"></div>
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" id="nam_batdau" type="Date" placeholder="Thời gian bắt đầu" data-sb-validations="required" />
+                                    <input class="form-control" id="nam_batdau" type="Date" placeholder="Thời gian bắt đầu" data-sb-validations="required" required/>
                                     <label for="nam_batdau">Thời gian bắt đầu</label>
                                     <div class="invalid-feedback" data-sb-feedback="nam_batdau:required">Thời gian bắt đầu is required.</div>
                                 </div>
                                 <div class="chuthich"></div>
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" id="nam_kethuc" type="Date" placeholder="Thời gian kết thúc" data-sb-validations="required" />
+                                    <input class="form-control" id="nam_kethuc" type="Date" placeholder="Thời gian kết thúc" data-sb-validations="required" required/>
                                     <label for="nam_kethuc">Thời gian kết thúc</label>
                                     <div class="invalid-feedback" data-sb-feedback="nam_kethuc:required">Thời gian kết thúc is required.</div>
                                 </div>
                                 <div class="chuthich"></div>
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" id="sluong_thamgia" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" />
+                                    <input class="form-control" id="sluong_thamgia" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" required/>
                                     <label for="sluong_thamgia">Số lượng tham gia</label>
                                     <div class="invalid-feedback" data-sb-feedback="sluong_thamgia:required">Số lượng tham gia is required.</div>
                                 </div>
                                 <div class="chuthich"></div>
                                 <p class="pb-lg-2 chuthich">Bạn nên đọc trước hướng dẫn khi chia sẻ minh chứng - <a href="https://drive.google.com/file/d/1JkSccTzhZimqYdFSu7SAbqyVlI7ScBmu/view" target="_blank" style="color: blue;text-decoration: none;">Tài liệu HDSD</a></p>
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" id="minhchung" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" />
+                                    <input class="form-control" id="minhchung" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" required/>
                                     <label for="minhchung">Minh chứng (dán liên kết từ google drive vào đây)</label>
                                     <div class="invalid-feedback" data-sb-feedback="minhchung:required">Minh chứng is required.</div>
                                 </div>
                                 <div class="chuthich"></div>
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="ma_cdt" aria-label="Cấp đề tài">
-                                        <?php
-                                        $sql = "SELECT * FROM `CapDeTai`";
-
-                                        $re = $conn->query($sql);
-                                        while ($row = $re->fetch_assoc()) :
-                                        ?>
-                                            <option value="<?= $row['ma_cdt'] ?>"><?= $row['ten_cdt'] ?></option>
-                                        <?php
-                                        endwhile;
-                                        ?>
+                                    <select class="form-select" id="ma_cdt" aria-label="Cấp đề tài" required>
+                                        <option value="0">Chọn cấp đề tài</option>
                                     </select>
                                     <label for="ma_cdt">Cấp đề tài</label>
                                 </div>
@@ -157,7 +151,7 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
                                 </div>
                                 <div class="chuthich"></div>
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="ten_loaivt" name="ten_loaivt" aria-label="Vị trí tham gia">
+                                    <select class="form-select" id="ten_loaivt" name="ten_loaivt" aria-label="Vị trí tham gia" required>
                                         <?php
                                         $list_vt = ['TV Chính', 'TV Tham Gia'];
                                         foreach ($list_vt as $vt) :
@@ -232,6 +226,13 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     });
 
     $("#nam_kethuc").on("change",function(event){
+        checkDate();
+    });
+    $("#nam_batdau").on("change",function(event){
+        checkDate();
+    });
+
+    function checkDate(){
         if($("#nam_kethuc").val()!= ""){
             event.preventDefault();
             let startDate = $("#nam_batdau").val();
@@ -243,6 +244,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
                 $("#btnSubmit").prop('disabled',false);
                 callCheckDate(endDate);
                 
+                
             }else{
                 const data = "Ngày bắt đầu phải nhỏ hơn ngày kết thúc";
                 const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: ' + data + '</div>';
@@ -252,13 +254,41 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             }
                 
         }
+    }
+    $("#sluong_thamgia").on("change",function(event){
+        let namhoc = $("#ma_nh").val();
+        console.log(namhoc)
+        $("#ma_cdt").prop("disabled",false);
+        readLoaiCDT(namhoc);
     });
 
     $(document).ready(function() {
-        $("#ma_nh").prop("disabled",true);
+        $("#ma_nh").prop("readonly",true);
+        $('#ma_cdt').prop("disabled",true);
 
     });
 
+    function readLoaiCDT(namhoc){
+              const url = getReadUrlCDT(namhoc);
+                $.get(url, function(data) {
+                    document.getElementById("ma_cdt").innerHTML = data;
+                    
+                    // const ct = $('#ma_loaisltc option:selected').text();
+                    // let a = "Tín chỉ";
+                    // if(ct.toLowerCase()=== a.toLowerCase()){
+                    //     $("#sotinchi").prop("readonly",false);
+                    // }else{
+                    //     $("#sotinchi").prop("readonly",true);
+                    // }
+                    //  console.log(ct);
+                });   
+        }
+        function getReadUrlCDT(namhoc){
+            
+            let urlr =  localURL + "/my-stuff/listofloaicdt.php?&nh="+namhoc;
+            // console.log(urlr);
+            return urlr;
+        }
     function callCreate() {
         let urlc =  localURL + "/my-stuff/" + lastsegment + "/create.php";
         $.post(urlc, {

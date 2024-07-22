@@ -16,8 +16,12 @@
  * @version 1.0
  * Template name: CanBo management
  */
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
+get_header(); 
 
-get_header(); ?>
+?>
 <div id="mess">
 
 </div>

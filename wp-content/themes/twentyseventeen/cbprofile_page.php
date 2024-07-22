@@ -20,6 +20,10 @@ include 'wp-load.php';
  * @version 1.0
  * Template name: thongtinchuyenmon management Page
  */
+
+ if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 $user = get_current_user_id();
 $sql = "SELECT * FROM `CanBo_ChucDanh` as cbcd INNER JOIN `Canbo` as cb ON cb.ma_cb = cbcd.ma_cb WHERE cb.user_id = $user";
 error_log('sql = ' . $sql);

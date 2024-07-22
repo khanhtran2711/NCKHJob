@@ -22,6 +22,9 @@ include 'wp-load.php';
  * @version 1.0
  * Template name: Giaithuong form Page
  */
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 $flagerror = false;
 $user = get_current_user_id();
 $cbid = "SELECT cbcd.`ma_cb`,`ma_cd` FROM `CanBo_ChucDanh` cbcd INNER JOIN `Canbo` cb ON cbcd.ma_cb=cb.ma_cb and cb.user_id = $user";
@@ -109,6 +112,17 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
                                     <label for="ten_gt">Tên giải thưởng</label>
                                     <div class="invalid-feedback" data-sb-feedback="ten_gt:required">Tên giải thưởng is required.</div>
                                 </div>
+                                <div class="chuthich"></div>
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="thoigian_nhan" type="Date" placeholder="Năm bắt đầu" data-sb-validations="required" />
+                                        <label for="thoigian_nhan">Thời gian nhận</label>
+                                        <div class="invalid-feedback" data-sb-feedback="thoigian_nhan:required">Thời gian nhận is required.</div>
+                                    </div>
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" id="sluong_thamgia" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" />
+                                    <label for="sluong_thamgia">Số lượng tham gia</label>
+                                    <div class="invalid-feedback" data-sb-feedback="sluong_thamgia:required">Số lượng tham gia is required.</div>
+                                </div>
                                 <div class=" chuthich"></div>
                                 <p class="pb-lg-2 chuthich">Bạn nên đọc trước hướng dẫn khi chia sẻ minh chứng - <a href="https://drive.google.com/file/d/1JkSccTzhZimqYdFSu7SAbqyVlI7ScBmu/view" target="_blank" style="color: blue;text-decoration: none;">Tài liệu HDSD</a></p>
                                 <div class="form-floating mb-3">
@@ -119,37 +133,31 @@ if(strlen($messcd)>0 || strlen($messkhoa)>0){
                                 <div class=" chuthich"></div>
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="ma_loaigt" aria-label="Cấp đề tài">
-                                        <?php
-                                        $sql = "SELECT * FROM `LoaiGiaiThuong`";
-
-                                        $re = $conn->query($sql);
-                                        while ($row = $re->fetch_assoc()) :
-                                        ?>
-                                            <option value="<?= $row['ma_loaigt'] ?>"><?= $row['ten_loaigt'] ?></option>
-                                        <?php
-                                        endwhile;
-                                        ?>
+                                        <option value="0">Chọn loại giải thưởng</option>
                                     </select>
                                     <label for="ma_loaigt">Loại giải thưởng</label>
                                 </div>
-                                <div class=" chuthich"></div>
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="ma_nh" aria-label="Năm học">
-                                        <?php
-                                        $sql = "SELECT * FROM `NamHoc`";
-
-                                        $re = $conn->query($sql);
-                                        while ($row = $re->fetch_assoc()) :
-                                        ?>
-                                            <option value="<?= $row['ma_nh'] ?>"><?= $row['namhoc'] ?></option>
-                                        <?php
-                                        endwhile;
-                                        ?>
-                                    </select>
+                                <div class="chuthich"></div>
+                            <div class="form-floating mb-3">
+                                    <input class="form-control" id="ma_nh" type="text" placeholder="Namhoc" data-sb-validations="required" />
                                     <label for="ma_nh">Năm học</label>
+                                    <div class="invalid-feedback" data-sb-feedback="ma_nh:required">Năm học is required.</div>
 
-                                </div>
-                                
+                            </div>
+                                <div class="chuthich"></div>
+                        <div class="form-floating mb-3">
+                                <select class="form-select" id="ten_loaivt" name="ten_loaivt" aria-label="Vị trí tham gia">
+                                    <?php
+                                    $list_vt = ['TV Chính', 'TV Tham Gia'];
+                                    foreach ($list_vt as $vt) :
+                                    ?>
+                                        <option value="<?= $vt ?>"><?= $vt ?></option>
+                                    <?php
+                                    endforeach;
+                                    ?>
+                                </select>
+                                <label for="ten_loaivt">Vị trí tham gia trong đề tài</label>
+                            </div>
                                 <input type="hidden" id="user_id" class="form-control" name="time_mins" value="<?= $macb ?>">
                                 <div class="col-12 d-flex justify-content-end mt-3">
                                     <button type="submit" class="btn btn-success  me-1 mb-1" name="workoutformbtn" id="btnSubmit">Lưu</button>
@@ -211,7 +219,65 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             callCheck(tendt);
         }
     });
+    $("#thoigian_nhan").on("change",function(event){
+        checkDate();
+        
+           
+       
+        
 
+    });
+    $("#sluong_thamgia").on("change",function(event){
+        let namhoc = $("#ma_nh").val();
+        console.log(namhoc)
+        $("#ma_loaigt").prop("disabled",false);
+        readLoaiGT(namhoc);
+    });
+
+    function readLoaiGT(namhoc){
+              const url = getReadUrlGT(namhoc);
+                $.get(url, function(data) {
+                    document.getElementById("ma_loaigt").innerHTML = data;
+                    
+                    // const ct = $('#ma_loaisltc option:selected').text();
+                    // let a = "Tín chỉ";
+                    // if(ct.toLowerCase()=== a.toLowerCase()){
+                    //     $("#sotinchi").prop("readonly",false);
+                    // }else{
+                    //     $("#sotinchi").prop("readonly",true);
+                    // }
+                    //  console.log(ct);
+                });   
+        }
+        function getReadUrlGT(namhoc){
+            
+            let urlr =  localURL + "/my-stuff/listofloaigt.php?&nh="+namhoc;
+            // console.log(urlr);
+            return urlr;
+        }
+
+    function checkDate(){
+        if($("#thoigian_nhan").val()!= ""){
+            
+            let endDate = $("#thoigian_nhan").val();
+            callCheckDate(endDate);
+                
+        }
+    }
+
+    function callCheckDate(date) {
+        event.preventDefault();
+        const url =  localURL + "/my-stuff/detainckh/read-admin.php/?ngayketthuc=" + date;
+        $.get(url, function(data) {
+            if (data != "nothing") {
+
+                // console.log(data);
+                // const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: ' + data + '</div>';
+                $("#ma_nh").val(data);
+                // $("#btnSubmit").attr('disabled', 'disabled');
+            }
+        });
+    }
     function callCheck(ten) {
         const url =  localURL + "/my-stuff/" + lastsegment + "/read-admin.php/?ten=" + ten;
         $.get(url, function(data) {
@@ -223,12 +289,12 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
         });
     }
 
-    // $(document).ready(function() {
+    $(document).ready(function() {
 
-    //     read();
+        $("#ma_nh").prop("readonly",true);
+        $("#ma_loaigt").prop("disabled",true);
 
-
-    // });
+    });
 
     function callCreate() {
         let urlc =  localURL + "/my-stuff/" + lastsegment + "/create.php";
@@ -237,7 +303,10 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
                 ma_loaigt: $('#ma_loaigt').val(),
                 ma_nh: $('#ma_nh').val(),
                 minhchung: $('#minhchung').val(),
-                user_id: $("#user_id").val()
+                sluong_thamgia: $('#sluong_thamgia').val(),
+                user_id: $("#user_id").val(),
+                thoigian_nhan: $('#thoigian_nhan').val(),
+            ten_loaivt: $('#ten_loaivt').val()
             },
             function(data, status) {
 

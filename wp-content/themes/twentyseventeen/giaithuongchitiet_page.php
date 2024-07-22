@@ -18,7 +18,7 @@ include 'mydbfile.php';
  * Template name: giaithuongchitiet form Page
  */
 $ma_detai = $_GET['id'];
-$sql = "SELECT `ten_gt`, lgt.ten_loaigt, nh.namhoc, `trangthai`,`minhchung` FROM `GiaiThuong` gt INNER JOIN `LoaiGiaiThuong` lgt on lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `NamHoc` nh on gt.ma_nh=nh.ma_nh  WHERE `ma_gt`=".$ma_detai;
+$sql = "SELECT `ten_gt`, lgt.ten_loaigt, nh.namhoc, `trangthai`,`minhchung`,`thoigian_nhan`, `sluong_thamgia`FROM `GiaiThuong` gt INNER JOIN `LoaiGiaiThuong` lgt on lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `NamHoc` nh on gt.ma_nh=nh.ma_nh  WHERE `ma_gt`=".$ma_detai;
 
 $re = $conn->query($sql);
 
@@ -28,7 +28,7 @@ $data = $re->fetch_all(MYSQLI_ASSOC);
 // $user = new WP_User(15);
 // echo $user->last_name;
 // echo $user->first_name;
-$sql2 = "SELECT gt.id as gtid, u.ID,u.user_email, k.ten_khoa FROM `CanBo_GiaiThuong` gt INNER JOIN `Canbo` cb ON gt.ma_cb=cb.ma_cb INNER JOIN `realdev_users` u on u.ID=cb.user_id INNER JOIN `Khoa_PB` k ON k.ma_khoa=cb.ma_khoa WHERE `ma_gt`=".$ma_detai;
+$sql2 = "SELECT gt.id as gtid, u.ID,u.user_email, k.ten_khoa, gt.ten_loaivt FROM `CanBo_GiaiThuong` gt INNER JOIN `Canbo` cb ON gt.ma_cb=cb.ma_cb INNER JOIN `realdev_users` u on u.ID=cb.user_id INNER JOIN `Khoa_PB` k ON k.ma_khoa=cb.ma_khoa WHERE `ma_gt`=".$ma_detai;
 $re2 = $conn->query($sql2);
 error_log('sql = ' . $sql2);
 $url = "/giaithuongchitiet/?id=".$ma_detai;
@@ -94,8 +94,16 @@ get_header(); ?>
                                 <td><?=$data[0]['ten_gt']?></td>
                                 </tr>
                                 <tr>
+                                    <td>Thời gian hoàn thành</td>
+                                    <td><?=$data[0]['thoigian_nhan']?></td>
+                                </tr>
+                                <tr>
                                     <td>Tên loại giải thưởng</td>
                                     <td><?=$data[0]['ten_loaigt']?></td>
+                                </tr>
+                                <tr>
+                                    <td>Số lượng tham gia</td>
+                                    <td><?=$data[0]['sluong_thamgia']?></td>
                                 </tr>
                                 <tr>
                                     <td>Năm học</td>
@@ -118,6 +126,7 @@ get_header(); ?>
                             <th>Họ tên</th>
                             <th>Email</th>
                             <th>Khoa</th>
+                            <th>Vị trí</th>
                             <?php
                                if(($data[0]['trangthai']==0 && $start <= date("Y-m-d") && $end >= date("Y-m-d")) || (current_user_can('administrator'))): 
                             ?>
@@ -132,6 +141,7 @@ get_header(); ?>
                                 echo "<td>" . $user->last_name." ".$user->first_name . "</td>";
                                 echo "<td>" . $row['user_email'] . "</td>";
                                 echo "<td>" . $row['ten_khoa'] . "</td>";
+                                echo "<td>" . $row['ten_loaivt'] . "</td>";
                                 // echo '<td><a class="btn btn-info" href="'.$pagename.'?id=' . $row["ma_dtnckh"] . '">Update</a></td>';
                                 // echo '<td> <a class="btn btn-danger" href="'.$mystufflink.$foldername.'delete.php?id=' . $row['ma_cdt'] . '">Delete</a></td>';
                           

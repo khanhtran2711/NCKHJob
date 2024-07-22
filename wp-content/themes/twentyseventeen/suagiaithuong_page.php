@@ -19,9 +19,11 @@ include 'wp-load.php';
  * @version 1.0
  * Template name: SuaGiaithuong form Page
  */
-
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 $ma_detai = $_GET['id'];
-$sql = "SELECT `ten_gt`, lgt.ten_loaigt, nh.namhoc, `trangthai`,`minhchung` FROM `GiaiThuong` gt INNER JOIN `LoaiGiaiThuong` lgt on lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `NamHoc` nh on gt.ma_nh=nh.ma_nh  WHERE `ma_gt`=".$ma_detai;
+$sql = "SELECT `ten_gt`, lgt.ten_loaigt, nh.namhoc, `trangthai`,`minhchung`,`sluong_thamgia` FROM `GiaiThuong` gt INNER JOIN `LoaiGiaiThuong` lgt on lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `NamHoc` nh on gt.ma_nh=nh.ma_nh  WHERE `ma_gt`=".$ma_detai;
 
 $re = $conn->query($sql);
 
@@ -76,6 +78,11 @@ get_header(); ?>
                             ?>
                         </select>
                         <label for="ma_loaigt">Loại giải thưởng</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="sluong_thamgia" name="sluong_thamgia" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" value="<?=$data[0]['sluong_thamgia']?>"/>
+                        <label for="sluong_thamgia">Số lượng tham gia</label>
+                        <div class="invalid-feedback" data-sb-feedback="sluong_thamgia:required">Số lượng tham gia is required.</div>
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_nh" aria-label="Năm học">
@@ -148,6 +155,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             ma_loaigt: $('#ma_loaigt').val(),
             ma_nh: $('#ma_nh').val(),
             minhchung: $('#minhchung').val(),
+            sluong_thamgia: $('#sluong_thamgia').val(),
             ma_gt: id,
             },
             function(data, status) {

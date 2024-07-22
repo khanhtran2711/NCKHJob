@@ -18,7 +18,12 @@ include 'mydbfile.php';
 
 global $wpdb;
 include 'wp-load.php';
-get_header(); ?>
+get_header(); 
+// if (!is_user_logged_in()) {
+//     wp_redirect( wp_login_url() );
+// }
+
+?>
 
 <!-- <div class="wrap"> -->
 	<div class="container">
@@ -53,6 +58,7 @@ $the_query = new WP_Query( $args );
 					<?php else: ?>
 					<div class="container p-5">
 						<h2>Danh sách các thông báo</h2>
+						
 						<table class="table table-striped" id="records">
 							<?php
 							$sql = "SELECT * FROM `thongbao` WHERE `trangthai`=1 ORDER BY ngaydang DESC";

@@ -17,6 +17,10 @@ include 'mydbfile.php';
  * @version 1.0
  * Template name: congtrinhchitiet form Page
  */
+
+ if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 $ma_detai = $_GET['id'];
 $sql = "SELECT `ten_ctr`,`thoigian_hoanthanh`,`ten_tc_ky_nxb`,`sluong_thamgia`,`trangthai`,`minhchung`, loaisl.ten_loaisl, lctr.ten_loai,`sotinchi` FROM `CongTrinh_Khac` ct INNER JOIN `LoaiSL_TC` loaisl on loaisl.ma_loaisl = ct.ma_loaisltc INNER JOIN `LoaiCongTrinh_Khac` lctr on lctr.ma_loai = loaisl.ma_loaict WHERE ct.ma_ctr =".$ma_detai;
 

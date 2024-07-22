@@ -17,7 +17,9 @@ include './mydbfile.php';
  * @version 1.0
  * Template name: doivitri management Page
  */
-
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 if(isset($_POST['editBtn'])){
     $ma_detai = $_POST['cbdt_id'];
     $tencb = $_POST['tencb'];

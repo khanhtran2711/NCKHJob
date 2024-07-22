@@ -15,6 +15,8 @@ class Chitiet{
 
     public $tinchi;
 
+    public $ghichu;
+
     function __construct() {
         $this->vitri = "";
         $this->soluong = "";
@@ -259,6 +261,26 @@ class Chitiet{
     public function setTinchi($tinchi)
     {
         $this->tinchi = $tinchi;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of ghichu
+     */ 
+    public function getGhichu()
+    {
+        return $this->ghichu;
+    }
+
+    /**
+     * Set the value of ghichu
+     *
+     * @return  self
+     */ 
+    public function setGhichu($ghichu)
+    {
+        $this->ghichu = $ghichu;
 
         return $this;
     }

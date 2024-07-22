@@ -18,6 +18,9 @@ include 'mydbfile.php';
  * @version 1.0
  * Template name: detaichitiet form Page
  */
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 $ma_detai = $_GET['id'];
 $sql = "SELECT `ten_dtnckh`, `nam_batdau`, `nam_kethuc`, `sluong_thamgia`, cdt.ten_cdt, nh.namhoc, `trangthai`,`minhchung` FROM `DeTai_NCKH` de INNER join `CapDeTai` cdt on de.ma_cdt=cdt.ma_cdt INNER JOIN `NamHoc` nh on de.ma_nh=nh.ma_nh  WHERE `ma_dtnckh` = ".$ma_detai;
 

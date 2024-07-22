@@ -18,6 +18,9 @@ include 'wp-load.php';
  * @version 1.0
  * Template name: ThongKe theo cb - for staff Page
  */
+if (!is_user_logged_in()) {
+    wp_redirect( wp_login_url() );
+}
 $user = get_current_user_id();
 $sql = "SELECT `user_email` FROM `realdev_users` WHERE id= $user";
 error_log('sql = ' . $sql);

@@ -221,17 +221,13 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
     });
     $("#thoigian_nhan").on("change",function(event){
         checkDate();
-        
-           
-       
-        
 
     });
     $("#sluong_thamgia").on("change",function(event){
-        let namhoc = $("#ma_nh").val();
-        console.log(namhoc)
-        $("#ma_loaigt").prop("disabled",false);
-        readLoaiGT(namhoc);
+        // let namhoc = $("#ma_nh").val();
+        // console.log(namhoc)
+        // $("#ma_loaigt").prop("disabled",false);
+        // readLoaiGT(namhoc);
     });
 
     function readLoaiGT(namhoc){
@@ -274,6 +270,11 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
                 // console.log(data);
                 // const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: ' + data + '</div>';
                 $("#ma_nh").val(data);
+        
+                 let namhoc = $("#ma_nh").val();
+                
+                $("#ma_loaigt").prop("disabled",false);
+                readLoaiGT(namhoc);
                 // $("#btnSubmit").attr('disabled', 'disabled');
             }
         });

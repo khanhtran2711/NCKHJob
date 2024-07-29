@@ -79,7 +79,7 @@ get_header(); ?>
                     <div class="col-lg-12 col-md-12 col-sm-12">
                     <h3 class="box-title mt-5">Thông tin chung giải thưởng 
                         <?php
-                                if($start <= date("Y-m-d") && $end >= date("Y-m-d") || 
+                                if($data[0]['trangthai']==0 && $start <= date("Y-m-d") && $end >= date("Y-m-d") || 
                                 current_user_can('administrator')):
                                 $urlsua = '/suagiaithuong/?id='.$ma_detai;
                             ?>

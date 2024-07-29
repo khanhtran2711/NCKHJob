@@ -23,7 +23,7 @@ if (!is_user_logged_in()) {
     wp_redirect( wp_login_url() );
 }
 $ma_detai = $_GET['id'];
-$sql = "SELECT `ten_gt`, lgt.ten_loaigt, nh.namhoc, `trangthai`,`minhchung`,`sluong_thamgia` FROM `GiaiThuong` gt INNER JOIN `LoaiGiaiThuong` lgt on lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `NamHoc` nh on gt.ma_nh=nh.ma_nh  WHERE `ma_gt`=".$ma_detai;
+$sql = "SELECT `ten_gt`, lgt.ten_loaigt, nh.namhoc, `trangthai`,`minhchung`,`sluong_thamgia`,`thoigian_nhan` FROM `GiaiThuong` gt INNER JOIN `LoaiGiaiThuong` lgt on lgt.ma_loaigt=gt.ma_loaigt INNER JOIN `NamHoc` nh on gt.ma_nh=nh.ma_nh  WHERE `ma_gt`=".$ma_detai;
 
 $re = $conn->query($sql);
 
@@ -53,17 +53,25 @@ get_header(); ?>
                 <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="giaithuong">
                     <div class="form-body">
                         <div class="row">
+                        <div class="chuthich"></div>
                         <div class="form-floating mb-3">
-                        <input class="form-control" id="ten_gt" type="text" placeholder="Tên đề tài" data-sb-validations="required" value="<?=$data[0]['ten_gt']?>"/>
-                        <label for="ten_gt">Tên giải thưởng</label>
-                        <div class="invalid-feedback" data-sb-feedback="ten_gt:required">Tên giải thưởng is required.</div>
-                    </div>
-                   
-                    <div class="form-floating mb-3">
+                            <input class="form-control" id="ten_gt" type="text" placeholder="Tên đề tài" data-sb-validations="required" value="<?=$data[0]['ten_gt']?>"/>
+                            <label for="ten_gt">Tên giải thưởng</label>
+                            <div class="invalid-feedback" data-sb-feedback="ten_gt:required">Tên giải thưởng is required.</div>
+                        </div>
+                        <div class="chuthich"></div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="thoigian_nhan" type="Date" placeholder="Năm bắt đầu" data-sb-validations="required" value="<?=$data[0]['thoigian_nhan']?>"/>
+                            <label for="thoigian_nhan">Thời gian nhận</label>
+                            <div class="invalid-feedback" data-sb-feedback="thoigian_nhan:required">Thời gian nhận is required.</div>
+                        </div>
+                        <div class="chuthich"></div>
+                        <div class="form-floating mb-3">
                         <input class="form-control" id="minhchung" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" value="<?=$data[0]['minhchung']?>"/>
                         <label for="minhchung">Minh chứng (dán liên kết từ google drive vào đây)</label>
                         <div class="invalid-feedback" data-sb-feedback="minhchung:required">Minh chứng is required.</div>
                     </div>
+                    <div class="chuthich"></div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_loaigt" aria-label="Cấp đề tài">
                             <?php
@@ -79,25 +87,17 @@ get_header(); ?>
                         </select>
                         <label for="ma_loaigt">Loại giải thưởng</label>
                     </div>
+                    <div class="chuthich"></div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="sluong_thamgia" name="sluong_thamgia" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" value="<?=$data[0]['sluong_thamgia']?>"/>
                         <label for="sluong_thamgia">Số lượng tham gia</label>
                         <div class="invalid-feedback" data-sb-feedback="sluong_thamgia:required">Số lượng tham gia is required.</div>
                     </div>
+                    <div class="chuthich"></div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="ma_nh" aria-label="Năm học">
-                        <?php
-                                $sql = "SELECT * FROM `NamHoc`";
-
-                                $re = $conn->query($sql);
-                                while ($row = $re->fetch_assoc()):
-                            ?>
-                                <option value="<?=$row['ma_nh']?>" <?=$data[0]['namhoc']==$row['namhoc']?'selected':''?>><?=$row['namhoc']?></option>
-                            <?php
-                                endwhile;
-                            ?>
-                        </select>
-                        <label for="ma_nh">Năm học</label>
+                            <input class="form-control" id="ma_nh" type="text" placeholder="Năm học" data-sb-validations="required" required value="<?= $data[0]['namhoc'] ?>" />
+                                <label for="ma_nh">Năm học</label>
+                                <div class="invalid-feedback" data-sb-feedback="ma_nh:required">Năm học is required.</div>
                         
                     </div>
                     <div class="col-12 d-flex justify-content-end mt-3">
@@ -141,12 +141,46 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
         callUpdate(ma_gt);
     });
 
-    // $(document).ready(function() {
+    $(document).ready(function() {
 
-    //     read();
+        $("#ma_nh").prop("disabled", true);
+        $("#ma_loaigt").prop("disabled",true);
+
+    });
+
+    $("#thoigian_nhan").on("change", function(event) {
+        checkDate();
+    });
+
+    function checkDate() {
+        if ($("#thoigian_nhan").val() != "") {
+            event.preventDefault();
+            let endDate = $("#thoigian_nhan").val();
+            callCheckDate(endDate);
 
 
-    // });
+        }
+    }
+
+    function callCheckDate(date) {
+        const url = localURL + "/my-stuff/detainckh/read-admin.php/?ngayketthuc=" + date;
+        $.get(url, function(data) {
+            if (data != "nothing") {
+
+                // console.log(data);
+                // const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: ' + data + '</div>';
+                $("#ma_nh").val(data);
+                // let namhoc = $("#ma_nh").val();
+                // console.log(namhoc);
+                $('#ma_loaigt').prop("disabled",false);
+                let namhoc = $("#ma_nh").val();
+                console.log(namhoc);
+                readLoaiGT(namhoc);
+                // readLoaiSL($('#ma_loaict').val(),namhoc);
+                // $("#btnSubmit").attr('disabled', 'disabled');
+            }
+        });
+    }
 
     function callUpdate(id) {
         let urlc = localURL + "/my-stuff/" + lastsegment + "/update.php";
@@ -156,6 +190,7 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             ma_nh: $('#ma_nh').val(),
             minhchung: $('#minhchung').val(),
             sluong_thamgia: $('#sluong_thamgia').val(),
+            thoigian_nhan: $('#thoigian_nhan').val(),
             ma_gt: id,
             },
             function(data, status) {
@@ -163,6 +198,28 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
                 
             });
     }
+
+    function readLoaiGT(namhoc){
+              const url = getReadUrlGT(namhoc);
+                $.get(url, function(data) {
+                    document.getElementById("ma_loaigt").innerHTML = data;
+                    
+                    // const ct = $('#ma_loaisltc option:selected').text();
+                    // let a = "Tín chỉ";
+                    // if(ct.toLowerCase()=== a.toLowerCase()){
+                    //     $("#sotinchi").prop("readonly",false);
+                    // }else{
+                    //     $("#sotinchi").prop("readonly",true);
+                    // }
+                    //  console.log(ct);
+                });   
+        }
+        function getReadUrlGT(namhoc){
+            
+            let urlr =  localURL + "/my-stuff/listofloaigt.php?&nh="+namhoc;
+            // console.log(urlr);
+            return urlr;
+        }
 
     // function getReadUrl() {
     //     const params = new URLSearchParams(window.location.search);

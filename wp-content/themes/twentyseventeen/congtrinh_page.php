@@ -292,6 +292,8 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
             
         }
         $("#ma_nh").prop("disabled",true);
+        // $('#ma_loaict').prop("disabled",true);
+        // $("#ma_loaisltc").prop("disabled",true);
     });
 
         function readLoaiSL(param,namhoc){

@@ -29,27 +29,47 @@ $macb = $data3[0]['ma_cb'];
 if(isset($_POST['doivitri'])){
     $a = $_POST['ten_ctr'];
     $b = $_POST['ten_loaivt'];
-    $sql3 = "SELECT `ma_ctr` FROM `CongTrinh_Khac` WHERE `ten_ctr` like '%".$a."%'";
+    $sql3 = "SELECT `ma_ctr` FROM `CongTrinh_Khac` WHERE `ten_ctr` = '".$a."'";
     error_log('sql = '.$sql3);
     $result = $conn->query($sql3);
     if ($result->num_rows == 1) {
-    $d = $result->fetch_all(MYSQLI_ASSOC);
-    $ma_ctr = $d[0]['ma_ctr'];
-    $sql4 = "SELECT * FROM `CanBo_Ctr` WHERE `ma_ctr` = '$ma_ctr' and `ma_cb` = '$macb'";
-    error_log('sql = ' . $sql4);
-    $result = $conn->query($sql4);
-    if($result->num_rows >= 1){
-        echo '<script type="text/javascript">
-            window.onload = function () { alert("Thêm thất bại! Thông tin công trình đã có rồi!"); } 
-                 </script>'; 
-    }else{
-        $vitri = "INSERT INTO `CanBo_Ctr`(`ten_loaivt`, `ma_cb`, `ma_ctr`) VALUES ('$b','$macb','$ma_ctr')";
-        error_log('sql = '.$vitri);
-        $result = $conn->query($vitri);
-        $conn->close();
-        echo "<script>window.location.href = '".home_url('/qlctrcanhan/')."';</script>";
-    }
-    
+        $d = $result->fetch_all(MYSQLI_ASSOC);
+        $ma_ctr = $d[0]['ma_ctr'];
+        if($b=='TV Chính'){
+            $sql5 = "SELECT * FROM `CanBo_Ctr` WHERE `ma_ctr` = '$ma_ctr' and `ten_loaivt` = 'TV Chính' ";
+            error_log('sql = ' . $sql5);
+            $result2 = $conn->query($sql5);
+            if($result2->num_rows==1){
+                echo '<script type="text/javascript">
+                window.onload = function () { alert("Thêm thất bại! TV chính đã có rồi!"); } 
+                    </script>';
+            
+                
+            }else{
+                $sql4 = "SELECT * FROM `CanBo_Ctr` WHERE `ma_ctr` = '$ma_ctr' and `ma_cb` = '$macb'";
+                error_log('sql = ' . $sql4);
+                $result = $conn->query($sql4);
+                if($result->num_rows >= 1){
+                    echo '<script type="text/javascript">
+                        window.onload = function () { alert("Thêm thất bại! Thông tin công trình đã có rồi!"); } 
+                            </script>'; 
+                }else{
+                    $vitri = "INSERT INTO `CanBo_Ctr`(`ten_loaivt`, `ma_cb`, `ma_ctr`) VALUES ('$b','$macb','$ma_ctr')";
+                    error_log('sql = '.$vitri);
+                    $result = $conn->query($vitri);
+                    $conn->close();
+                    echo "<script>window.location.href = '".home_url('/qlctrcanhan/')."';</script>";
+                }
+            
+            }
+        }else{
+            $vitri = "INSERT INTO `CanBo_Ctr`(`ten_loaivt`, `ma_cb`, `ma_ctr`) VALUES ('$b','$macb','$ma_ctr')";
+                    error_log('sql = '.$vitri);
+                    $result = $conn->query($vitri);
+                    $conn->close();
+                    echo "<script>window.location.href = '".home_url('/qlctrcanhan/')."';</script>";
+        }
+        
     }else{
         echo '<script type="text/javascript">
        window.onload = function () { alert("Thêm thất bại, thầy/cô nên xem lại tên công trình NCKH"); } 

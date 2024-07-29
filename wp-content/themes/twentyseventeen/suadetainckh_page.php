@@ -23,7 +23,7 @@ if (!is_user_logged_in()) {
     wp_redirect( wp_login_url() );
 }
 $ma_detai = $_GET['id'];
-$sql = "SELECT `ten_dtnckh`, `nam_batdau`, `nam_kethuc`, `sluong_thamgia`, cdt.ten_cdt, nh.namhoc, `trangthai`,`minhchung` FROM `DeTai_NCKH` de INNER join `CapDeTai` cdt on de.ma_cdt=cdt.ma_cdt INNER JOIN `NamHoc` nh on de.ma_nh=nh.ma_nh  WHERE `ma_dtnckh` = ".$ma_detai;
+$sql = "SELECT cdt.`ma_cdt`, `ten_dtnckh`, `nam_batdau`, `nam_kethuc`, `sluong_thamgia`, cdt.ten_cdt, nh.namhoc, `trangthai`,`minhchung` FROM `DeTai_NCKH` de INNER join `CapDeTai` cdt on de.ma_cdt=cdt.ma_cdt INNER JOIN `NamHoc` nh on de.ma_nh=nh.ma_nh  WHERE `ma_dtnckh` = ".$ma_detai;
 
 $re = $conn->query($sql);
 
@@ -51,6 +51,7 @@ get_header(); ?>
             <div class="container">
            
                 <form class="form form-vertical" method="POST" enctype="multipart/form-data" id="detainckh">
+                <div id="mess"></div>
                     <div class="form-body">
                         <div class="row">
                         <div class="form-floating mb-3">
@@ -80,13 +81,14 @@ get_header(); ?>
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="ma_cdt" aria-label="Cấp đề tài">
+                            <option value="0">Chọn cấp đề tài</option>
                             <?php
                                 $sql = "SELECT * FROM `CapDeTai`";
 
                                 $re = $conn->query($sql);
                                 while ($row = $re->fetch_assoc()):
                             ?>
-                                <option value="<?=$row['ma_cdt']?>" <?=$data[0]['ten_cdt']==$row['ten_cdt']?'selected':''?>><?=$row['ten_cdt']?></option>
+                                <option value="<?=$row['ma_cdt']?>" <?=$data[0]['ma_cdt']==$row['ma_cdt']?'selected':''?>><?=$row['ten_cdt']?></option>
                             <?php
                                 endwhile;
                             ?>
@@ -94,19 +96,9 @@ get_header(); ?>
                         <label for="ma_cdt">Cấp đề tài</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="ma_nh" aria-label="Năm học">
-                        <?php
-                                $sql = "SELECT * FROM `NamHoc`";
-
-                                $re = $conn->query($sql);
-                                while ($row = $re->fetch_assoc()):
-                            ?>
-                                <option value="<?=$row['ma_nh']?>" <?=$data[0]['namhoc']==$row['namhoc']?'selected':''?>><?=$row['namhoc']?></option>
-                            <?php
-                                endwhile;
-                            ?>
-                        </select>
+                        <input class="form-control" id="ma_nh" type="text" placeholder="Số lượng tham gia" data-sb-validations="required" value="<?=$data[0]['namhoc']?>"/>
                         <label for="ma_nh">Năm học</label>
+                        <div class="invalid-feedback" data-sb-feedback="ma_nh:required">Năm học is required.</div>
                         
                     </div>
                     <input type="hidden" id="ma_dt" class="form-control" name="time_mins" value="<?= $ma_detai ?>">
@@ -123,7 +115,17 @@ get_header(); ?>
                 <div class="container mt-3">
                     
                     <div>
-                            <a href="<?=home_url('/qldetaicanhan/')?>" class="text-decoration-none btn btn-info">Quản lý đề tài NCKH cá nhân</a>
+                    <?php
+                    if( current_user_can('administrator')):
+                    ?>
+                      <a href="<?=home_url("/duyetdetai/")?>" class="text-decoration-none btn btn-info">Trở về trang duyệt đề tài</a>
+                    <?php
+                    
+                        endif;
+                        if( current_user_can('subscriber')):
+                    ?>
+                    <a href="<?=home_url("/qldetaicanhan/")?>" class="text-decoration-none btn btn-info">Trở về trang quản lý đề tài cá nhân</a>
+                    <?php endif;?>
                             <a href="<?=home_url('/detaichitiet'). '?id=' . $ma_detai?>" class="text-decoration-none btn btn-info">Trở về trang sửa chi tiết</a>
                     </div>
                 </div>
@@ -149,13 +151,63 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
         let ma_dt = $('#ma_dt').val();
         callUpdate(ma_dt);
     });
+    $("#ten_dtnckh").on("change", function(event) {
+        if ($("#ten_dtnckh").val() != "") {
+            event.preventDefault();
+            $("#btnSubmit").removeAttr('Disabled');
+            document.getElementById("mess").innerHTML = "";
+            let tendt = $("#ten_dtnckh").val();
+            callCheck(tendt);
+        }
+    });
 
-    // $(document).ready(function() {
+    $("#nam_kethuc").on("change",function(event){
+        checkDate();
+        
+    });
+    
+    $("#nam_batdau").on("change",function(event){
+        checkDate();
+    });
 
-    //     read();
+    function checkDate(){
+        if($("#nam_kethuc").val()!= ""){
+            event.preventDefault();
+            let startDate = $("#nam_batdau").val();
+            let endDate = $("#nam_kethuc").val();
+            // console.log(callCheckDiffDate(startDate,endDate));
+            if(callCheckDiffDate(startDate,endDate)){
+                
+                document.getElementById("mess").innerHTML = "";
+                $("#btnSubmit").prop('disabled',false);
+                callCheckDate(endDate);
+                
+                
+            }else{
+                const data = "Ngày bắt đầu phải nhỏ hơn ngày kết thúc";
+                const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: ' + data + '</div>';
+                document.getElementById("mess").innerHTML = alertmess;
+                $("#btnSubmit").prop('disabled', true);
 
+            }
+                
+        }
+        
+    }
+    $("#sluong_thamgia").on("change",function(event){
+        let namhoc = $("#ma_nh").val();
+        // console.log(namhoc);
+        $("#ma_cdt").prop("disabled",false);
+        readLoaiCDT(namhoc);
+        
+    });
 
-    // });
+    $(document).ready(function() {
+
+        $("#ma_nh").prop("readonly",true);
+        $('#ma_cdt').prop("disabled",true);
+
+    });
 
     function callUpdate(id) {
         let urlc =localURL + "/my-stuff/" + lastsegment + "/update.php";
@@ -174,7 +226,56 @@ $jquery = get_theme_file_uri('/assets/js/jquery-3.7.0.js');
                 
             });
     }
+    function readLoaiCDT(namhoc){
+              const url = getReadUrlCDT(namhoc);
+                $.get(url, function(data) {
+                    document.getElementById("ma_cdt").innerHTML = data;
+                    
+                    // const ct = $('#ma_loaisltc option:selected').text();
+                    // let a = "Tín chỉ";
+                    // if(ct.toLowerCase()=== a.toLowerCase()){
+                    //     $("#sotinchi").prop("readonly",false);
+                    // }else{
+                    //     $("#sotinchi").prop("readonly",true);
+                    // }
+                    //  console.log(ct);
+                });   
+        }
+        function getReadUrlCDT(namhoc){
+            // console.log(namhoc);
+            let urlr =  localURL + "/my-stuff/listofloaicdt.php?&nh="+namhoc;
+            // console.log(urlr);
+            return urlr;
+        }
+        function callCheck(ten) {
+        const url =  localURL + "/my-stuff/" + lastsegment + "/read-admin.php/?ten=" + ten;
+        $.get(url, function(data) {
+            if (data != "nothing") {
+                const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: ' + data + '</div>';
+                document.getElementById("mess").innerHTML = alertmess
+                $("#btnSubmit").attr('disabled', 'disabled');
+            }
+        });
+    }
+    function callCheckDiffDate(start, end){
+        return new Date(start) < new Date(end);
+    }
+    function callCheckDate(date) {
+        const url =  localURL + "/my-stuff/" + lastsegment + "/read-admin.php/?ngayketthuc=" + date;
+        $.get(url, function(data) {
+            if (data != "nothing") {
 
+                // console.log(data); 
+                // const alertmess = '<div class="auto-close alert alert-danger" role="alert"> Cảnh báo: ' + data + '</div>';
+                $("#ma_nh").val(data);
+                let namhoc = $("#ma_nh").val();
+                console.log(namhoc);
+                $("#ma_cdt").prop("disabled",false);
+                readLoaiCDT(namhoc);
+                // $("#btnSubmit").attr('disabled', 'disabled');
+            }
+        });
+    }
     // function getReadUrl() {
     //     const params = new URLSearchParams(window.location.search);
     //     let urlr = "http://" + localURL + "/my-stuff/" + lastsegment + "/read.php";

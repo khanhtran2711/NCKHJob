@@ -14,7 +14,12 @@ $b = $_POST['nam_batdau'];
 $c = $_POST['nam_kethuc'];
 $d = $_POST['sluong_thamgia'];
 $e = $_POST['ma_cdt'];
-$f = $_POST['ma_nh'];
+$namhoc = $_POST['ma_nh'];
+$querysql = "SELECT ma_nh FROM NamHoc where namhoc = '$namhoc'";
+error_log($querysql);
+$re = $conn->query($querysql);
+$row = $re->fetch_row();
+$f = $row[0]; 
 $id = $_POST['ma_dt'];
 
 $sql = "UPDATE `DeTai_NCKH` set ten_dtnckh='".$a."', nam_batdau='".$b."',

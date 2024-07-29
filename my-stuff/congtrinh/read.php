@@ -59,7 +59,7 @@ while ($row = $re->fetch_assoc()) {
 		echo "<td>" . (($row['trangthai']==0)?'Chưa duyệt':'Đã duyệt') . "</td>";
 		echo '<td><a class="btn btn-info" href="' . home_url($pagename) . '?id=' . $row["ma_ctr"] . '">Xem</a>';
 		if($row['trangthai'] == 0 && $startd <= date("Y/m/d") && $end >= date("Y/m/d")){
-			echo '<td><form method="POST" action="'.home_url().'/my-stuff/congtrinh/delete.php?id=' . $row['ma_ctr'] . '" onsubmit="return confirmDesactiv()">
+			echo '<td><form method="POST" action="'.home_url().'/my-stuff/congtrinh/delete_canhan.php?id=' . $row['ma_ctr'] . '" onsubmit="return confirmDesactiv()">
 			<input type="submit" class="btn btn-danger" value="Xóa">
 	</form></td>';
 		}

@@ -66,7 +66,7 @@ $end = $data2[0]['end'];
 		echo "<td>" . (($row['trangthai'] == 0) ? 'Chưa duyệt' : 'Đã duyệt') . "</td>";
 		echo '<td><a class="btn btn-info" href="' . home_url($pagename) . '?id=' . $row["ma_dtnckh"] . '">Xem</a></td>';
 		if($row['trangthai'] == 0 && $start <= date("Y/m/d") && $end >= date("Y/m/d")){
-			echo '<td><form method="POST" action="'.home_url().'/my-stuff/detainckh/delete.php?id=' . $row['ma_dtnckh'] . '" onsubmit="return confirmDesactiv()">
+			echo '<td><form method="POST" action="'.home_url().'/my-stuff/detainckh/delete_canhan.php?id=' . $row['ma_dtnckh'] . '" onsubmit="return confirmDesactiv()">
 			<input type="submit" class="btn btn-danger" value="Xóa">
 	</form></td>';
 		}
